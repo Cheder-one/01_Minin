@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Number guessing game</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;minimalis
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Урусская Рулетка</h1>
+
+    <p>Загадано случайное число от 1 до 100. Проверьте, сможете ли вы угадать его за 10 ходов или меньше. Мы сообщим вам, была ли ваша догадка велика или слишком мала по значению.</p>
+
+    <div class="form">
+      <label for="guessField">Enter a guess: </label>
+      <input type="text" id="guessField" class="guessField">
+      <input type="submit" value="Submit guess" class="guessSubmit">
+    </div>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
+    </div>
+
+    <script>
+
+      let randomNumber = Math.floor(Math.random() * 100) + 1
+      // randomNumber - присваивается случайное число от 1 до 100, вычисленное с использованием математического алгоритма.
+      const guesses = document.querySelector('.guesses');
+      const lastResult = document.querySelector('.lastResult');
+      const lowOrHi = document.querySelector('.lowOrHi');
+
+      const guessSubmit = document.querySelector('.guessSubmit');
+      const guessField = document.querySelector('.guessField');
+
+      let guessCount = 1;
+      let resetButton;
+
+      guessField.focus();
+
+      function checkGuess() {
+         const userGuess = Number(guessField.value);
+         // Здесь мы обьявляем переменую userGuess и устанавливаем ее значение (value) на то что введено в текстовом поле (guessField). При этом все это пропуская через "фильтр" встроенный метод Number, чтобы убедиться в том что значение - число.
+
+         if (guessCount === 1) {
+            guesses.textContent = 'Previous guesses: ';
+         }
+         // if - условие, () - проверка условия. Если переменная "guessCount" равна 1, то выводим сообщение "Previous guess". Если не сходится, то алгоритм пропускает блок и идет дальше.
+         guesses.textContent += userGuess + ' ';
+         // Между каждыми показанными предположениями будет пробел.
+
+         if (userGuess === randomNumber) {
+            lastResult.textContent = 'Congratulations! Vi pidoras!';
+            lastResult.style.backgroundColor = 'green';
+            lowOrHi.textContent = '';
+            setGameOver();
+            // Первая конструкция if(){ } - проверяет сходится ли ответ пользователя (userGuess) с сгенерированным числом игры (randomNumber)
+            // Если это так, то 1) выходит поздравительное сообщение 2) с зеленым фоном, 3) очищаем содержимое окна информации о минимуме / максимуме, 4) запускаем функцию setGameOver
+         } else if (guessCount === 10) {
+            lastResult.textContent = '!!!Выключай компуктер, игры кончились!!!';
+            lowOrHi.textContent = '';
+            setGameOver();
+            // Следующая проверка после предыдущей. Является ли ход десятым (последним)? 
+         } else {
+            lastResult.textContent = 'Не правильно ебаные волки! Широкую на широкую!';
+            lastResult.style.backgroundColor = 'red';
+            if(userGuess < randomNumber) {
+               lowOrHi.textContent = 'Слишком мало блять!';
+            } else if(userGuess > randomNumber) {
+            lowOrHi.textContent = 'Слишком дохуя!';
+            }
+         }
+         // Данный блок запускается только если ни один из других тестов не вернул "true"(т. е. игрок не догадался правильно, но и у него ещё остались догадки)
+         // В таком случае мы говорим что игрок ошибся и выводим красную табличку. 
+         // После чего выполняем еще один условный тест на проверку предложенного числа, было ли оно больше или меньше загаданного, с последующим выводом сообщения.
+
+         guessCount++;
+         guessField.value = '';
+         guessField.focus();
+         // Эти 3 строки готовят нас к следующей попытке. Мы добавляем 1 к переменной guessCount, так как игрок использовал свой ход (++ оператор инкремента — увеличивает на 1), очищаем значение текстового поля и фокусируемся на нем снова, готовы для ввода следующего ответа.
+      }
+      // И все это функция проверки ответа (checkGuess)
+
+      guessSubmit.addEventListener('click', checkGuess);
+      // Добавляем обработчика событий к кнопке "guessSubmit".
+      // При нажатии на кнопку ответа "guessSubmit" (произойдет тип события "click"), и запуститься функция "checkGuess"
+
+      function setGameOver() {
+         guessField.disabled = true;
+         guessSubmit.disabled = true;
+         resetButton = document.createElement('button')
+         resetButton.textContent = 'Паша, все хуйня давай сначала';
+         document.body.append(resetButton);
+         resetButton.addEventListener('click', resetGame);
+      }
+      // Настраиваем функцию "setGameOver". 
+      // При ее запуске поле (guessField) и кнопка отправки (guessSubmit) становятся неактивны устанавливая значение "disabled = true"
+      // Следующие три строки генерируют новый элемент <button>, устанавливают его текстовую метку « Start new game» и добавляют её к нижней части нашего HTML.
+      // Последняя строка устанавливает обработчик событий на нашей новой кнопке, так что при нажатии на неё запускается функция resetGame().
+
+      function resetGame() {
+         guessCount = 1;
+         // Устанавливает значение ходов на 1.
+
+         const resetParas = document.querySelectorAll('.resultParas p');
+         for (const resetPara of resetParas) {
+            resetPara.textContent = '';
+         }
+         // Удаляет все пункты информации.
+
+         resetButton.parentNode.removeChild(resetButton);
+         // Удаляет кнопку сброса из нашего кода.
+
+         guessField.disabled = false;
+         guessSubmit.disabled = false;
+         guessField.value = '';
+         guessField.focus();
+         // Включает элементы формы, устанавливает фокус, делает поле доступным для следующих угадываний.
+
+         lastResult.style.backgroundColor = 'white';
+         // Удаляет цвет фона из абзаца lastResult.
+
+         randomNumber = Math.floor(Math.random() * 100) + 1
+         // Создаёт новое случайное число, чтобы ты не угадывал одно и тоже.
+      }
+      // Данный блок сбрасывает все как было в начале.
+    </script>
+  </body>
+</html>
