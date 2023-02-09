@@ -2142,11 +2142,18 @@ const goodInfo = {
     name: 'shoes',
 }
 -------------------
-// for in - проходится по ключам и свойствам объекта (устарел)
+//// for in - проходится по ключам и свойствам объекта (устарел)
+-------------------
+// arr[i] in obj - Найти элементы массива в Объекте
+    const arr = ['one', 'two', 'three'];
+    const obj = {one: 1, two: 2, three: 3};
 
+    console.log(arr[0] in obj) // true
+
+---------
     for (const key in goodInfo) {
-    console.log('key:', key);
-    console.log('value:', goodInfo[key]);
+        console.log('key:', key);
+        console.log('value:', goodInfo[key]);
     };
 -------
     showAllWords () {
