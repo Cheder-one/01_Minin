@@ -6469,7 +6469,7 @@ localStorage не уходит на сервер, в отличие от cookie
     $ npm start - Запустить проект
 
 // JSX - js xml синтаксис для описания интерфейсов для React
-С помощью Babel преобразует JSS выражение в Command JS (синтаксис React, как я понял)
+С помощью Babel преобразует JSS выражение в Command JS (синтаксис React)
 
 
 
