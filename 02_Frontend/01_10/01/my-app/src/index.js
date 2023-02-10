@@ -1,12 +1,10 @@
-import React from 'react';
-import reactDom from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.css';
+import React from "react";
+import reactDom from "react-dom";
+import "bootstrap/dist/css/bootstrap.css"
+import Counter from "./components/counter";
 
-const elem = <h1>Hello</h1>
+const App = () => {
+   return <Counter />
+};
 
-const Component = () => {
-   return elem
-}
-
-reactDom.render(<Component />, document.getElementById('root'))
-
+reactDom.render(<App />, document.getElementById("root"));
