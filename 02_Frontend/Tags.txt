@@ -6647,21 +6647,21 @@ Babel не поймет тк JSX выражение это React.createElement('
         const siteName = "example.com";
 
         const getHeadline = () => {
-            return logoUrl ? (
-            <img src={logoUrl} alt="logo"/>
+            return logoUrl 
+              ? (
+                <img src={logoUrl} alt="logo"/>
             ) : (
-            <div>{siteName}</div>
+                <div>{siteName}</div>
             );
         };
 
         return (
             <>
-            <header>{getHeadline()}</header>
-            <footer>подвал</footer>
+                <header>{getHeadline()}</header>
+                <footer>подвал</footer>
             </>
         );
     };
-https://vladilen.ru/pl/teach/control/lesson/view?id=253585123
 ---------------------------------------------------------
 
 ---------------------------------------------------------
