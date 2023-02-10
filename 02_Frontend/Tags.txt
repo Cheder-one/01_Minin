@@ -6464,17 +6464,79 @@ localStorage не уходит на сервер, в отличие от cookie
         $ git clone ssh_link
 ---------------------------------------------------------
 //// React
-
-    $ npx create-react-app my-app-name - Собрать React
+---------------------------------------------------------
+// React
+    $ npx create-react-app my-app - Собрать React
     $ npm start - Запустить проект
-
-// JSX - js xml синтаксис для описания интерфейсов для React
-С помощью Babel преобразует JSS выражение в Command JS (синтаксис React)
-
-
-
-/// Bootstrap - библиотека, которая с помощью названия классов позволяет добавлять стили к нашим компонентам  
+---------
+// Bootstrap - библиотека, которая с помощью названия классов позволяет добавлять стили к нашим компонентам  
     $ npm install bootstrap
+
+index.js – входной в приложение JavaScript-файл, все начинается отсюда.
+
+Здесь происходит монтирование корневого компонента в DOM-дерево, глобальное подключение сторонних библиотек и т.д.
+
+    import React from "react";
+    import ReactDOM from "react-dom/client";
+    import App from "./App";
+// Подключение Bootstrap из папки node_modules
+    import "bootstrap/dist/css/bootstrap.css";
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+
+Перед подключением библиотек их необходимо установить. Установка Bootstrap фиксированной версии 5.1.0:
+    $ npm i bootstrap@5.1.0
+---------
+React-компонент можно создать как обычную JavaScript-функцию:
+    const Post = () => {
+        return <div>Post</div>;
+    };
+Компонент может принимать в себя данные - props и выводить их
+    const Post = (props) => {
+        return <div>Post: {props.title}</div>; // JSX синтаксис
+    };
+Такой синтаксис в JavaScript, похожий на HTML, называется JSX
+---------
+// JSX - js xml синтаксис для описания интерфейсов для React
+С помощью Babel преобразует JSX выражение в обычный JavaScript.
+---------
+Вот так выглядит компонент Post после конвертации в обычный JavaScript:
+    const Post = props => {
+        return React.createElement("div", null, "Post: ", props.title);
+    };
+---------
+Эти React-элементы можно также записывать и в обычную переменную:
+    const title = 'Junior Frontend Developer';
+    const course = <h1>Course: {title}!</h1>;
+Без JSX:
+    const title = 'Junior Frontend Developer';
+    const course = React.createElement("h1", null, "Course: ", title, "!");
+---------
+// React DOM - библиотека отвечает за рендеринг, отрисовку React-элементов в браузере
+---------
+React разработан таким образом, что он не зависит от браузера
+
+Благодаря этому, на React мы можем разрабатывать не только браузерные интерфейсы, но и, к примеру, интерфейсы для мобильных приложений. Там уже вместо React DOM будет использоваться React Native. 
+
+Таким образом React отвечает за работу с компонентами, React-элементами и тд, а за визуализацию в различных окружениях отвечают другие библиотеки (такие как React DOM).
+---------
+// Монтирование компонента в DOM-дерево:
+---------
+    import React from "react";
+    import ReactDOM from "react-dom/client";
+
+    const Post = (props) => {
+        return <div>Post: {props.title}</div>;
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<Post title={'Hello World'} />);
+
+В элемент по селектору #root произойдет вставка <div>Post: Hello World</div>.
+
+
+
 ---------------------------------------------------------
 
 ---------------------------------------------------------
