@@ -1,9 +1,13 @@
 import React from "react";
 
 const Counter = () => {
+   const count = 0;
+   const formatCount = () => {
+      return count === 0 ? <h1>empty</h1> : count;
+   };
    return (
       <>
-         <h1>Counter</h1>
+         <h1>{formatCount()}</h1>
          <button>+</button>
       </>
    );
