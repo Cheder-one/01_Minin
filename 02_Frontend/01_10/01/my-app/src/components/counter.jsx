@@ -7,6 +7,7 @@ const Counter = () => {
    };
    return (
       <>
+         <img src="https:" alt="" srcset="" />
          <h1>{formatCount()}</h1>
          <button>+</button>
       </>
