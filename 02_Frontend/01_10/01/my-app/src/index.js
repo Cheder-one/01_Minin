@@ -4,5 +4,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const elem = <h1>Hello</h1>
 
-reactDom.render(elem, document.getElementById('root'))
+const Component = () => {
+   return elem
+}
+
+reactDom.render(<Component />, document.getElementById('root'))
 
