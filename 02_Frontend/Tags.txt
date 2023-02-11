@@ -6478,13 +6478,6 @@ Fix:
 
     $ npm install bootstrap
 
----------
-// className = '' - добавление класса HTML в JSX
----------
-className используется для добавления класса в HTML с помощью JSX (используется вместо обычного class, тк оно уже зарезервировано)
-
-    <span className="badge bg-primary">{formatCount()}</span>
-
 -------------------
 index.js – входной в приложение JavaScript-файл, все начинается отсюда.
 
@@ -6630,26 +6623,6 @@ Babel не поймет тк JSX выражение это React.createElement('
     };
 ---------
     export const Page = () => {
-        const logoUrl = "https://picsum.photos/100";
-        const siteName = "example.com";
-
-        return (
-            <>
-            <header>
-
-                {/* Можем использовать как контент */}
-                <div>{siteName}</div> 
-                
-                {/* Можем использовать в атрибутах */}
-                <img src={logoUrl} alt="logo"/>
-
-            </header>
-            <footer>подвал</footer>
-            </>
-        );
-    };
----------
-    export const Page = () => {
         const logoUrl = "";
         const siteName = "example.com";
 
@@ -6669,6 +6642,14 @@ Babel не поймет тк JSX выражение это React.createElement('
             </>
         );
     };
+
+---------
+// className = '' - добавление класса HTML в JSX
+---------
+className используется для добавления класса в HTML с помощью JSX (используется вместо обычного class, тк оно уже зарезервировано)
+
+    <span className="badge bg-primary">{formatCount()}</span>
+
 ---------------------------------------------------------
 
 ---------------------------------------------------------
