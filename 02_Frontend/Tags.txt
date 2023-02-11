@@ -6642,6 +6642,37 @@ Babel не поймет тк JSX выражение это React.createElement('
             </>
         );
     };
+---------
+    import React from "react";
+
+    const Counter = () => {
+        const count = 0;
+
+        const formatCount = () => {
+            return count === 0
+                ? 'empty'
+                : count;
+        };
+
+        const getBadgeClasses = () => {
+            let classes = "badge m-2 ";
+            classes += count === 0
+                ? "bg-warning"
+                : "bg-primary";
+            return classes;
+        };
+
+        return (
+            <>
+                <span className={getBadgeClasses()}>
+                    {formatCount()}
+                </span>
+                <button className="btn btn-primary btn-sm m-2">+</button>
+            </>
+        );
+    };
+
+    export default Counter;
 
 ---------
 // className = '' - добавление класса HTML в JSX
@@ -6650,6 +6681,47 @@ className используется для добавления класса в H
 
     <span className="badge bg-primary">{formatCount()}</span>
 
+-------------------
+/// Обработка событий в React
+-------------------
+Референс функции - ссылка на функцию (без вызова)
+---------
+Обработчики событий должны называться с `handle`
+---------
+
+    <span className={getBadgeClasses()}>{formatCount()}</span>
+    <button
+        className="btn btn-primary btn-sm m-2"
+        onClick={handleIncrement}
+    >
+        +
+    </button>
+
+Для обработки функции при передаче в EventListener, необходимо передавать референс функции, а не ее вызов
+
+-------------------
+/// useState() - хук для обновления данных 
+-------------------
+// useState() - состоит из двух элементов. Возвращает кортеж.
+   I el - Хранит текущее состояние; 
+   II el - Функция которая обновляет данные массива состояния;
+           (Имя данной функции должно всегда начинаться с `set`)
+
+ const [count, setCount] = useState(0);
+     variable | function           (n) - variable_value
+
+Почему мы не можем использовать функцию обновления и необходимо использовать функцию setCount()?
+    Тк в функцию вшит обработчик событий React
+    Таким образом мы сообщаем React о том что наше состояние изменилось.
+
+    const Counter = () => {
+        const [count, setCount] = useState(0);
+
+        const handleIncrement = () => {
+            setCount(count + 1);
+        };
+        ...
+    };
 ---------------------------------------------------------
 
 ---------------------------------------------------------
