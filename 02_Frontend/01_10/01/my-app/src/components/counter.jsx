@@ -1,56 +1,28 @@
 import React, { useState } from "react";
 
 const Counter = () => {
-   const [count, setCount] = useState(0);
-   const [tags, setTags] = useState(["tag1", "tag2", "tag3"]);
+   const [open, setOpen] = useState(false);
+   const [menuItems, setMenuItems] = useState(["Главная", "Блог", "Контакты"]);
 
-   const formatCount = () => {
-      return count === 0 ? "empty" : count;
-   };
-
-   const getBadgeClasses = () => {
-      let classes = "badge m-2 ";
-      classes += count === 0 ? "bg-warning" : "bg-primary";
-      return classes;
-   };
-
-   const handleIncrement = () => {
-      setCount((prevState) => prevState + 1);
-   };
-   const handleDecrement = () => {
-      setCount((prevState) => prevState - 1);
-   };
-   const handleTagChange = () => {
-      setTags(["tag4", "tag5"]);
+   const handleMenuClick = () => {
+      setOpen((prevState) => !prevState);
    };
 
    return (
-      <>
-         <ul>
-            {tags.map((tag) => (
-               <li
-                  key={tag}
-                  className="btn btn-primary btm-sm m-2"
-                  onClick={handleTagChange}
-               >
-                  {tag}
-               </li>
-            ))}
-         </ul>
-         <span className={getBadgeClasses()}>{formatCount()}</span>
-         <button
-            className="btn btn-primary btn-sm m-2"
-            onClick={handleIncrement}
-         >
-            +
+      <div>
+         <button className="btn btn-sm btm-primary" onClick={handleMenuClick}>
+            меню
          </button>
-         <button
-            className="btn btn-primary btn-sm m-2"
-            onClick={handleDecrement}
-         >
-            -
-         </button>
-      </>
+         {open && (
+            <ul className="list-group">
+               {menuItems.map((item) => (
+                  <li className="list-group-item" key={item}>
+                     {item}
+                  </li>
+               ))}
+            </ul>
+         )}
+      </div>
    );
 };
 
