@@ -20,8 +20,8 @@ const Counter = () => {
    const handleDecrement = () => {
       setCount((prevState) => prevState - 1);
    };
-   const handleTagChange = () => {
-      setTags(["tag4", "tag5"]);
+   const handleTagChange = (tag) => {
+
    };
 
    return (
@@ -31,7 +31,7 @@ const Counter = () => {
                <li
                   key={tag}
                   className="btn btn-primary btm-sm m-2"
-                  onClick={handleTagChange}
+                  onClick={() => handleTagChange(tag)}
                >
                   {tag}
                </li>

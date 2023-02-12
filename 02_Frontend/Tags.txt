@@ -6773,7 +6773,6 @@ useState() - асинхронная функция.
 Внутри JSX мы перебираем элементы массива и возвращаем нужные нам React-элементы.
 
 В нашем примере выведем список пунктов меню:
-    import React, { useState } from "react";
 
     const Navbar = () => {
         const [open, setOpen] = useState(false);
@@ -6784,38 +6783,83 @@ useState() - асинхронная функция.
         };
 
         return (
-            <div>
+            <>
             <button
                 className="btn btn-sm btm-primary"
                 onClick={handleMenuClick}
             >
-                меню
+                Меню
             </button>
             {open && (
                 <ul className="list-group">
-                {menuItems.map((item) => (
-                    <li className="list-group-item" key={item}>
-                    {item}
-                    </li>
-                ))}
+                    {menuItems.map((item) => (
+                        <li 
+                            className="list-group-item" 
+                            key={item}>
+                            {item}
+                        </li>
+                    ))}
                 </ul>
             )}
-            </div>
+            </>
         );
     };
 
-Нужно помнить, что мы можем через useState() менять любые данные, в том числе и содержание массивов. Если бы мы захотели изменить пункты меню при нажатии на кнопку, то нам нужно было бы создать handleChangeMenu(), вызвать там setMenuItems() и передать туда новый массив элементов. 
-Например, вот так:
+-------------------
+/// Найти target element при клике по нему
+-------------------
+const Counter = () => {
 
-    const handleChangeMenu = () => {
-        setMenuItems(['New menu item 1', 'New menu item 2']);
-    }
+    const [tags, setTags] = useState(["tag1", "tag2", "tag3"]);
 
-Либо добавить к предыдущим, используя callback-функцию:
+    const handleTagChange = (id) => {
+        setTags(prevState => prevState.filter(tag => tag !== id))
+    };
 
-    const handleChangeMenu = () => {
-        setMenuItems((prevItems) => prevItems.push('New menu item 1'));
-    }
+    return (
+        <>
+            <ul>
+                {tags.map((tag) => (
+                <li
+                    key={tag}
+                    className="btn btn-primary btm-sm m-2"
+                    onClick={() => handleTagChange(tag)}
+                >
+                    {tag}
+                </li>
+                ))}
+            </ul>
+        </>
+
+! Важный момент, почему нам необходимо оборачивать функцию, которая срабатывает при клике в еще одну функцию.
+
+    onClick={() => handleTagChange(tag)}
+
+Since with the construction onClick={handleTagChange(tag)}, `handleTagChange` is called when the component is rendered, not when the button is clicked.
+
+Такое поведение связано с тем, как JavaScript вычисляет выражения. Когда вы передаете handleTagChange(тег) непосредственно в качестве аргумента, JavaScript вычисляет выражение handleTagChange(тег) и передает результат в onClick вместо передачи ссылки на функцию handleTagChange.
+
+By using an arrow function () => handleTagChange(tag), you are creating a new function that takes no arguments and returns the result of calling handleTagChange with the tag argument. This allows you to delay the execution of handleTagChange until the onClick function is triggered.
+
+---------
+Необходимо использовать методы setState() или useState() для передачи обновлений элементов в React, вместо прямого изменения DOM дерева. 
+
+Тк React в свою очередь использует виртуальный DOM. 
+Когда какой-то элемент изменяется, React обновляет виртуальный DOM, сравнивает изменения с предыдущим виртуальным DOM и обновляет фактический DOM только там, где это необходимо. 
+
+Такой подход обеспечивает более высокую производительность и более эффективный механизм обновления, поскольку React обновит только те части DOM, которые действительно изменились, а не повторно отобразит все дерево компонентов. 
+
+А прямое изменение элемента не приведет к повторному рендерингу, и React не будет знать об изменениях. Что приведет к снижению эффективности и к колхозному отношению к производительным технологиям.
+---------
+
+    const [tags, setTags] = useState(["tag1", "tag2", "tag3"]);
+
+    const handleTagChange = (id) => {
+        setTags(prevState => prevState.filter(tag => tag !== id))
+    };
+
+Для обновления элементов и их передачи, в нашем примере, необходимо использовать функцию setTags() - конструкцию метода UseState() 
+и метод .filter() для передачи все элементов которые не подходят под описание элемента нажатия. Тем самым, мы исключаем элемент по которому нажали из списка, в последствии чего тот удаляется.
 
 ---------------------------------------------------------
 
