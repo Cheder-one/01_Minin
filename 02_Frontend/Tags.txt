@@ -6859,7 +6859,18 @@ By using an arrow function () => handleTagChange(tag), you are creating a new fu
     };
 
 Для обновления элементов и их передачи, в нашем примере, необходимо использовать функцию setTags() - конструкцию метода UseState() 
-и метод .filter() для передачи все элементов которые не подходят под описание элемента нажатия. Тем самым, мы исключаем элемент по которому нажали из списка, в последствии чего тот удаляется.
+и метод .filter() для передачи все элементов которые не подходят под описание элемента нажатия. Тем самым, мы исключаем элемент по которому нажали из списка. 
+В итоге, новый список элементов передаем в функцию setTags() - конструкцию метода UseState(), в последствии чего нажатый элемент удаляется. 
+---------
+Так же необходимо использовать prevState (а не переменную которую передаем в конструкцию useState), когда имеем дело с изменением состояния переменной, в связи взаимодействия пользователя с UI!
+
+    setTags(prevState => prevState.filter(tag => tag !== id))
+
+It's important to use prevState because React state updates are asynchronous. If multiple updates are made to the state in quick succession, it's possible that some updates will be lost, as the state will be overwritten by the time the update function runs.
+
+By using `prevState`, you ensure that your state updates correctly, regardless of when the update function runs.
+
+So, in general, it's a good practice to always use `prevState` when updating state based on the previous state, to ensure that your state updates correctly and as expected.
 
 ---------------------------------------------------------
 
