@@ -21,7 +21,7 @@ const Counter = () => {
       setCount((prevState) => prevState - 1);
    };
    const handleTagChange = (tag) => {
-
+      setTags((prevState) => prevState.filter(el => el !== tag))
    };
 
    return (
@@ -37,7 +37,9 @@ const Counter = () => {
                </li>
             ))}
          </ul>
-         <span className={getBadgeClasses()}>{formatCount()}</span>
+         <span className={getBadgeClasses()}>
+            {formatCount()}
+         </span>
          <button
             className="btn btn-primary btn-sm m-2"
             onClick={handleIncrement}
