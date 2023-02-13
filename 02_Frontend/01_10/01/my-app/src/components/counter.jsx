@@ -21,25 +21,29 @@ const Counter = () => {
       setCount((prevState) => prevState - 1);
    };
    const handleTagChange = (tag) => {
-      setTags((prevState) => prevState.filter(el => el !== tag))
+      setTags((prevState) => prevState.filter((el) => el !== tag));
    };
-
+   const renderTags = () => {
+      return (
+         tags.length !== 0 &&
+         tags.map((tag) => (
+            <li
+               key={tag}
+               className="btn btn-primary btm-sm m-2"
+               onClick={() => handleTagChange(tag)}
+            >
+               {tag}
+            </li>
+         ))
+      );
+   };
+   if (tags.length !== 0) {
+      return <ul>{renderTags()}</ul>
+   }
    return (
       <>
-         <ul>
-            {tags.map((tag) => (
-               <li
-                  key={tag}
-                  className="btn btn-primary btm-sm m-2"
-                  onClick={() => handleTagChange(tag)}
-               >
-                  {tag}
-               </li>
-            ))}
-         </ul>
-         <span className={getBadgeClasses()}>
-            {formatCount()}
-         </span>
+         <ul>{renderTags()}</ul>
+         <span className={getBadgeClasses()}>{formatCount()}</span>
          <button
             className="btn btn-primary btn-sm m-2"
             onClick={handleIncrement}
@@ -57,8 +61,6 @@ const Counter = () => {
 };
 
 export default Counter;
-
-
 
 //-------------Other-------------
 // const Counter1 = () => {
@@ -78,7 +80,6 @@ export default Counter;
 //       });
 //       setMenuItems(newMenuItems);
 //    };
-
 
 //    return (
 //       <div>
