@@ -10,7 +10,7 @@ const qualities = {
    tedious: { _id: "67rdca3eeb7f6fgeed471198", name: "Разговорчивый", color: "primary" },
    strange: { _id: "67rdca3eeb7f6fgeed471100", name: "Оригинальный", color: "secondary" },
    buller: { _id: "67rdca3eeb7f6fgeed4711012", name: "Юморист", color: "success" },
-   alcoholic: { _id: "67rdca3eeb7f6fgeed471101", name: "Проблемный", color: "danger" },
+   alcoholic: { _id: "67rdca3eeb7f6fgeed471101", name: "Несговорчивый", color: "danger" },
    handsome: { _id: "67rdca3eeb7f6fgeed471102", name: "Привлекательный", color: "info" },
    uncertain: { _id: "67rdca3eeb7f6fgeed471103", name: "Застенчивый", color: "dark" },
 
@@ -18,8 +18,35 @@ const qualities = {
 
 const users = [
    {
+      _id: "67rdca3eeb7f6fgeed471818",
+      name: "Diane Gerlach",
+      profession: professions.waiter,
+      qualities: [qualities.uncertain],
+      completedMeetings: 23,
+      rate: 3.5,
+      bookmark: false
+   },
+   {
+      _id: "67rdca3eeb7f6fgeed471819",
+      name: "Terry Maz",
+      profession: professions.physics,
+      qualities: [qualities.strange, qualities.tedious],
+      completedMeetings: 37,
+      rate: 4.6,
+      bookmark: false
+   },
+   {
+      _id: "67rdca3eeb7f6fgeed471820",
+      name: "April Koch",
+      profession: professions.physics,
+      qualities: [qualities.strange, qualities.uncertain],
+      completedMeetings: 14,
+      rate: 3.5,
+      bookmark: false
+   },
+   {
       _id: "67rdca3eeb7f6fgeed471815",
-      name: "Джон Дориан",
+      name: "Aubrey Gleichner",
       profession: professions.doctor,
       qualities: [qualities.tedious, qualities.uncertain, qualities.strange],
       completedMeetings: 36,
@@ -37,52 +64,25 @@ const users = [
    },
    {
       _id: "67rdca3eeb7f6fgeed471817",
-      name: "Боб Келсо",
+      name: "Stephanie Langosh",
       profession: professions.doctor,
       qualities: [qualities.buller],
-      completedMeetings: 247,
-      rate: 3.5,
-      bookmark: false
-   },
-   {
-      _id: "67rdca3eeb7f6fgeed471818",
-      name: "Рэйчел Грин",
-      profession: professions.waiter,
-      qualities: [qualities.uncertain],
-      completedMeetings: 148,
-      rate: 3.5,
-      bookmark: false
-   },
-   {
-      _id: "67rdca3eeb7f6fgeed471819",
-      name: "Шелдон Купер",
-      profession: professions.physics,
-      qualities: [qualities.strange, qualities.tedious],
-      completedMeetings: 37,
-      rate: 4.6,
-      bookmark: false
-   },
-   {
-      _id: "67rdca3eeb7f6fgeed471820",
-      name: "Леонард Хофстедтер",
-      profession: professions.physics,
-      qualities: [qualities.strange, qualities.uncertain],
-      completedMeetings: 147,
+      completedMeetings: 12,
       rate: 3.5,
       bookmark: false
    },
    {
       _id: "67rdca3eeb7f6fgeed471821",
-      name: "Говард Воловиц",
+      name: "Agnes Bartoletti",
       profession: professions.engineer,
       qualities: [qualities.strange, qualities.tedious],
-      completedMeetings: 72,
-      rate: 3.5,
+      completedMeetings: 21,
+      rate: 4.5,
       bookmark: false
    },
    {
       _id: "67rdca3eeb7f6fgeed471822",
-      name: "Carlton Maggio",
+      name: "James Schuster",
       profession: professions.engineer,
       qualities: [qualities.handsome],
       completedMeetings: 55,
@@ -100,7 +100,7 @@ const users = [
    },
    {
       _id: "67rdca3eeb7f6fgeed471824",
-      name: "Рататуй",
+      name: "Bernard Kertzmann",
       profession: professions.cook,
       qualities: [qualities.handsome, qualities.buller],
       completedMeetings: 4,
@@ -109,7 +109,7 @@ const users = [
    },
    {
       _id: "67rdca3eeb7f6fgeed47181f",
-      name: "Джоуи Триббиани",
+      name: "Ronald Marks",
       profession: professions.actor,
       qualities: [qualities.uncertain, qualities.strange],
       completedMeetings: 34,
@@ -118,7 +118,7 @@ const users = [
    },
    {
       _id: "67rdca3eeb7f6fgeed47181r",
-      name: "Olive Smith",
+      name: "Latoya Krajcik",
       profession: professions.actor,
       qualities: [qualities.handsome],
       completedMeetings: 44,
