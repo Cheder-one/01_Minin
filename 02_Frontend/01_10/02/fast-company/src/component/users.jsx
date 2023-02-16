@@ -1,9 +1,9 @@
 import React from "react";
-import API from "../api";
+import api from "../api";
 
 
 const Users = () => {
-   console.log(API.users.fetchAll());
+   console.log(api.users.fetchAll());
    return (
       <>
          <table className="table">
