@@ -3,9 +3,9 @@ import API from "../api/index.api";
 
 
 const Users = () => {
-   // const [usersArray, setUsersArray] = useState(API.users.fetchAll())
+   const [usersArray, setUsersArray] = useState(API.users.fetchAll())
 
-   console.log(API.usersData.fetchAll());
+   console.log(API.users.fetchAll()[0]);
 
    return (
       <>
@@ -21,11 +21,11 @@ const Users = () => {
             </thead>
             <tbody>
                <tr>
-                  {/* {usersArray.map((item) => ( */}
-                  {/* <td key={item}> */}
-                  {/* {item} */}
-                  {/* </td> */}
-                  {/* ))} */}
+                  {/* {usersArray.map((item) => (
+                     <td key={_id}>
+                        {item}
+                     </td>
+                  ))} */}
                </tr>
             </tbody>
          </table>
