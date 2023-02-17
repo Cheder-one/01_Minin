@@ -1,9 +1,12 @@
-import React from "react";
-import api from "../api";
+import React, { useState } from 'react';
+import API from "../api/index.api";
 
 
 const Users = () => {
-   console.log(api.users.fetchAll());
+   const [usersArray, setUsersArray] = useState(API.users.fetchAll())
+
+   console.log(API.users.fetchAll());
+
    return (
       <>
          <table className="table">
@@ -17,7 +20,13 @@ const Users = () => {
                </tr>
             </thead>
             <tbody>
-
+               <tr>
+                  {/* {usersArray.map((item) => ( */}
+                  {/* <td key={item}> */}
+                  {/* {item} */}
+                  {/* </td> */}
+                  {/* ))} */}
+               </tr>
             </tbody>
          </table>
       </>
