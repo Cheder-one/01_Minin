@@ -16,7 +16,7 @@ const qualities = {
 
 }
 
-const users = [
+const usersData = [
    {
       _id: "67rdca3eeb7f6fgeed471818",
       name: "Diane Gerlach",
@@ -126,6 +126,7 @@ const users = [
       bookmark: false
    },
 ]
+
 export function fetchAll() {
-   return users
+   return usersData
 }

@@ -1,7 +1,7 @@
-import * as users from "./fake.api/user.api"
+import * as usersData from "./fake.api/user.api"
 
 const API = {
-   users
+   usersData
 }
 
 export default API

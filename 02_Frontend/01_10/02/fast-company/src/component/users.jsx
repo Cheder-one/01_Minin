@@ -3,9 +3,9 @@ import API from "../api/index.api";
 
 
 const Users = () => {
-   const [usersArray, setUsersArray] = useState(API.users.fetchAll())
+   // const [usersArray, setUsersArray] = useState(API.users.fetchAll())
 
-   console.log(API.users.fetchAll());
+   console.log(API.usersData.fetchAll());
 
    return (
       <>
