@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import API from "../api/index.api";
 
 const renderUsers = (usersArray) => {
@@ -14,40 +14,32 @@ const renderUsers = (usersArray) => {
             </tr>
          </thead>
 
-         {usersArray &&
-
+         {usersArray && (
             <tbody>
-
-               {usersArray.map(el => (
-
+               {usersArray.map((el) => (
                   <tr key={el._id}>
-
-                     <td >{el.name}</td>
-
+                     <td>{el.name}</td>
                   </tr>
-
                ))}
-
-            </tbody>}
-
+            </tbody>
+         )}
       </table>
-
-   )
-}
+   );
+};
 
 const Users = () => {
-
-   const [usersArray, setUsersArray] = useState(null)
+   const [usersArray, setUsersArray] = useState(null);
 
    useEffect(() => {
-
       const fetchData = async () => {
-
          const data = await API.users.fetchAll();
 
          setUsersArray(data);
+      };
+      fetchData();
+   }, []);
+   console.log(API.users.fetchAll()[0]._id);
+   return <>{renderUsers(usersArray)}</>;
+};
 
-      }; fetchData();
-   }, []); console.log(API.users.fetchAll()[0]._id); return (<>           {renderUsers(usersArray)}        </>)
-}
-export default Users
+export default Users;
