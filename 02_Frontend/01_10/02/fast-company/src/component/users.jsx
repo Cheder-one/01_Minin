@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import API from "../api/index.api";
 
+// TODO Сделать кнопку delete
+// TODO Разбить модули по отдельным функциям
+// TODO Сделать подсчет человек в списке. И вывод надписи если людей нет
+
+const getBadgeClasses = () => {
+   let classes = "badge ";
+   classes += count === 0 ? "bg-warning" : "bg-primary";
+   return classes;
+};
+
 const Users = () => {
    const [users, setUsersArray] = useState(API.users.fetchAll());
 
@@ -34,7 +44,7 @@ const Users = () => {
                               console.log(el.color);
                               return (
                                  <span
-                                    className="badge bg-primary"
+                                    className={getBadgeClasses()}
                                     key={el._id}
                                  >
                                     {el.name}
