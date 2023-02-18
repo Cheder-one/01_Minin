@@ -8,6 +8,12 @@ const Users = () => {
 
    return (
       <>
+         <h5>
+            <span className="badge bg-primary">
+               n Человек готовы встретиться с тобой
+            </span>
+         </h5>
+
          <table className="table">
             <thead>
                <tr>
@@ -20,20 +26,26 @@ const Users = () => {
             </thead>
             <tbody>
                {users.map((user) => {
-                  console.log(user.qualities[0].name);
                   return (
                      <tr key={user._id}>
                         <td>{user.name}</td>
                         <td>
-                           {/* {user.qualities.map((el) => {
-
-                           })} */}
+                           {user.qualities.map((el) => {
+                              console.log(el.color);
+                              return (
+                                 <span
+                                    className="badge bg-primary"
+                                    key={el._id}
+                                 >
+                                    {el.name}
+                                 </span>
+                              );
+                           })}
                         </td>
-                        <td></td>
-                        {/* <td>{user.qualities}</td> */}
-                        {/* <td>{user.profession}</td> */}
+
+                        <td>{user.profession.name}</td>
                         <td>{user.completedMeetings}</td>
-                        <td>{user.rate}</td>
+                        <td>{user.rate}/5</td>
                      </tr>
                   );
                })}
