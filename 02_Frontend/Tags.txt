@@ -6674,6 +6674,8 @@ Babel не поймет тк JSX выражение это React.createElement('
         );
     };
 ---------
+! // Good example:
+
     import React from "react";
 
     const Counter = () => {
