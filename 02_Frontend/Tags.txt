@@ -6808,6 +6808,8 @@ useState() - асинхронная функция.
 
 В нашем примере выведем список пунктов меню:
 
+! // Good example:
+
     const Navbar = () => {
         const [open, setOpen] = useState(false);
         const [menuItems, setMenuItems] = useState(["Главная", "Блог", "Контакты"]);
@@ -6838,6 +6840,25 @@ useState() - асинхронная функция.
             </>
         );
     };
+
+---------
+Проблема в том, что в коде нет return-стейтмента. Код должен был выглядеть следующим образом:
+
+    <tbody>
+        {users.map((user) => {
+            return (
+                <tr key={user._id}>
+                    <td>{user.name}</td>
+                    <td>{user.qualities}</td>
+                    <td>{user.profession}</td>
+                    <td>{user.completedMeetings}</td>
+                    <td>{user.rate}</td>
+                </tr>;
+            )
+        })}
+    </tbody>
+
+Return - стейтмент является необходимым, чтобы React знал, что он должен возвращать.
 
 -------------------
 /// Найти и удалить el при клике по нему

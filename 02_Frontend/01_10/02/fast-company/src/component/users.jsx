@@ -1,45 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import API from "../api/index.api";
 
-const renderUsers = (usersArray) => {
-   return (
-      <table className="table">
-         <thead>
-            <tr>
-               <th scope="col">Имя</th>
-               <th scope="col">Качества</th>
-               <th scope="col">Профессия</th>
-               <th scope="col">Кол-во встреч</th>
-               <th scope="col">Рейтинг</th>
-            </tr>
-         </thead>
-
-         {usersArray && (
-            <tbody>
-               {usersArray.map((el) => (
-                  <tr key={el._id}>
-                     <td>{el.name}</td>
-                  </tr>
-               ))}
-            </tbody>
-         )}
-      </table>
-   );
-};
-
 const Users = () => {
-   const [usersArray, setUsersArray] = useState(null);
+   const [users, setUsersArray] = useState(API.users.fetchAll());
 
-   useEffect(() => {
-      const fetchData = async () => {
-         const data = await API.users.fetchAll();
+   // console.log(API.users.fetchAll()[0]._id);
 
-         setUsersArray(data);
-      };
-      fetchData();
-   }, []);
-   console.log(API.users.fetchAll()[0]._id);
-   return <>{renderUsers(usersArray)}</>;
+   return (
+      <>
+         <table className="table">
+            <thead>
+               <tr>
+                  <th scope="col">Имя</th>
+                  <th scope="col">Качества</th>
+                  <th scope="col">Профессия</th>
+                  <th scope="col">Кол-во встреч</th>
+                  <th scope="col">Рейтинг</th>
+               </tr>
+            </thead>
+            <tbody>
+               {users.map((user) => {
+                  console.log(user.qualities[0].name);
+                  return (
+                     <tr key={user._id}>
+                        <td>{user.name}</td>
+                        <td>
+                           {/* {user.qualities.map((el) => {
+
+                           })} */}
+                        </td>
+                        <td></td>
+                        {/* <td>{user.qualities}</td> */}
+                        {/* <td>{user.profession}</td> */}
+                        <td>{user.completedMeetings}</td>
+                        <td>{user.rate}</td>
+                     </tr>
+                  );
+               })}
+            </tbody>
+         </table>
+      </>
+   );
 };
 
 export default Users;

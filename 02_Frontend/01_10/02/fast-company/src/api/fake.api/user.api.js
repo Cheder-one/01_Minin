@@ -5,7 +5,8 @@ const professions = {
    engineer: { _id: "67rdca3eeb7f6fgeed471822", name: "Инженер" },
    actor: { _id: "67rdca3eeb7f6fgeed471824", name: "Актер" },
    cook: { _id: "67rdca3eeb7f6fgeed471829", name: "Повар" }
-}
+};
+
 const qualities = {
    talkative: { _id: "67rdca3eeb7f6fgeed471198", name: "Разговорчивый", color: "primary" },
    original: { _id: "67rdca3eeb7f6fgeed471100", name: "Оригинальный", color: "secondary" },
@@ -13,8 +14,7 @@ const qualities = {
    problematic: { _id: "67rdca3eeb7f6fgeed471101", name: "Несговорчивый", color: "danger" },
    handsome: { _id: "67rdca3eeb7f6fgeed471102", name: "Привлекательный", color: "info" },
    timid: { _id: "67rdca3eeb7f6fgeed471103", name: "Робкий", color: "dark" },
-
-}
+};
 
 const users = [
    {
@@ -91,7 +91,7 @@ const users = [
    },
    {
       _id: "67rdca3eeb7f6fgeed471823",
-      name: "Моника Геллер",
+      name: "Ricky Shields Sr.",
       profession: professions.cook,
       qualities: [qualities.original, qualities.timid],
       completedMeetings: 17,
