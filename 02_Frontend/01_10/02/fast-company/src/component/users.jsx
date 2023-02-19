@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import API from "../api/index.api";
 
-// TODO Сделать подсчет человек в списке.
-// TODO И вывод надписи если людей нет
 // TODO Разбить модули по отдельным функциям
 
 const Users = () => {
@@ -57,7 +55,9 @@ const Users = () => {
                            })}
                         </td>
 
-                        <td>{user.profession.name}</td>
+                        <td key={user.profession._id}>
+                           {user.profession.name}
+                        </td>
                         <td>{user.completedMeetings}</td>
                         <td>{user.rate}/5</td>
                         <td>
