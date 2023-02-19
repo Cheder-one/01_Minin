@@ -1,23 +1,30 @@
 import React, { useState } from "react";
 import API from "../api/index.api";
 
-// TODO Сделать удаление el по Delete
+// TODO Сделать подсчет человек в списке.
+// TODO И вывод надписи если людей нет
 // TODO Разбить модули по отдельным функциям
-// TODO Сделать подсчет человек в списке. И вывод надписи если людей нет
 
 const Users = () => {
    const [users, setUsersArray] = useState(API.users.fetchAll());
 
    const handleDeleteUser = (id) => {
-      console.log(setUsersArray);
-      // setUsersArray.filter((el) => el !== id);
+      setUsersArray(users.filter((user) => user._id !== id));
+   };
+
+   const calcNumberUsers = () => {
+      return users.length > 0
+         ? `${users.length} Человек готовы встретиться с тобой`
+         : "Список встреч пуст";
    };
 
    return (
       <>
          <h5>
-            <span className="badge bg-primary">
-               n Человек готовы встретиться с тобой
+            <span
+               className={`badge bg-${users.length > 0 ? "primary" : "danger"}`}
+            >
+               {calcNumberUsers()}
             </span>
          </h5>
 

@@ -6869,7 +6869,7 @@ const Counter = () => {
 
     const handleTagChange = (id) => {
         setTags(prevState => prevState.filter(tag => tag !== id))
-    };
+    };                         [tags].filter
 
     return (
         <>
