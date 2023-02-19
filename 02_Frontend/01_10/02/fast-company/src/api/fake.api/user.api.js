@@ -9,11 +9,11 @@ const professions = {
 
 const qualities = {
    talkative: { _id: "67rdca3eeb7f6fgeed471198", name: "Разговорчивый", color: "primary" },
-   original: { _id: "67rdca3eeb7f6fgeed471100", name: "Оригинальный", color: "secondary" },
+   original: { _id: "67rdca3eeb7f6fgeed471100", name: "Оригинальный", color: "warning" },
    joker: { _id: "67rdca3eeb7f6fgeed4711012", name: "Юморист", color: "success" },
    problematic: { _id: "67rdca3eeb7f6fgeed471101", name: "Несговорчивый", color: "danger" },
    handsome: { _id: "67rdca3eeb7f6fgeed471102", name: "Привлекательный", color: "info" },
-   timid: { _id: "67rdca3eeb7f6fgeed471103", name: "Робкий", color: "dark" },
+   timid: { _id: "67rdca3eeb7f6fgeed471103", name: "Робкий", color: "secondary" },
 };
 
 const users = [
