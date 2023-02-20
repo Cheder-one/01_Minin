@@ -1,18 +1,10 @@
 import React from "react";
 import "./app.css";
-import Page from "./page";
-import Navbar from "./navbar";
+// import Page from "./page";
+import CountersList from "./components/countersList";
 
 const App = () => {
-  return (
-    <>
-      <Navbar />
-
-      <div className="App">
-        <Page />
-      </div>
-    </>
-  );
+  return <CountersList />;
 };
 
 export default App;

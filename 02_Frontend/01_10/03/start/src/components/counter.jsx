@@ -6,7 +6,7 @@ const Counter = () => {
     return count === 0 ? "empty" : count;
   };
 
-  const getBageClasses = () => {
+  const getBadgeClasses = () => {
     let classes = "badge m-2 ";
     classes += count === 0 ? "bg-warning" : "bg-primary";
     return classes;
@@ -21,15 +21,15 @@ const Counter = () => {
   };
 
   return (
-    <>
-      <span className={getBageClasses()}>{formatCount()}</span>
+    <div>
+      <span className={getBadgeClasses()}>{formatCount()}</span>
       <button className="btn btn-primary btn-sm m-2" onClick={handleIncrement}>
         +
       </button>
       <button className="btn btn-primary btn-sm m-2" onClick={handleDecrement}>
         -
       </button>
-    </>
+    </div>
   );
 };
 
