@@ -6403,7 +6403,7 @@ localStorage не уходит на сервер, в отличие от cookie
     $ git log / $ git log --oneline - Отображение истории записи коммитов
    *$ git push [rep_link = origin] [branch_name] - Отправить на сервер
     // rep_link - можно узнать с помощью $ git remote -v или ввести origin
-    // branch_name - $ git branch или ввести master
+    // branch_name - $ git branch или ввести master (к какой ветке)
     $ git push origin master
 
 /// Отмена изменений
@@ -6417,7 +6417,7 @@ localStorage не уходит на сервер, в отличие от cookie
 /// Ветки в Git
     $ git branch new_branch_name - создать ветку
     $ git checkout new_branch_name - переключение между ветками
-      $ git push origin new_branch_name - отправить новую ветку и сохраненные в нее данные
+      $ git push origin new_branch_name - опубликовать новую ветку и сохраненные в нее данные
 
     $ git branch -d branch_name - удалить ветку
 
@@ -6450,6 +6450,7 @@ localStorage не уходит на сервер, в отличие от cookie
     - Как только одна из веток была завершена, она объединятся (мержится) с главной develop
     4) Создание ветки release/0.1.0 от develop (когда близится дата релиза)
         $ git checkout develop -b release/0.1.0 
+         $ git push origin release/0.1.0 
           (флаг -b говорит о переключении на созданную ветку)
     - В релизе допускается только исправление багов. Новые фичи запрещены.
     5) Когда ветка release/0.1.0 закончена (у нас есть что показать заказчику), то она мержится в develop и main, затем удалятся.
@@ -6503,6 +6504,7 @@ localStorage не уходит на сервер, в отличие от cookie
     Error: sh: 1: react-scripts: not found
 Fix: 
     $ npm install react-scripts
+    $ npm audit fix --force
 
 -------------------
 /// Bootstrap - библиотека, которая с помощью названия классов позволяет добавлять стили к нашим компонентам 

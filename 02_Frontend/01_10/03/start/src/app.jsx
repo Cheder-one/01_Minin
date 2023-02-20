@@ -1,12 +1,17 @@
 import React from "react";
-import "./App.css";
+import "./app.css";
 import Page from "./page";
+import Navbar from "./navbar";
 
 const App = () => {
   return (
-    <div className="App">
-      <Page />
-    </div>
+    <>
+      <Navbar />
+
+      <div className="App">
+        <Page />
+      </div>
+    </>
   );
 };
 
