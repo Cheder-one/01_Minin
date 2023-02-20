@@ -6890,11 +6890,20 @@ const Counter = () => {
             </ul>
         </>
 
+-------------------
+/// onClick={} обработчик событий
+-------------------
+// Как вызывается функция при клике, когда мы передаем в onClick лишь референс?
 ---------
-Передать обработчик событий :
+Когда мы передаем ссылку на функцию в качестве обработчика событий, например onClick={handleClick}, React автоматически вызовет функцию при возникновении соответствующего события (в данном случае, когда пользователь нажимает на элемент).
+
+Передавая Референс в onClick, мы говорим React-ту вызвать() данный референс когда произойдет событие.
+---------
+Вызвать выполнение функции при клике:
     onClick={handleTagChange}
 
-Передать параметры в обработчик событий:
+Передать аргумент в функцию handle или вернуть результат работы функции при клике:
+    onClick={() => handleTagChange()}
     onClick={() => handleTagChange(tag)}
 ---------
 Since with the construction onClick={handleTagChange(tag)}, `handleTagChange()` is called when the component is rendered, not when the button is clicked.
@@ -6904,7 +6913,7 @@ By using an arrow function () => handleTagChange(tag), you are creating a new fu
 Поэтому когда нет необходимости передавать аргументы функции, мы передаем  Референс функции в onClick. Тк при рендере Референс без вызова сам не сработает. 
 
 ---------
-// Передача обновленных значений элементов
+/// useState - Передача обновленных значений элементов
 ---------
 Необходимо использовать методы setState() или useState() для передачи обновлений элементов в React, вместо прямого изменения DOM дерева. 
 
@@ -7065,7 +7074,95 @@ const Navbar = () => {
 Композиция компонентов – способ использования компонентов как частей внутри друг друга. 
 В React-приложениях компоненты используются внутри друг друга. Подобно конструктору lego мы составляем наше приложение из компонентов словно из деталей и можем менять их последовательность как нам нужно. 
 
+-------------------
+/// props - (properties - свойства)
+-------------------
+Props - это способ передачи данных из родительского компонента в дочерний компонент. 
+По сути, это неизменяемые значения, которые передаются от родительского элемента к дочернему, и затем дочерний элемент может использовать эти props для визуализации своего пользовательского интерфейса или выполнения какого-либо другого действия. 
 
+    // Parent Component
+    function ParentComponent() {
+        return (
+            <ChildComponent name="Alice" age={30} />
+        );
+    }
+
+    // Child Component
+    function ChildComponent(props) {
+        return (
+            <div>
+                <p>Name: {props.name}</p>
+                <p>Age: {props.age}</p>
+            </div>
+        );
+    }
+---------
+// Как props понимает что передавать?
+---------
+Когда в родительском элементе мы взаимодействуем с дочерним и передаем там ему различные аргументы,: 
+    <ChildComponent name="Alice" age={30} />
+
+Метод props позволяет запомнить эти аргументы и перенести их в дочернуюю функцию, находящуюся вне родитеской.
+
+    function ChildComponent(props) {
+        return (
+            <div>
+                <p>Name: {props.name}</p> // Alice
+                <p>Age: {props.age}</p> // 30
+            </div>
+        );
+
+---------
+// Установить значения по умолчанию:
+---------
+    // Child Component with default props
+    function ChildComponent({ name, age, city }) {
+        return (
+            <div>
+            <p>Name: {name}</p>
+            <p>Age: {age}</p>
+            <p>City: {city}</p>
+            </div>
+        );
+    }
+
+    ChildComponent.defaultProps = {
+        city: 'Unknown'
+    };
+Если родитель не передаст дочернему элементу реквизит города, по умолчанию он будет иметь значение "Неизвестно".
+
+---------
+// props.children - позволяет родительским компонентам принимать и отображать дочерние элементы. 
+(Раскрывать родительский элемент и выводить вложенные)
+---------
+    // Grandparent Component
+    function GrandparentComponent() {
+        return (
+            <ParentComponent>
+                <ChildComponent name="Bob" age={25} />
+            </ParentComponent>
+        );
+    }
+
+    // Parent Component
+    function ParentComponent(props) {
+        return (
+            <div>
+                {props.children} 
+                 // <ChildComponent name="Bob" age={25} />
+            </div>
+        );
+    }
+
+    // Child Component
+    function ChildComponent({ name, age }) {
+        return (
+            <div>
+                <p>Name: {name}</p>
+                <p>Age: {age}</p>
+            </div>
+        );
+    }
 
 ---------------------------------------------------------
 

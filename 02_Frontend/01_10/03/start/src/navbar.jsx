@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-// import NavLink from "./navLink";
+import NavLink from "./navLink";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [menuItems, setMenuItems] = useState(["Главная", "Блог", "Контакты"]);
+  const [menuItems, setMenuItems] = useState([
+    { id: "main", text: "Главная", active: true },
+    { id: "blog", text: "Блог", active: false },
+    { id: "contacts", text: "Контакты", active: false },
+  ]);
 
   const handleMenuClick = () => {
     setOpen((prevState) => !prevState);
@@ -21,13 +25,7 @@ const Navbar = () => {
       {open && (
         <ul className="list-group">
           {menuItems.map((el) => (
-            <li
-              className="list-group-item"
-              key={el}
-              onClick={() => handleItemClick(el)}
-            >
-              {el}
-            </li>
+            <NavLink key={el.id} text={el.text} active={el.active} />
           ))}
         </ul>
       )}
