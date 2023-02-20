@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import NavLink from "./navLink";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
