@@ -6,24 +6,25 @@ const Counter = (props) => {
   const formatCount = () => {
     return value === 0 ? "empty" : value;
   };
-
   const getBadgeClasses = () => {
     let classes = "badge m-2 ";
     classes += value === 0 ? "bg-warning" : "bg-primary";
     return classes;
   };
-
   const handleIncrement = () => {
     setValue((prevState) => prevState + 1);
   };
-
   const handleDecrement = () => {
     setValue((prevState) => prevState - 1);
   };
 
+  const counterTetx = formatCount();
+  const badgeClass = getBadgeClasses();
+
   return (
     <div>
-      <span className={getBadgeClasses()}>{formatCount()}</span>
+      <span>{props.name}</span>
+      <span className={badgeClass}>{counterTetx}</span>
       <button className="btn btn-primary btn-sm m-2" onClick={handleIncrement}>
         +
       </button>
