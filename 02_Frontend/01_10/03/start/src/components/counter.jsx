@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Counter = (props) => {
-  const [value, setValue] = useState(props.value);
+  const { value } = props;
 
   const formatCount = () => {
     return value === 0 ? "empty" : value;
@@ -12,10 +12,10 @@ const Counter = (props) => {
     return classes;
   };
   const handleIncrement = () => {
-    setValue((prevState) => prevState + 1);
+    // setValue((prevState) => prevState + 1);
   };
   const handleDecrement = () => {
-    setValue((prevState) => prevState - 1);
+    // setValue((prevState) => prevState - 1);
   };
 
   const counterText = formatCount();
