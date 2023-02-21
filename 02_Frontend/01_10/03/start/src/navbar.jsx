@@ -4,9 +4,24 @@ import NavLink from "./navLink";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([
-    { id: "main", text: "Главная", active: true },
-    { id: "blog", text: "Блог", active: false },
-    { id: "contacts", text: "Контакты", active: false },
+    {
+      id: "main",
+      text: "Главная",
+      active: true,
+      link: "#main",
+    },
+    {
+      id: "blog",
+      text: "Блог",
+      active: false,
+      link: "#blog",
+    },
+    {
+      id: "contacts",
+      text: "Контакты",
+      active: false,
+      link: "#contacts",
+    },
   ]);
 
   const handleMenuClick = () => {
@@ -14,7 +29,13 @@ const Navbar = () => {
   };
 
   const handleItemClick = (id) => {
-    console.log(id);
+    const newMenuItems = menuItems.map((item) => {
+      if (item.id === id) {
+        return { ...item, active: !item.active };
+      }
+      return item;
+    });
+    setMenuItems(newMenuItems);
   };
 
   return (
@@ -24,8 +45,15 @@ const Navbar = () => {
       </button>
       {open && (
         <ul className="list-group">
-          {menuItems.map((el) => (
-            <NavLink key={el.id} text={el.text} active={el.active} />
+          {menuItems.map((item) => (
+            <NavLink
+              key={item.id}
+              id={item.id}
+              text={item.text}
+              active={item.active}
+              link={item.link}
+              onActiveChange={handleItemClick}
+            />
           ))}
         </ul>
       )}

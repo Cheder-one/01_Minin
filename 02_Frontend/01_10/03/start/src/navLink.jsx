@@ -13,9 +13,14 @@ const NavLink = (props) => {
   };
 
   return (
-    <li className={getClasses()} onClick={handleClick}>
-      {props.text}
-    </li>
+    <>
+      <button onClick={() => props.onActiveChange(props.id)}>
+        toggle active
+      </button>
+      <li className={getClasses()} onClick={handleClick}>
+        <a href={props.link}>{props.text}</a>
+      </li>
+    </>
   );
 };
 
