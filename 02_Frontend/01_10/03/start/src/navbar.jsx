@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavLink from "./navLink";
+import NavElems from "./navElems";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -29,13 +29,13 @@ const Navbar = () => {
   };
 
   const handleItemClick = (id) => {
-    const newMenuItems = menuItems.map((item) => {
-      if (item.id === id) {
-        return { ...item, active: !item.active };
-      }
-      return item;
-    });
-    setMenuItems(newMenuItems);
+    setMenuItems(
+      menuItems.map((el) => ({
+        ...el,
+        // Аналог выражения el.id === id ? true : false
+        active: el.id === id,
+      }))
+    );
   };
 
   return (
@@ -46,12 +46,9 @@ const Navbar = () => {
       {open && (
         <ul className="list-group">
           {menuItems.map((item) => (
-            <NavLink
+            <NavElems
               key={item.id}
-              id={item.id}
-              text={item.text}
-              active={item.active}
-              link={item.link}
+              {...item}
               onActiveChange={handleItemClick}
             />
           ))}

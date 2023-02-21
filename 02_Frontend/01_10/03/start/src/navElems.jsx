@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const NavLink = (props) => {
+const NavElems = (props) => {
   const [active, setActive] = useState(props.active);
 
   const handleClick = () => {
@@ -14,9 +14,6 @@ const NavLink = (props) => {
 
   return (
     <>
-      <button onClick={() => props.onActiveChange(props.id)}>
-        toggle active
-      </button>
       <li className={getClasses()} onClick={handleClick}>
         <a href={props.link}>{props.text}</a>
       </li>
@@ -24,4 +21,4 @@ const NavLink = (props) => {
   );
 };
 
-export default NavLink;
+export default NavElems;
