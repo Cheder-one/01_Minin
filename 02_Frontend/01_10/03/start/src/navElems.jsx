@@ -1,23 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 
 const NavElems = (props) => {
-  const [active, setActive] = useState(props.active);
-
   const handleClick = () => {
-    setActive((prevState) => !prevState);
+    props.onActiveChange(props.id);
   };
 
   const getClasses = () => {
-    let classes = "list-group-item ";
-    return (classes += active ? "active" : "");
+    let classes = "nav-link ";
+    return (classes += props.active ? "active" : "");
   };
 
   return (
-    <>
-      <li className={getClasses()} onClick={handleClick}>
-        <a href={props.link}>{props.text}</a>
-      </li>
-    </>
+    <li className="nav-item" onClick={handleClick}>
+      <a href={props.link} className={getClasses()}>
+        {props.text}
+      </a>
+    </li>
   );
 };
 

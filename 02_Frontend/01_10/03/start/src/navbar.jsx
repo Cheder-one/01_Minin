@@ -30,10 +30,9 @@ const Navbar = () => {
 
   const handleItemClick = (id) => {
     setMenuItems(
-      menuItems.map((el) => ({
-        ...el,
-        // Аналог выражения el.id === id ? true : false
-        active: el.id === id,
+      menuItems.map((item) => ({
+        ...item,
+        active: item.id === id,
       }))
     );
   };
@@ -44,7 +43,7 @@ const Navbar = () => {
         Меню
       </button>
       {open && (
-        <ul className="list-group">
+        <ul className="nav nav-pills flex-column mb-auto">
           {menuItems.map((item) => (
             <NavElems
               key={item.id}
