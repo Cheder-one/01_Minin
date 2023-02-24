@@ -1,14 +1,10 @@
 import React from "react";
 
-const Counter = ({ value, onIncrement, onDecrement, name, id, onDelete }) => {
-  const formatCount = () => {
-    return value === 0 ? "empty" : value;
-  };
+const Counter = ({ value, onCounterChange, name, id, onDelete }) => {
+  const formatCount = () => (value === 0 ? "empty" : value);
 
   const getBadgeClasses = () => {
-    let classes = "badge m-2 ";
-    classes += value === 0 ? "bg-warning" : "bg-primary";
-    return classes;
+    return `badge m-2 ${value === 0 ? "bg-warning" : "bg-primary"}`;
   };
 
   const counterText = formatCount();
@@ -20,11 +16,14 @@ const Counter = ({ value, onIncrement, onDecrement, name, id, onDelete }) => {
       <span className={badgeClass}>{counterText}</span>
       <button
         className="btn btn-primary btn-sm m-2"
-        onClick={onIncrement(value)}
+        onClick={() => onCounterChange(id, 1)}
       >
         +
       </button>
-      <button className="btn btn-primary btn-sm m-2" onClick={onDecrement}>
+      <button
+        className="btn btn-primary btn-sm m-2"
+        onClick={() => onCounterChange(id, -1)}
+      >
         -
       </button>
       <button

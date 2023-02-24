@@ -11,12 +11,14 @@ const CountersList = () => {
   ];
   const [counters, setCounters] = useState(initialState);
 
-  const handleIncrement = (value) => {
-    // setCounters((prevState) => prevState.value + 1);
-    console.log(value);
-  };
-  const handleDecrement = () => {
-    // setCounters((prevState) => prevState.value - 1);
+  const handleCounterChange = (id, delta) => {
+    setCounters((prevState) =>
+      prevState.map((el) =>
+        el.id === id
+          ? { ...el, value: Math.max(0, el.value + delta) }
+          : { ...el }
+      )
+    );
   };
 
   const handleDelete = (id) => {
@@ -33,8 +35,7 @@ const CountersList = () => {
           key={el.id}
           onDelete={handleDelete}
           {...el}
-          onIncrement={handleIncrement}
-          onDecrement={handleDecrement}
+          onCounterChange={handleCounterChange}
         />
       ))}
       <button className="btn btn-primary btn-sm m-2" onClick={handleReset}>
