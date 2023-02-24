@@ -1,18 +1,16 @@
 import React from "react";
 
-const Breadcrumbs = (props) => {
-  const isMainPage = props.page.id === "main";
+const Breadcrumbs = ({ page, onGoMain }) => {
+  const isMainPage = page.id === "main";
   const mainPageClass = "breadcrumb-item" + (isMainPage ? " active" : "");
 
   return (
     <nav>
       <ol className="breadcrumb">
-        <li className={mainPageClass} onClick={props.onGoMain}>
+        <li className={mainPageClass} onClick={onGoMain}>
           Главная
         </li>
-        {!isMainPage && (
-          <li className="breadcrumb-item active">{props.page.text}</li>
-        )}
+        {!isMainPage && <li className="breadcrumb-item active">{page.text}</li>}
       </ol>
     </nav>
   );
