@@ -158,6 +158,21 @@ Math.max([x[, y[, …]]])- Возвращает наибольшее число 
 ---------
     Math.max(0, initialState[0].value - 1);
     // вернет либо 0, либо значение initialState[0].value - 1, если оно больше нуля.
+---------
+// Функция счетчика с +/- в одном 
+---------
+    onClick={() => onCounterChange(id, 1)}
+    onClick={() => onCounterChange(id, -1)}
+
+    const handleCounterChange = (id, delta) => {
+        setCounters((prevState) =>
+            prevState.map((el) =>
+                el.id === id
+                ? { ...el, value: Math.max(0, el.value + delta) }
+                : { ...el }
+            )
+        );
+    };
 ---------------------------------------------------------
 //// Циклы
 ---------------------------------------------------------
