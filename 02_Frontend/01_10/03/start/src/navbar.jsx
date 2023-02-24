@@ -1,16 +1,12 @@
 import React from "react";
 import NavElems from "./navElems";
 
-const Navbar = (props) => {
+const Navbar = ({ onItemClick, menuItems }) => {
   return (
     <div>
       <ul className="nav nav-pills flex-column mb-auto">
-        {props.menuItems.map((item) => (
-          <NavElems
-            key={item.id}
-            {...item}
-            onActiveChange={props.onItemClick}
-          />
+        {menuItems.map((item) => (
+          <NavElems key={item.id} {...item} onActiveChange={onItemClick} />
         ))}
       </ul>
     </div>
