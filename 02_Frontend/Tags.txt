@@ -6524,8 +6524,8 @@ localStorage не уходит на сервер, в отличие от cookie
     Error: sh: 1: react-scripts: not found
 Fix: 
     $ npm install react-scripts
+    $ npm i --package-lock-only
     $ npm audit fix --force
-
 -------------------
 /// Bootstrap - библиотека, которая с помощью названия классов позволяет добавлять стили к нашим компонентам 
 
