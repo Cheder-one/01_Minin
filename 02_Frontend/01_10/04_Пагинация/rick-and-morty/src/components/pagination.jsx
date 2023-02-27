@@ -1,6 +1,9 @@
 import React from "react";
+import _ from "lodash";
 
-const Pagination = () => {
+const Pagination = (props) => {
+  const { itemsCount, pageSize, onPageChange } = props;
+
   return (
     <nav>
       <ul className="pagination">
