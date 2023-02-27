@@ -1,7 +1,7 @@
 import React from "react";
 
 const Episode = (props) => {
-  const { name, airDate, episode } = props;
+  const { name, episode, airDate } = props;
   return (
     <div className="col-4 mb-2">
       <div className="card" style={{ height: "100%" }}>
