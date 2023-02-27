@@ -1,3 +1,4 @@
+import React from "react";
 import EpisodesList from "./components/episodesList";
 
 function App() {
@@ -8,4 +9,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
