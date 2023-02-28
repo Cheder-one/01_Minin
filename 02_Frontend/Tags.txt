@@ -6526,6 +6526,10 @@ Fix:
     $ npm install react-scripts
     $ npm i --package-lock-only
     $ npm audit fix --force
+// Or
+    delete node_modules 
+    &&
+    $ npm audit fix --force
 -------------------
 /// Bootstrap - библиотека, которая с помощью названия классов позволяет добавлять стили к нашим компонентам 
 
