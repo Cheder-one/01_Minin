@@ -6759,7 +6759,11 @@ Babel не поймет тк JSX выражение это React.createElement('
 className используется для добавления класса в HTML с помощью JSX (используется вместо обычного class, тк оно уже зарезервировано)
 
     <span className="badge bg-primary">{formatCount()}</span>
+---------
+// Добавить тернарное ветвление в класс:
 
+    className={"page-item " + (page === currentPage ? "active" : "")}
+    
 -------------------
 /// Обработка событий в React
 -------------------
