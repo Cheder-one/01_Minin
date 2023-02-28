@@ -6759,13 +6759,27 @@ Babel не поймет тк JSX выражение это React.createElement('
 className используется для добавления класса в HTML с помощью JSX (используется вместо обычного class, тк оно уже зарезервировано)
 
     <span className="badge bg-primary">{formatCount()}</span>
+
 ---------
 // Добавить тернарное ветвление в класс:
-
+---------
     className={
         "page-item " + (page === currentPage ? "active" : "")
     }
     !!! ОБЯЗАТЕЛЬНО помести в скобки (тернарный выбор класса)
+
+---------
+// key={id} 
+---------
+- Key={id} нужен при работе с Массивами и отображении их el. 
+  Ключи сообщают React, какому элементу массива соответствует каждый компонент. 
+  Поэтому элементам внутри map() всегда нужны ключи!
+
+Добавляем `key` только если нода Родительская
+    <ParentTag key={id}>
+        <childTag>text<childTag/>
+    <ParentTag/> 
+
 -------------------
 /// Обработка событий в React
 -------------------
@@ -7408,7 +7422,7 @@ Props мы не можем изменить внутри компонента т
                 </span>
                 ))}
             </td>
-            <td key={profession._id}>{profession.name}</td>
+            <td}>{profession.name}</td>
             <td>{completedMeetings}</td>
             <td>{rate}/5</td>
             </>
