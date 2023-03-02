@@ -7453,7 +7453,7 @@ Props мы не можем изменить внутри компонента т
     };
 
 ---------------------------------------------------------
-//// Пагинация - постраничная навигация
+/// Пагинация - постраничная навигация
 ---------------------------------------------------------
 Для того чтобы отображать только часть записей, нам нужно при переключении между страницами получать новый массив из массива эпизодов. 
 ---------
@@ -7472,13 +7472,51 @@ Props мы не можем изменить внутри компонента т
     // Высчитываем startIndex 
     // Передаем в splice() index элемента с которого начинаем 
     // Передаем в splice() кол-во элементов для вырезки
+---------------------------------------------------------
+//// PropTypes 
+---------------------------------------------------------
+
+    $ npm i prop-types
+
+PropTypes позволяет определить ожидаемые типы данных для свойств (props) компонентов и предупреждать об ошибке, если они не соответствуют ожидаемому типу данных.
+
+    MyComponent.propTypes = {
+        optionalArray: PropTypes.array,
+        optionalBigInt: PropTypes.bigint,
+        optionalBool: PropTypes.bool,
+        optionalFunc: PropTypes.func,
+        optionalNumber: PropTypes.number,
+        optionalObject: PropTypes.object,
+        optionalString: PropTypes.string,
+        optionalSymbol: PropTypes.symbol,
+
+        requiredFunc: PropTypes.func.isRequired,
+    }
 ---------
+Здесь мы обозначаем какие типы данных должны передаваться в качестве свойств:
+---------
+   // usersList.jsx
+    <Pagination
+        itemsCount={count} 
+          // Должно быть числом. Должно обязательно передаваться.
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+        currentPage={currentPage}
+    />
+    
+   // pagination.js
+     ...
+    Pagination.propTypes = {
+        itemsCount: PropTypes.number.isRequired,
+        pageSize: PropTypes.number.isRequired,
+        onPageChange: PropTypes.func.isRequired,
+        currentPage: PropTypes.number.isRequired,
+    };
+    isRequired - свойство является обязательным для передачи компоненту
 
-
----------------------------------------------------------
-
----------------------------------------------------------
-
+---------
+// <Pagination Ctr+Space/> - отображение доступных свойств и методов этого компонента
+---------
 ---------------------------------------------------------
 
 ---------------------------------------------------------
