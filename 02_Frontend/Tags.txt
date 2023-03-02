@@ -7512,8 +7512,8 @@ PropTypes позволяет определить ожидаемые типы д
         onPageChange: PropTypes.func.isRequired,
         currentPage: PropTypes.number.isRequired,
     };
-    isRequired - свойство является обязательным для передачи компоненту
-
+---------
+// isRequired - свойство является обязательным для передачи компоненту
 ---------
 // <Pagination Ctr+Space/> - отображение доступных свойств и методов этого компонента
 ---------
