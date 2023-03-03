@@ -7492,10 +7492,10 @@ PropTypes позволяет определить ожидаемые типы д
 
         requiredFunc: PropTypes.func.isRequired,
     }
+
 ---------
-Здесь мы обозначаем какие типы данных должны передаваться в качестве свойств:
----------
-   // usersList.jsx
+Обозначаем какие типы данных должны передаваться в качестве свойств:
+
     <Pagination
         itemsCount={count} 
           // Должно быть числом. Должно обязательно передаваться.
@@ -7504,18 +7504,46 @@ PropTypes позволяет определить ожидаемые типы д
         currentPage={currentPage}
     />
     
-   // pagination.js
-     ...
     Pagination.propTypes = {
         itemsCount: PropTypes.number.isRequired,
         pageSize: PropTypes.number.isRequired,
         onPageChange: PropTypes.func.isRequired,
         currentPage: PropTypes.number.isRequired,
     };
+    // isRequired - свойство является обязательным для передачи компоненту
+
 ---------
-// isRequired - свойство является обязательным для передачи компоненту
+// .shape({ }) - Обозначение проверки вложенных объектов.
+---------
+// .arrayOf( ) - Массив определенного типа 
+
+    qualities: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired
+        })
+    )
+
+---------
+    const Qualities = ({ user: { name, qualities } }) => {
+        ...
+    }
+
+    Qualities.propTypes = {
+        user: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            qualities: PropTypes.arrayOf(
+                PropTypes.shape({
+                    _id: PropTypes.string.isRequired,
+                    name: PropTypes.string.isRequired,
+                    color: PropTypes.string.isRequired
+                })
+            ).isRequired
+        }).isRequired
+    };
+
 ---------
 // <Pagination Ctr+Space/> - отображение доступных свойств и методов этого компонента
+
 ---------------------------------------------------------
 /// ESLint
 ---------------------------------------------------------
