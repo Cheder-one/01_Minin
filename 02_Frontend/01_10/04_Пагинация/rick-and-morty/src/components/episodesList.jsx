@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { episodes } from "../fakeStorage/episodes";
+import { episodes } from "../fakeApi/episodesApi";
 import { paginate } from "../utils/paginate";
 import Episode from "./episode";
 import GroupList from "./groupList";
@@ -9,6 +9,7 @@ const EpisodesList = () => {
   const count = episodes.length;
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
+  // const [episodes] = useState([]);
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);

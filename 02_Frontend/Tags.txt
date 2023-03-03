@@ -6307,7 +6307,6 @@ package.json --> scripts
 -------------------
 /// export default - может быть только один в файле
 -------------------
-export default - может быть только один в файле
 
     export default function sum(a, b) {
         return a + b;
