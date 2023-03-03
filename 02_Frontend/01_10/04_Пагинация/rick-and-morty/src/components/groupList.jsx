@@ -8,16 +8,10 @@ const GroupList = () => {
         className="list-group-item list-group-item-action active"
         aria-current="true"
       >
-        The current link item
+        Sort by: Date
       </button>
       <button href="#" className="list-group-item list-group-item-action">
-        A second link item
-      </button>
-      <button href="#" className="list-group-item list-group-item-action">
-        A third link item
-      </button>
-      <button href="#" className="list-group-item list-group-item-action">
-        A fourth link item
+        Sort by: Name
       </button>
       <button
         href="#"
@@ -25,7 +19,13 @@ const GroupList = () => {
         tabIndex="-1"
         aria-disabled="true"
       >
-        A disabled link item
+        Sort by: Season
+      </button>
+      <button href="#" className="list-group-item list-group-item-action">
+        Sort by: Popularity
+      </button>
+      <button href="#" className="list-group-item list-group-item-action">
+        Sort by: From The End
       </button>
     </div>
   );
