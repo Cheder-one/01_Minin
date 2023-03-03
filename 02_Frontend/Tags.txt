@@ -7522,7 +7522,10 @@ PropTypes позволяет определить ожидаемые типы д
             name: PropTypes.string.isRequired
         })
     )
+---------
+Проверка на массив, где каждый элемент является числом:
 
+    PropTypes.arrayOf(PropTypes.number)
 ---------
     const Qualities = ({ user: { name, qualities } }) => {
         ...
