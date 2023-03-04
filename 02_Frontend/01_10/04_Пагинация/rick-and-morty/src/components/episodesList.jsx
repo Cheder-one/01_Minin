@@ -1,24 +1,17 @@
 import React, { useState } from "react";
-import { fetchAll } from "../fakeApi/episodesApi";
+import { episodes } from "../fakeApi/episodeApi";
 import { paginate } from "../utils/paginate";
 import Episode from "./episode";
 import GroupList from "./groupList";
 import Pagination from "./pagination";
 
 const EpisodesList = () => {
-  const [episodes, setEpisodes] = useState(fetchAll);
-  const [years, setYears] = useState([]);
-  const [filter, setFilter] = useState();
+  // const [episodes] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
+
   const count = episodes.length;
   const pageSize = 8;
-
-  // Функция для получения эпизодов
-  const getEpisodes = (years) => {
-    fetchAll(years).then((response) => setEpisodes(response));
-  };
-
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
