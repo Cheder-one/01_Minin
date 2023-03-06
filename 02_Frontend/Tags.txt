@@ -437,6 +437,17 @@ console.log('replaceAll', programmingLanguage2.replaceAll('a', 'A'));
 
 Для замены несколько раз:
 console.log(myInfoText.replaceAll('JavaScript', 'javascript').replaceAll('JS', 'js'));
+
+---------
+// .replace() with regular expression
+---------
+Filter out non-letter characters from a string:
+
+    let str = "Hello, world!";
+    let lettersOnly = str.replace(/[^a-zA-Z]/g, "");
+    console.log(lettersOnly); // Output: "Helloworld"
+
+// The regular expression /[^a-zA-Z]/g matches all characters that are not in the range of uppercase or lowercase letters from A to Z. The ^ character inside the square brackets means "not", so [^a-zA-Z] means "match any character that is not an uppercase or lowercase letter from A to Z".
 ---------------------------------------------------------
 // trim() - удаление лишних пробелов
 const nameOfUser = prompt('Ты кто?')
@@ -501,6 +512,33 @@ console.log("true == 1", true == 1);
 // === сравнивает типы (рекомендовано)
 console.log("1 === 1", 1 === 1)
 console.log("true === 1", true === 1)
+
+---------
+/// ASCII code - method to find out the index of a letter in the alphabet
+---------
+//charCodeAt()
+//fromCharCode()
+
+    let letter = 'A';
+    let ascii = letter.charCodeAt(0);
+    console.log(ascii); // Output: 65
+
+    let ascii = 65;
+    let letter = String.fromCharCode(ascii);
+    console.log(letter); // Output: "A"
+---------
+    let letter = 'B';
+    let ascii = letter.charCodeAt(0);
+    let index = ascii - 65 + 1;
+    console.log(index); // Output: 2
+
+    ASCII value of 'B' = 66
+    ASCII value of 'A' = 65
+    66 - 65 + 1 = 2 // index "B" in the alphabet
+// Or 
+    66 - 64 = 2 // index "B" in the alphabet
+
+
 ---------------------------------------------------------
 //// Math() 
 console.log('Math объекты');
