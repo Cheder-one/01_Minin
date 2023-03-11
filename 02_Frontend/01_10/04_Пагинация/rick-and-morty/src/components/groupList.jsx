@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const GroupList = () => {
+const GroupList = ({ items, filter, onChangeFilter }) => {
   return (
     <div className="list-group">
       <button
@@ -32,3 +33,9 @@ const GroupList = () => {
 };
 
 export default GroupList;
+
+GroupList.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filter: PropTypes.string,
+  onChangeFilter: PropTypes.func.isRequired,
+};
