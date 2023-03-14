@@ -2052,7 +2052,7 @@ console.log('Patients in order:', queueResult);
 // Следовательно в такой последовательности и необходимо вызывать массив пациентов, для соблюдения правильной очереди 
 
 ---------
-// Object.keys(items).map(item) Метод для Объектов
+// Object.keys(items).map(item) - map() метод для Объектов
 
 const GroupList = ({ profs }) => {
   return (
