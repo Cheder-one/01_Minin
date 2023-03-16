@@ -1353,7 +1353,8 @@ document.querySelectorAll(".task-item").forEach((taskItem) => {
 Например, здесь мы преобразуем каждый элемент в его длину:
 
 	let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
-	alert(lengths); // 5,7,6
+    
+    console.log(lengths); // 5,7,6
 
 -------
    const  salariesOfDevelopers = [ 400, 500, 600, 2000, 350];
