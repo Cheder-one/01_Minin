@@ -7780,6 +7780,11 @@ set, get, has, delete и clear.
     console.assert(climbStairs(5) === 8);
     console.assert(climbStairs(6) === 13);
 ---------------------------------------------------------
+/// Создать Массив и заполнить его 
+-------------------
+                         length   value
+    const table = new Array(5).fill(0);
+    console.log(table) [ 0, 0, 0, 0, 0 ]
 
 ---------------------------------------------------------
 
