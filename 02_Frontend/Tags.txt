@@ -4902,7 +4902,7 @@ for (const el of arr) {
     <div id="elem">Мигающий элемент</div>
 
     <script>
-    setInterval(() => {elem.hidden = !elem.hidden}, 1000);
+        setInterval(() => {elem.hidden = !elem.hidden}, 1000);
     </script> // Появляется на 1 сек и пропадает на 1 сек
 -------
     document.getElementById("okButton")
