@@ -631,6 +631,7 @@ if (developerJobType === 'Front-End') {
    console.log('3500$');
 } else {
    console.log('Зарплата не определена');
+}
 ---------------------------------------------------------
 //// switch case / break / default 
 
@@ -1421,7 +1422,7 @@ document.querySelectorAll(".task-item").forEach((taskItem) => {
 	alert(user.name); // Вася
 
 -------------------
-/// findIndex - Найти нужный элемент объекта в массиве.
+/// findIndex - Выводит Индекс нужного элемента в массиве.
 Возвращает первый найденный индекс элемента, выводит в новый массив
 
    const searchedIndex = salariesOfDevelopers.findIndex(salary => {
@@ -1716,6 +1717,22 @@ console.log('agesOfDevelopers', agesOfDevelopers);
    console.log('indexOf', myText.indexOf('мыш кыш')); // -1
 
    console.log('includes', myText.includes('не придумал')); // true
+
+-------------------
+/// .matchAll() - поиска всех совпадений в строке
+
+    const str = [false, 1, 0, 1, 2, 0, 1, 3, "a"].toString();
+    const regex = /0/g;
+
+    const matches = [...str.matchAll(regex)];
+    
+    console.log(matches); // [
+        [ '0', index: 8, input: 'false,1,0,1,2,0,1,3,a', groups: undefined ],
+        [ '0', index: 14, input: 'false,1,0,1,2,0,1,3,a', groups: undefined ]
+    ]
+
+    console.log(matches[0].index); // 8
+    console.log(matches[1].index); // 14
 
 -------------------
 /// .match() - используется для поиска в строке совпадения с предоставленным выражением и возвращает совпадения в виде массива. Или возвращает null, если совпадений не найдено.
@@ -3228,6 +3245,8 @@ checkPermission(..) // проверяет доступ, возвращает л�
 console.log('year', newDate.getFullYear());
 console.log('month', newDate.getMonth());
 console.log('date', newDate.getDate());
+const hours = (newDate.getHours())
+const minutes = (newDate.getMinutes())
 console.log('seconds', newDate.getSeconds());
 
 -------------------
