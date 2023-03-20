@@ -1210,7 +1210,14 @@ I. Добавление: С мутацией
 -------------------
 Мутирующими методами для добавления элементов в массив:
   * array.push()
-  * array.ushift()
+  * array.unshift()
+
+    const array1 = [1, 2, 3];
+
+    console.log(array1.unshift(4, 5)); 
+     // Expected output: 5
+    console.log(array1); 
+     // Expected output: Array [4, 5, 1, 2, 3]
 
 -------------------
 III. Удаление: С мутацией
@@ -1226,13 +1233,16 @@ II. Добавление: Без мутации
   * array.concat().
   * (...)
 -------------------
-   1) array.concat().
-const arr1 = ['a', 'b', 'c', 'd', 'e'];
+1) array.concat().
+    const arr1 = ['a', 'b', 'c', 'd', 'e'];
 
-const arr2 = arr1.concat('f'); // ['a', 'b', 'c', 'd', 'e', 'f']
-console.log(arr1); // ['a', 'b', 'c', 'd', 'e']
+    const arr2 = arr1.concat('f'); // ['a', 'b', 'c', 'd', 'e', 'f']
+    console.log(arr1); // ['a', 'b', 'c', 'd', 'e']
+
+    const arr2 = ['f'].concat(arr1); // ['f', 'a', 'b', 'c', 'd', 'e']
+    console.log(arr2);
 -------------------
-   2) (...)
+2) (...)
    Второй способ для добавления элементов без мутации — это использование оператора расширения. Оператор расширения записывается в виде трех точек (...) предшествующих массиву.
 
 const arr2 = [...arr1, 'f']; // ['a', 'b', 'c', 'd', 'e', 'f']
@@ -3280,7 +3290,7 @@ console.log('seconds', newDate.getSeconds());
    console.log('difference', difference / 1000 / 60 / 60 / 24); 
    / разница в днях (1000 * 3600 * 24)
 -------------------
-// Высчитывание скорости выполнения кода
+// Высчитывание скорости выполнения кода (Таймстамп)
 -------------------
    const startTime = Date.now()
    for (let i = 0; i < 1000000; i++) {
@@ -4874,9 +4884,9 @@ for (const el of arr) {
     let arr = [1, 2, 3, 4, 5]
 
     arr.forEach((el, i) => {
-    setTimeout(() => {
-        console.log(el)
-    }, i * 1000)
+        setTimeout(() => {
+            console.log(el)
+        }, i * 1000)
     })
 ---------
 С аргументами:
@@ -4894,6 +4904,51 @@ for (const el of arr) {
 
     // остановить вывод через 5 секунд
     setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
+
+---------
+// Каждую секунду выводить сообщение
+
+    const words = [
+    "JS",
+    "borderlands",
+    "message",
+    "keyboard",
+    "bob",
+    "coding",
+    "computer",
+    "programming",
+    "developer",
+    "javascript",
+    ];
+
+    let i = 0;
+    const intervalId = setInterval(() => {
+        console.log(words[i]);
+
+        i++;
+        if (i === 3) clearInterval(intervalId);
+    }, 1000);
+---------
+// Самодельный таймер
+
+    function setTimer(t, callback) {
+        const startTime = Date.now();
+        while ("go!") {
+            const endTime = Date.now();
+            if (endTime - startTime === t) {
+            callback();
+            break;
+            }
+        }
+    }
+
+    function myFunction() {
+        console.log("Время таймера истекло!");
+    }
+
+    for (let i = 0; i < 3; i++) {
+        setTimer(1000, myFunction);
+    }
 
 -------------------
 //// .hidden = true/false
@@ -6699,6 +6754,8 @@ JSX выражение в JS файле: <h1>Hello</h1> //(JSX)
 
 Все React-компоненты начинаются с заглавной буквы.
 (если компонент называется с маленькой буквы, то React принимает его за DOM-тег)
+
+React компоненты являются основными строительными блоками при разработке приложений на React. Компоненты представляют собой небольшие, независимые части пользовательского интерфейса, которые могут быть повторно использованы в различных местах приложения.
 ---------
 Эти React-элементы можно также записывать и в обычную переменную:
     const title = 'Junior Frontend Developer';
