@@ -6612,6 +6612,8 @@ localStorage не уходит на сервер, в отличие от cookie
 //// React
 ---------------------------------------------------------
 // React
+    $ npm install
+// Or
     $ npx create-react-app my-app - Собрать React
     $ npm start - Запустить проект
 ---------
