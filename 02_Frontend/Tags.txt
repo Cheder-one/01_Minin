@@ -6564,6 +6564,12 @@ localStorage не уходит на сервер, в отличие от cookie
     $ git clone https://github.com/... - скачать репозиторий (находясь в папке)
     $ ls -a - выводит список файлов в папке + скрытые
     $ git config user.name 'your name'
+-------------------
+// Git fix
+
+    git config pull.rebase false  # merge
+    git config pull.rebase true   # rebase
+    git config pull.ff only       # fast-forward only
 ------------------- 
 !/// Отправка изменений
     $ git status - отображение статуса изменения файлов
