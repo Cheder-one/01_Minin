@@ -1708,10 +1708,20 @@ const agesOfDevelopers = [25, 18, 45, 30];
 const slicedAgesOfDevelopers = agesOfDevelopers.slice(0, 2);
 console.log('slicedAgesOfDevelopers', slicedAgesOfDevelopers);
 console.log('agesOfDevelopers', agesOfDevelopers);
+
 -------------------
+/// indexOf lastIndexOf - Для Строк и Массивов
+---------
 // indexOf - возвращает индекс искомого элемента в переменную
-(или используй для объектов "findIndex")
- 
+// lastIndexOf - возвращает индекс элемента с конца
+   (или используй для объектов "findIndex")
+   
+---------
+// Проверка на вхождение
+---------
+    'Синий кит'.indexOf('Синий') !== -1; // true
+    'Синий кит'.indexOf('Голубой') !== -1; // false
+---------
 Синтаксис:
 	arr.indexOf(searchElement, fromIndex = 0)
 
