@@ -479,6 +479,14 @@ Filter out non-letter characters from a string:
     console.log(lettersOnly); // Output: "Helloworld"
 
 // The regular expression /[^a-zA-Z]/g matches all characters that are not in the range of uppercase or lowercase letters from A to Z. The ^ character inside the square brackets means "not", so [^a-zA-Z] means "match any character that is not an uppercase or lowercase letter from A to Z".
+---------
+// Заменить все кроме цифр 
+
+    let words = [ 'is2', 'Thi1s', 'T4est', '3a' ]
+    
+    const numbsOnly = words.map(el => el.replace(/[^\d+]/g, "")) 
+      // [ '2', '1', '4', '3' ]
+
 ---------------------------------------------------------
 // trim() - удаление лишних пробелов
 const nameOfUser = prompt('Ты кто?')
