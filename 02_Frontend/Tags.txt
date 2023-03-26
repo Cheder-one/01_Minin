@@ -7759,21 +7759,68 @@ Props мы не можем изменить внутри компонента т
 
         return (
             <>
-            <td>{name}</td>
-            <td>
-                {qualities.map((el) => (
-                <span className={`badge bg-${el.color}`} key={el._id}>
-                    {el.name}
-                </span>
-                ))}
-            </td>
-            <td}>{profession.name}</td>
-            <td>{completedMeetings}</td>
-            <td>{rate}/5</td>
+                <td>{name}</td>
+                <td>
+                    {qualities.map((el) => (
+                    <span className={`badge bg-${el.color}`} key={el._id}>
+                        {el.name}
+                    </span>
+                    ))}
+                </td>
+                <td}>{profession.name}</td>
+                <td>{completedMeetings}</td>
+                <td>{rate}/5</td>
             </>
         );
     };
 
+-------------------
+/// Деструктуризация Пропсов c помощью (...) Rest
+-------------------
+// episodes.js
+    export const episodes = [
+        {
+            id: 1,
+            name: "Pilot",
+            airDate: "December 2, 2013",
+            episode: "S01E01",
+            created: "2017-11-10T12:56:33.798Z",
+        },
+        ...
+    ]
+
+Передаем при мапировании лишь {...episode}! 
+Тем самым предоставляя доступ пропсам ко всем значениям массива episodes.
+// EpisodesList.jsx
+    const EpisodesList = () => {
+        return (
+            <>
+            <div className="container">
+                <div className="row">
+                {episodes.map((episode) => (
+                    <Episode key={episode.id} {...episode} />
+                ))}
+                </div>
+            </div>
+            </>
+        );
+    };
+
+// Episode.jsx
+    const Episode = ({ name, episode, airDate }) => {
+        return (
+            <div className="col-4 mb-2">
+            <div className="card" style={{ height: "100%" }}>
+                <div className="card-body">
+                <h5 className="card-title">
+                    {name} {episode}
+                </h5>
+                <h6 className="card-subtitle mb-2 text-muted">{airDate}</h6>
+                </div>
+            </div>
+            </div>
+        );
+    };
 ---------------------------------------------------------
 /// Пагинация - постраничная навигация
 ---------------------------------------------------------
