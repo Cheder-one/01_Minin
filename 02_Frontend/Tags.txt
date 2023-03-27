@@ -6882,10 +6882,16 @@ Fix:
 ---------
 Для подключения 'Bootstrap Icons' необходимо в файле index.html добавить в секцию <head> следующее: 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
----------
-'btn-sm' - сделать меньше кнопку
-'align-items-center' || 'd-flex' - что-то из этого сделает по центру 
 
+---------
+    'btn-sm' - сделать меньше кнопку
+    'align-items-center' || 'd-flex' - что-то из этого сделает по центру 
+
+---------
+// Добавить ветвление класса:
+---------
+    className={"page-item " + (pageNum === currentPage ? "active" : "")}
+    
 -------------------
 /// Lodash
 ---------
