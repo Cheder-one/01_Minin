@@ -462,12 +462,29 @@ console.log('slice', programmingLanguage1.slice(1, 5)); // avaS
 console.log('slice', programmingLanguage1.substring(1, 5)); // avaS
 ---------------------------------------------------------
 // replace, replaceAll - Замена (одного и всех)символов символов в строке.
-const programmingLanguage2 = 'JavaScript';
-console.log('replace', programmingLanguage2.replace('a', 'A')); 
-console.log('replaceAll', programmingLanguage2.replaceAll('a', 'A')); 
 
-Для замены несколько раз:
-console.log(myInfoText.replaceAll('JavaScript', 'javascript').replaceAll('JS', 'js'));
+    const programmingLanguage2 = 'JavaScript';
+    console.log('replace', programmingLanguage2.replace('a', 'A')); 
+    console.log('replaceAll', programmingLanguage2.replaceAll('a', 'A')); 
+
+---------
+// Задача на шифр Цезаря через 
+---------   
+    function rot13(text) {
+        return text.replace(/[a-zA-Z]/g, (char) => {
+            const offset = char.charCodeAt() >= 97 ? 97 : 65;
+            return String.fromCharCode(((char.charCodeAt() - offset + 13) % 26) + offset);
+        });
+    }
+---------
+Syntax:
+    
+    .replace(элемент_для_замены, на_что_заменяем)
+
+    "Ruby is cool!".replace(/[a-zA-Z]/g, (char) => {
+        const offset = char.charCodeAt() >= 97 ? 97 : 65;
+        return String.fromCharCode(((char.charCodeAt() - offset + 13) % 26) + offset);
+    });
 
 ---------
 // .replace() with regular expression
@@ -622,47 +639,46 @@ let result = Number((amount / rate).toFixed(2)); // .toFixed(2) - обрезае
 ---------------------------------------------------------
 //// Условное ветвление
 
-if (если да, то)
-else (что-то другое)
-if else (если другое "да", то)
-switch case (случай) - замена else & if
-? : - замена else if
+!!!   const offset = 's'.charCodeAt() >= 97 ? 97 : 65;
 
-//// {if} {else}
+Если ASCII код 's' == (115) > 97, то offset = 97, если нет, то offset = 65
+    
+---------
+/// {if} {else}
+---------
+    if (условие) {
+      // Выполнится, если условие будет истинным
+    } else {
+      // Выполнится, если условие будет ложным
+    }
 
-if (условие) {
-  // Выполнится, если условие будет истинным
-} else {
-  // Выполнится, если условие будет ложным
-}
+    let isFrontendDeveloper = true;
 
-let isFrontendDeveloper = true;
+    if (isFrontendDeveloper) {
+       console.log('isFrontendDeveloper = true','You are a Front-End developer. Welcome to the team!');
+    } else {
+       console.log('isFrontendDeveloper = false', 'You are not a Front-End developer');
+    }
 
-if (isFrontendDeveloper) {
-   console.log('isFrontendDeveloper = true','You are a Front-End developer. Welcome to the team!');
-} else {
-   console.log('isFrontendDeveloper = false', 'You are not a Front-End developer');
-}
+    const condition = 5 > 10; // вернет false
+    if (condition) {
+      console.log('Выражение истинно!');
+    } else {
+      console.log('Выражение ложно!');
+    }
+    Вывод: Выражение ложно!
 
-const condition = 5 > 10; // вернет false
-if (condition) {
-  console.log('Выражение истинно!');
-} else {
-  console.log('Выражение ложно!');
-}
-Вывод: Выражение ложно!
+    let developerJobType = 'Front-End';
 
-let developerJobType = 'Front-End';
-
-if (developerJobType === 'Front-End') {
-   console.log('2000$');
-} else if (developerJobType === 'Back-End') {
-   console.log('1500$');
-} else if (developerJobType === 'Full-Stack') {
-   console.log('3500$');
-} else {
-   console.log('Зарплата не определена');
-}
+    if (developerJobType === 'Front-End') {
+       console.log('2000$');
+    } else if (developerJobType === 'Back-End') {
+       console.log('1500$');
+    } else if (developerJobType === 'Full-Stack') {
+       console.log('3500$');
+    } else {
+       console.log('Зарплата не определена');
+    }
 ---------------------------------------------------------
 //// switch case / break / default 
 
