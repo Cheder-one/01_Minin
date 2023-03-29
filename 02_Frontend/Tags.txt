@@ -242,7 +242,7 @@ document.querySelector('.page').classList.remove('light-theme');
 
 Сначала ищем селектор, во втором моменте "." не ставится, тк js знает что это класс
 
-// Or
+// OR
 
 найденный_класс.remove();
 
@@ -575,7 +575,7 @@ console.log("true === 1", true === 1)
     ASCII value of 'B' = 66
     ASCII value of 'A' = 65
     66 - 65 + 1 = 2 // index "B" in the alphabet
-// Or 
+// OR 
     66 - 64 = 2 // index "B" in the alphabet
 
 
@@ -986,18 +986,18 @@ function getDivisors (number) {
       x += (i); 
       array.push(x);
    }
-// Or
+// OR
    var array = [];
    for (i = 1; i <= 3; i++) {
       array.push(i);
    }
-// Or
+// OR
    var x = 0;
    for (i = 1; i <= 3; i++) {
       x += i;
    }
    var array = [],
-// Or
+// OR
    x = 0;
    for (i=0; i<=3; i++){
    x += (i); 
@@ -1287,7 +1287,7 @@ IV. Удаление: Без мутации
 
    const arr1 = ['a', 'b', 'c', 'd', 'e'];
    const arr2 = arr1.filter(a => a !== 'e'); // ['a', 'b', 'd', 'f']  
-// Or
+// OR
    const arr2 = arr1.filter(a => {  
    return a !== 'e';
    }); // ['a', 'b', 'd', 'f']
@@ -1341,7 +1341,7 @@ const arr3 = arr1.slice(2) // ['c', 'd', 'e']
 // Получение элементов
 -------------------
    array[3]
-// Or
+// OR
    array.at(3)
 
    array[array.length - 1] - чтобы получить последний элемент массива
@@ -1608,7 +1608,7 @@ flatMap() метод возвращает новый массив, сформи�
     // sum[sum.length-1] - last элемент массива sum
     // , [] - sum = []
 
-// Or
+// OR
     function uniqueInOrder(iterable) {
         var result = []
         var last
@@ -1617,7 +1617,7 @@ flatMap() метод возвращает новый массив, сформи�
             if (iterable[i] !== last) {
                 result.push(last = iterable[i])
             }
-        // Or
+        // OR
             // if (iterable[i] !== result[result.length-1]) {
             //    result.push(iterable[i])
             // }
@@ -1944,7 +1944,7 @@ $: Соответствует концу строки.
     calculator('1 + 1') // 2
 
 -------
-// Or Boolean()
+// OR Boolean()
 -------
 С помощью ! (НЕ) трансформируем в Boolean(), если нужно найти что-то с отрицанием (например добавить элемент если он отсутствует)
 Или просто использовать Boolean() без отрицания 
@@ -2437,7 +2437,7 @@ function calcValues (a, b) {
    console.log('result:', result);
    console.log('sum, sub:', sum, sub);
 
-// Or Запись короче: 
+// OR Запись короче: 
    [sum, sub] = calcValues(42, 10)
 -------------------
 // Игнорирование значений
@@ -2511,7 +2511,7 @@ function calcValues (a, b) {
 
    const name = person.name;
    const age = person.age;
-// Or
+// OR
    const {
       name: firstName = 'Без имени', 
       age, 
@@ -2828,7 +2828,7 @@ let user2 = [
    (function (){
    console.log("work");
    })();
-// Or
+// OR
    (function (str){
    console.log(str);
    }("work"));
@@ -2844,12 +2844,12 @@ let user2 = [
       console.log(a + b);
    }
    sum0(); // 4
-// Or
+// OR
    function sum1 (a, b) {
       console.log(a + b);
    }
    sum1(1, 3); // 4
-// Or
+// OR
    function sum2 (a, b = 3) {
       console.log(a + b);
    }
@@ -4669,7 +4669,7 @@ newElem
 
     let arr2 = [className, id, value]
     console.log(arr2);
-// Or
+// OR
     let [className, id, , value] = fn('name', 1, undefined, 'TEXT!')
     console.log([className, id, value]);
 ---------------------------------------------------------
@@ -4965,7 +4965,7 @@ for (const el of arr) {
         div.insertAdjacentHTML('afterbegin', `<p>${enteredText}</p>`)
 
     })
-// Or
+// OR
     const formInputs = document.getElementById("form");
     const inputByIndex = elements.formInputs[0];
     const inputByName = elements.formInputs["username"];
@@ -6362,7 +6362,7 @@ Yarn - это менеджер пакетов, а Vite - это быстрый �
 /// Шаг 2 — Запуск сервера разработки
 ---------
     $ yarn run dev
-// Or
+// OR
     $ vite dev
 
 -------------------
@@ -6371,7 +6371,7 @@ Yarn - это менеджер пакетов, а Vite - это быстрый �
 // Установка Bootstrap и Popper: 
 
     $ yarn add bootstrap @popperjs/core
-// Or
+// OR
     $ npm i --save bootstrap @popperjs/core 
 
 Popper - это библиотека, используемая Bootstrap для позиционирования всплывающих окон, выпадающих списков и других элементов интерфейса на веб-странице.
@@ -6379,7 +6379,7 @@ Popper - это библиотека, используемая Bootstrap для 
 // Установка доп зависимостей (Sass), чтобы правильно импортировать и связать CSS Bootstrap: 
 
     $ yarn add sass
-// Or
+// OR
     $ npm i --save-dev sass
 
 ---------
@@ -6419,7 +6419,7 @@ Popper - это библиотека, используемая Bootstrap для 
 /// Axios
 -------------------
     $ yarn add axios
-// Or
+// OR
     $ npm install axios
     
 ---------------------------------------------------------
@@ -6611,7 +6611,7 @@ package.json --> scripts
         document.body.textContent = 'Jello!'
       }
     }
-// Or 
+// OR 
     class App {
       run() {
         document.body.textContent = 'Jello!'
@@ -6620,7 +6620,7 @@ package.json --> scripts
     export {
         App,
     }
-// Or 
+// OR 
     export const PI = 3.14;
     function sayHello() {}
     class Car {}
@@ -6657,7 +6657,7 @@ package.json --> scripts
     export default function sum(a, b) {
         return a + b;
     }
-// Or
+// OR
     function sum(a, b) {
         return a + b;
     }
@@ -6870,7 +6870,7 @@ localStorage не уходит на сервер, в отличие от cookie
 ---------------------------------------------------------
 // React
     $ npm install
-// Or
+// OR
     $ npx create-react-app my-app - Собрать React
     $ npm start - Запустить проект
 ---------
@@ -6879,7 +6879,7 @@ Fix:
     $ npm install react-scripts
     $ npm i --package-lock-only
     $ npm audit fix --force
-// Or
+// OR
     delete node_modules 
     &&
     $ npm audit fix --force
@@ -6907,7 +6907,7 @@ Fix:
 /// Lodash
 ---------
     $ yarn add lodash
-// Or
+// OR
     $ npm i lodash@4.17.15
 
  !  import _ from "lodash";
@@ -7073,7 +7073,7 @@ Babel не поймет тк JSX выражение это React.createElement('
         );
     };
 ---------
-// Or 
+// OR 
 ---------
 Сработает: (современный аналог)
 
@@ -7492,7 +7492,7 @@ By using an arrow function () => handleTagChange(tag), you are creating a new fu
 ---------
 Необходимо убрать данную автономность, заменив useState на перезапись объекта:
   const { value } = props;
-// Or
+// OR
   const value = value.props;
 ---------
 Но тогда пропадет возможность обновлений через setValue() в useState
@@ -7910,11 +7910,20 @@ Props мы не можем изменить внутри компонента т
 ---------
 Нахождение индексов элементов для вырезки:
 
-    first = (pageNum - 1) * pageSize
-    second = (first + pageSize) - 1
-    // "-1" корректировка на отсчет с нуля
+    const users = Array(14)
+        .fill("")
+        .map((_, i) => "user" + (i + 1));
 
-    (pageNum - 1) * pageSize + pageSize; // Els on the currentPage.
+    const itemsPerPage = 4;
+
+    function usersOnPage(users, itemsPerPage, pageNum) {
+        const firstIndex = itemsPerPage * (pageNum - 1);
+        return [...users].splice(firstIndex, itemsPerPage);
+    }
+
+    usersOnPage(users, itemsPerPage, 1); ['user1', 'user2', 'user3', 'user4']
+    usersOnPage(users, itemsPerPage, 4); [ 'user13', 'user14' ]
+
 ---------
     const paginate = (items, pageNumber, pageSize) => {
         const startIndex = (pageNumber - 1) * pageSize;
@@ -7925,6 +7934,35 @@ Props мы не можем изменить внутри компонента т
     // Высчитываем startIndex 
     // Передаем в splice() index элемента с которого начинаем 
     // Передаем в splice() кол-во элементов для вырезки
+
+---------
+/// React Paginate - библиотека для реализации пагинации пользователей
+---------
+    $ yarn add react-paginate
+// OR
+    $ npm install react-paginate --save
+
+---------
+    import ReactPaginate from 'react-paginate';
+
+    function MyComponent() {
+        const handlePageChange = (selectedPage) => {
+            // Обработка изменения страницы
+        };
+
+        return (
+            <ReactPaginate
+            pageCount={10}
+            onPageChange={handlePageChange}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+            />
+        );
+    }
+
+Передаем количество страниц в свойство pageCount, функцию обратного вызова для обработки изменения страницы в свойство onPageChange, классы CSS для контейнера и активной страницы в свойства containerClassName и activeClassName.
+
+
 ---------------------------------------------------------
 //// PropTypes 
 ---------------------------------------------------------
@@ -7998,7 +8036,7 @@ PropTypes позволяет определить ожидаемые типы д
     };
 
 ---------
-// <Pagination Ctr+Space/> - отображение доступных свойств и методов этого компонента
+/// <Pagination Ctr+Space/> - отображение доступных свойств и методов этого компонента
 
 ---------------------------------------------------------
 /// ESLint
