@@ -1951,9 +1951,10 @@ console.log('agesOfDevelopers', agesOfDevelopers);
 -------------------
 /// .match(/../g) - Разбить строку на равные куски по два символа 
 ---------
-
     "abcdefg".match(/../g) // [ 'ab', 'cd', 'ef' ]
-    "abcdefg".match(/.../g) // [ 'abc', 'def' ]
+
+    .match(/.{3}/g)) // [ 'abc', 'def' ]
+
     "abcdefg".match(/..../g) // [ 'abcd' ]
 ---------
     function solution(str) {
