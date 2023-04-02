@@ -2138,7 +2138,7 @@ console.log('agesOfDevelopers', agesOfDevelopers);
 ---------
 /// split(/[-_]/) - Разделить слова где есть определенные символы 
 ---------
-// split(/\s+/) - удаляет все виды пробелов 
+// split(/\s+/g) - удаляет все виды пробелов 
 
     function toCamelCase(str){
         let words = str.split(/[-_]/);
