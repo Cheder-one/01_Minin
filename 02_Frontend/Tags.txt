@@ -8167,10 +8167,13 @@ PropTypes позволяет определить ожидаемые типы д
 ---------------------------------------------------------
 /// ESLint
 ---------------------------------------------------------
-Глобальная установка ESLint 
+Глобальная установка ESLint (чтобы не устанавливать для каждого проекта)
+    $ yarn global add eslint
+// Or
     $ sudo npm i -g eslint
 ---------
-В проекте:
+Настройка файла конфигурации:
+
     $ eslint --init
 ---------
 // .eslintrc.js:
@@ -8209,7 +8212,7 @@ module.exports = {
 };
 ---------
 Далее, исходя из параметров ESLint, нужно настроить Prettier. 
-Создаём файл .prettierrc.js:
+Создаём файл .prettierrc.js
     module.exports = {
         trailingComma: "none",
         tabWidth: 2,
@@ -8218,7 +8221,17 @@ module.exports = {
 ---------
 Отформатировать все документы согласно правилам:
 
-    $ npx prettier --write 
+    $ npx prettier --write .
+
+-------------------
+/// Если после настройки eslint и prettier не происходит форматирования:
+---------
+// В settings.json vs_code:
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+    },
+    "eslint.alwaysShowStatus": true
 
 ---------------------------------------------------------
 /// useEffect() - вызывается каждый раз когда мы монтируем что-то в DOM
