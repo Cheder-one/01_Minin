@@ -1685,11 +1685,11 @@ flatMap() метод возвращает новый массив, сформи�
 
 // Начальное значение играет важную роль, поэкспериментируй!
 
----------
-// Методы .reduce()
+-------------------
+/// Методы .reduce()
 ---------
 // Удалить все рядом стоящие дубликаты:
-
+---------
     var uniqueInOrder = function(iterable) {
     try {
         iterable = iterable.split('');
@@ -1704,8 +1704,9 @@ flatMap() метод возвращает новый массив, сформи�
     };
     // sum[sum.length-1] - last элемент массива sum
     // , [] - sum = []
-
+---------
 // OR
+---------
     function uniqueInOrder(iterable) {
         var result = []
         var last
@@ -1714,10 +1715,12 @@ flatMap() метод возвращает новый массив, сформи�
             if (iterable[i] !== last) {
                 result.push(last = iterable[i])
             }
+        ---------
         // OR
-            // if (iterable[i] !== result[result.length-1]) {
-            //    result.push(iterable[i])
-            // }
+        ---------
+            if (iterable[i] !== result[result.length-1]) {
+               result.push(iterable[i])
+            }
         }
         return result
     }
@@ -1962,6 +1965,26 @@ console.log('agesOfDevelopers', agesOfDevelopers);
 
     (M{0,4}) - означает что в строке могут находится от 0 до 4 М
     (IX|IV|V?I{0,3}) - в строке могут находится IX,IV, от 0 до 3 I, а так же 0 или 1 V перед 0-3 I
+
+-------------------
+/// Важно! В Regular Expression не ставятся "" для строк
+---------
+    let arr = ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"];
+    const [n, s, e, w] = ["NORTH", "SOUTH", "EAST", "WEST"];
+
+    let str = arr.join(",");
+    const pattern = /NORTH\s*,\s*SOUTH|SOUTH\s*,\s*NORTH/g;
+    str.replace(pattern, "");
+
+---------
+// Если нужно передать переменные:
+---------
+    let arr = ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"];
+    const [n, s, e, w] = ["NORTH", "SOUTH", "EAST", "WEST"];
+
+    let str = arr.join(",");
+    const pattern = new RegExp(`${n}\\s*,\\s*${s}|${s}\\s*,\\s*${n}`, 'g');
+    str = str.replace(pattern, "");
 
 -------------------
 /// .match(/../g) - Разбить строку на равные куски по два символа 
