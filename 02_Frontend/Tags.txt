@@ -7091,6 +7091,9 @@ Fix:
 ---------
 Используя метод Array.from():
 ---------
+// Syntax: 
+    Array.from({ length: number }, (_, i) => i)
+
     const numberOfPages = 4;
     const arr = Array.from({ length: numberOfPages }, (_, i) => i); 
     // [0, 1, 2, 3]
@@ -7122,6 +7125,7 @@ Array.from() - это статический метод, который позв
     arr.fill(0); // [0, 0, 0, 0, 0]
 
 Метод .fill() изменяет существующий массив, а не возвращает новый. 
+
 ---------
 index.js – входной в приложение JavaScript-файл, все начинается отсюда.
 
