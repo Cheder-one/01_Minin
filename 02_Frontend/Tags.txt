@@ -8234,7 +8234,7 @@ PropTypes позволяет определить ожидаемые типы д
     $ yarn add eslint eslint-plugin-react eslint-config-react-app --dev
       // устанавливает ESLint и связанные с ним пакеты, необходимые для проверки кода React
 
-    $ yarn add vite-plugin-error-overlay --dev
+    ? $ yarn add vite-error-overlay
       // выводит ошибки и предупреждения в окне браузера
 ---------
 // vite.config.js:
@@ -8242,10 +8242,10 @@ PropTypes позволяет определить ожидаемые типы д
     import { defineConfig } from "vite";
     import react from "@vitejs/plugin-react";
     import eslintPlugin from "vite-plugin-eslint";
-    import errorOverlay from "vite-plugin-error-overlay";
+    import ErrorOverlay from 'vite-error-overlay'
 
     export default defineConfig({
-    plugins: [react(), errorOverlay(), eslintPlugin({ cache: false, fix: true })]
+    plugins: [react(), ErrorOverlay(), eslintPlugin({ cache: false, fix: true })]
     });
 
 -------------------
