@@ -8182,7 +8182,7 @@ PropTypes позволяет определить ожидаемые типы д
     };
     // isRequired - свойство является обязательным для передачи компоненту
 
----------
+-------------------
 // .shape({ }) - Обозначение проверки вложенных объектов.
 ---------
 // .arrayOf( ) - Массив определенного типа 
@@ -8230,22 +8230,15 @@ PropTypes позволяет определить ожидаемые типы д
 ---------
     $ yarn add -D vite-plugin-eslint 
       // автоматически запускает ESLint при запуске dev-сервера
-
-    $ yarn add eslint eslint-plugin-react eslint-config-react-app --dev
-      // устанавливает ESLint и связанные с ним пакеты, необходимые для проверки кода React
-
-    ? $ yarn add vite-error-overlay
-      // выводит ошибки и предупреждения в окне браузера
+      
 ---------
 // vite.config.js:
 ---------
     import { defineConfig } from "vite";
     import react from "@vitejs/plugin-react";
-    import eslintPlugin from "vite-plugin-eslint";
-    import ErrorOverlay from 'vite-error-overlay'
 
     export default defineConfig({
-    plugins: [react(), ErrorOverlay(), eslintPlugin({ cache: false, fix: true })]
+        plugins: [react()]
     });
 
 -------------------
