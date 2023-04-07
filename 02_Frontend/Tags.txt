@@ -8228,19 +8228,28 @@ PropTypes позволяет определить ожидаемые типы д
 -------------------
 /// Установка необходимых пакетов для ESLint
 ---------
-    $ yarn add -D vite-plugin-eslint 
+    ? $ yarn add -D vite-plugin-eslint 
       // автоматически запускает ESLint при запуске dev-сервера
-      
+
+    ? $ yarn add eslint eslint-plugin-react eslint-config-react-app --dev
+      // устанавливает ESLint и связанные с ним пакеты, необходимые для проверки кода React
+
 ---------
 // vite.config.js:
 ---------
     import { defineConfig } from "vite";
     import react from "@vitejs/plugin-react";
+    import eslintPlugin from "vite-plugin-eslint";
 
     export default defineConfig({
-        plugins: [react()]
+    plugins: [react(), eslintPlugin({ cache: false, fix: true })]
     });
-
+---------
+// .eslintrc.cjs
+    "rules": {
+    "block-spacing": "off",
+    "brace-style": "off"
+    }
 -------------------
 Настройка файла конфигурации:
 
