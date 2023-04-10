@@ -8188,17 +8188,81 @@ const UsersList = ({ users: allUsers, ...rest }) => {
 
 PropTypes позволяет определить ожидаемые типы данных для свойств (props) компонентов и предупреждать об ошибке, если они не соответствуют ожидаемому типу данных.
 
-    MyComponent.propTypes = {
-        optionalArray: PropTypes.array,
-        optionalBigInt: PropTypes.bigint,
-        optionalBool: PropTypes.bool,
-        optionalFunc: PropTypes.func,
-        optionalNumber: PropTypes.number,
-        optionalObject: PropTypes.object,
-        optionalString: PropTypes.string,
-        optionalSymbol: PropTypes.symbol,
+MyComponent.propTypes = {
+    
+Можно объявить проп на соответствие определённому JS-типу.
+    optionalArray: PropTypes.array,
+    optionalBool: PropTypes.bool,
+    optionalFunc: PropTypes.func,
+    optionalNumber: PropTypes.number,
+    optionalObject: PropTypes.object,
+    optionalString: PropTypes.string,
+    optionalSymbol: PropTypes.symbol,
 
-        requiredFunc: PropTypes.func.isRequired,
+Все, что может быть отрендерено:
+числа, строки, элементы или массивы
+(или фрагменты) содержащие эти типы
+    optionalNode: PropTypes.node,
+
+React-элемент
+    optionalElement: PropTypes.element,
+
+Тип React-элемент (например, MyComponent).
+    optionalElementType: PropTypes.elementType,
+    
+Можно указать, что проп должен быть экземпляром класса
+Для этого используется JS-оператор instanceof.
+    optionalMessage: PropTypes.instanceOf(Message),
+
+Вы можете задать ограничение конкретными значениями
+при помощи перечисления
+    optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+
+Объект, одного из нескольких типов
+    optionalUnion: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.instanceOf(Message)
+    ]),
+
+Массив объектов конкретного типа
+    optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+
+Объект со свойствами конкретного типа
+    optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+
+Объект с определённой структурой
+    optionalObjectWithShape: PropTypes.shape({
+        color: PropTypes.string,
+        fontSize: PropTypes.number
+    }),
+    
+При наличии необъявленных свойств в объекте будут вызваны предупреждения
+    optionalObjectWithStrictShape: PropTypes.exact({
+        name: PropTypes.string,
+        quantity: PropTypes.number
+    }),     
+
+Можно добавить`isRequired` к любому приведённому выше типу, чтобы показывать предупреждение, если проп не передан
+    requiredFunc: PropTypes.func.isRequired,
+
+Обязательное значение любого типа
+    requiredAny: PropTypes.any.isRequired,
+};
+
+-------------------
+/// Значения пропсов по умолчанию 
+---------
+    class Greeting extends React.Component {
+        static defaultProps = {
+            name: 'Незнакомец'
+        }
+
+        render() {
+            return (
+            <div>Привет, {this.props.name}</div>
+            )
+        }
     }
 
 ---------
