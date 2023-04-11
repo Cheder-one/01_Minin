@@ -6555,13 +6555,14 @@ Popper - это библиотека, используемая Bootstrap для 
 Для работы кнопки с выпадающим меню, необходимо подключить два скрипта: jQuery и Popper.js. Вы можете скачать их с официальных сайтов или использовать CDN-ссылки.
 
     <!-- Подключение jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
 
     <!-- Подключение Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.1/umd/popper.min.js"></script>
 
     <!-- Подключение скриптов Bootstrap -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+
 
 Поместите эти три скрипта перед закрывающим тегом </body> в вашем HTML-файле, и кнопка с выпадающим меню должна работать корректно.
 
@@ -7066,11 +7067,31 @@ Fix:
 -------------------
 /// Теги Бутсрап (Bootstrap)
 ---------
-    'btn-sm' - сделать меньше кнопку
+    'btn-sm' - сделать кнопку меньше 
+    'btn-lg' - сделать кнопку больше
 ---------
     'align-items-center' || 'd-flex' - что-то из этого сделает по центру 
 ---------
-    'pt-2' - отступ padding-top
+    'padding & margin'
+--------- 
+    m - для классов , которые устанавливают margin
+    p - для классов , которые устанавливают padding
+
+Где sides - одна из:
+
+    t - margin-top или padding-top
+    b - margin-bottom или padding-bottom
+    s - (начало) margin-left или padding-left 
+    e - (конец) margin-right или padding-right 
+    x - оба *-left и *-right
+    y - оба *-top и *-bottom
+    пустой - для классов, которые задают margin или padding на всех 4 сторонах элемента
+
+    mx-auto - класс для горизонтального центрирования содержимого на уровне блоков фиксированной ширины
+
+    <div class="mx-auto p-2" style="width: 200px;">
+        Centered element
+    </div>
 ---------
     'container' - контейнер с фиксированной шириной, который центрирует и горизонтально заполняет содержимое сайта
 
@@ -7091,6 +7112,20 @@ Fix:
     Поэтому класс col-4 означает, что колонка занимает 4 из 12 колонок (1/3 ширины родительского элемента), а класс col-8 означает, что колонка занимает 8 из 12 колонок (2/3 ширины родительского элемента)
 ---------
     'fs-6' - размера шрифта font-size 
+---------
+    'd-grid gap-2 d-md-flex justify-content-md-end' - Выравняет кнопки по правой стороне 
+
+    * d-grid - задает элементу свойство display: grid, которое позволяет создавать сетки элементов;
+    * gap-2 - добавляет отступы между элементами в сетке;
+    * d-md-flex - задает элементу свойство display: flex на устройствах с шириной экрана от md и выше, т.е. на средних и больших экранах;
+    * justify-content-md-end - выравнивает элементы в сетке по горизонтали, при этом элементы сдвигаются вправо на устройствах с шириной экрана от md и выше.
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary me-md-2" type="button">Button</button>
+        <button class="btn btn-primary" type="button">Button</button>
+    </div>
+---------
+
 ---------
 
 -------------------
