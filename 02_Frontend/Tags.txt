@@ -7089,7 +7089,7 @@ Fix:
 
     mx-auto - класс для горизонтального центрирования содержимого на уровне блоков фиксированной ширины
 
-    <div class="mx-auto p-2" style="width: 200px;">
+    <div class="mx-auto p-2" style={{ width: "200px" }}>
         Centered element
     </div>
 ---------
@@ -7114,12 +7114,13 @@ Fix:
     'fs-6' - размера шрифта font-size 
 ---------
     'd-flex justify-content-end' - Выравнивает элементы контейнера по правой стороне 
----------
+
     <div className="container d-flex justify-content-end">
         <button className="btn btn-warning mt-2">Reset</button>
     </div>
 
-    'd-grid gap-2 d-md-flex justify-content-md-end' 
+---------
+    'd-grid gap-2 d-md-flex justify-content-md-end' - Выравнивает элементы контейнера по правой стороне 
 
     * d-grid - задает элементу свойство display: grid, которое позволяет создавать сетки элементов;
       'd-grid' - растянет элемент по контейнеру если он там один
@@ -7132,7 +7133,7 @@ Fix:
         <button class="btn btn-primary" type="button">Button</button>
     </div> // Выравняет кнопки по правой стороне 
 ---------
-
+    'flex-shrink-0' - элемент не должен сжиматься внутри контейнера flex. Это означает, что элемент будет иметь фиксированную ширину и не будет сжиматься, если контейнер flex станет слишком маленьким.
 ---------
 
 -------------------
