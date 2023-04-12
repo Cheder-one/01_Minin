@@ -7113,9 +7113,16 @@ Fix:
 ---------
     'fs-6' - размера шрифта font-size 
 ---------
-    'd-grid gap-2 d-md-flex justify-content-md-end' - Выравняет кнопки по правой стороне 
+    'd-flex justify-content-end' - Выравнивает элементы контейнера по правой стороне 
+---------
+    <div className="container d-flex justify-content-end">
+        <button className="btn btn-warning mt-2">Reset</button>
+    </div>
+
+    'd-grid gap-2 d-md-flex justify-content-md-end' 
 
     * d-grid - задает элементу свойство display: grid, которое позволяет создавать сетки элементов;
+      'd-grid' - растянет элемент по контейнеру если он там один
     * gap-2 - добавляет отступы между элементами в сетке;
     * d-md-flex - задает элементу свойство display: flex на устройствах с шириной экрана от md и выше, т.е. на средних и больших экранах;
     * justify-content-md-end - выравнивает элементы в сетке по горизонтали, при этом элементы сдвигаются вправо на устройствах с шириной экрана от md и выше.
@@ -7123,7 +7130,7 @@ Fix:
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-primary me-md-2" type="button">Button</button>
         <button class="btn btn-primary" type="button">Button</button>
-    </div>
+    </div> // Выравняет кнопки по правой стороне 
 ---------
 
 ---------
