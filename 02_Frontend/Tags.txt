@@ -2525,15 +2525,17 @@ const goodInfo = {
     } // В более сложных случаях когда объект имеет свои объекты с элементами
 
 -------------------
-// Object.keys() - Создает массив из ключей. Выводит значения в отдельный массив
+/// Object.keys() - Создает массив из ключей. Выводит значения в отдельный массив
+---------
+    const keys = Object.keys(goodInfo);
+    console.log('keys', keys);
 
-const keys = Object.keys(goodInfo);
-console.log('keys', keys);
 -------------------
-// Object.values() - Создает массив из значений. Выводит значения в отдельный массив
-
-const values = Object.values(goodInfo);
-console.log('values', values);
+/// Object.values() - Создает массив из значений. Выводит значения в отдельный массив
+---------
+    const values = Object.values(goodInfo);
+    console.log('values', values);
+    
 -------------------
 // Object.entries() - Возвращает многомерный массив, элементами которого являются другие массивы из ключей и значений. Выводит все в отдельный массив
 
@@ -6756,13 +6758,13 @@ package.json --> scripts
 0.1) Чтобы установить все пакеты которые уже прописаны package.json 
     $ npm install 
     $ npm i
+
 ---------------------------------------------------------
 //// Object.fromEntries(Object.entries(obj).reverse()) -
 перевернуть Объект
 -------------------
 
     let obj = {a: 1, b: 2, c: 3};
-
     let reversedObj = Object.fromEntries(Object.entries(obj).reverse());
 
     console.log(reversedObj); // Output: {c: 3, b: 2, a: 1}
@@ -6770,6 +6772,46 @@ package.json --> scripts
 /// Object.entries() - преобразовать Объект в Массив пар ключ-значение
 ---------
 /// Object.fromEntries() - преобразовать Массив в Объект
+
+---------------------------------------------------------
+/// Метод чтобы перебрать Массив и Объект
+-------------------
+    const arrayLikeObject = {
+        0: "a",
+        1: "b",
+        2: "c",
+        length: 3
+    };
+
+    const trueArray = Array.prototype.slice.call(arrayLikeObject, 0);
+    console.log(trueArray); // ["a", "b", "c"]
+
+---------
+// Или использовать цикл for
+---------
+// Или использовать цикл for in
+
+    const myObj = {
+    doctor: { _id: "67rdca3eeb7f6fgeed471818", name: "Доктор" },
+    waiter: { _id: "67rdca3eeb7f6fgeed471820", name: "Официант" },
+    physics: { _id: "67rdca3eeb7f6fgeed471814", name: "Физик" },
+    engineer: { _id: "67rdca3eeb7f6fgeed471822", name: "Инженер" },
+    actor: { _id: "67rdca3eeb7f6fgeed471824", name: "Актер" },
+    cook: { _id: "67rdca3eeb7f6fgeed471829", name: "Повар" }
+    };
+
+    const myArr = [
+    { _id: "67rdca3eeb7f6fgeed471818", name: "Доктор" },
+    { _id: "67rdca3eeb7f6fgeed471820", name: "Официант" },
+    { _id: "67rdca3eeb7f6fgeed471814", name: "Физик" },
+    { _id: "67rdca3eeb7f6fgeed471822", name: "Инженер" },
+    { _id: "67rdca3eeb7f6fgeed471824", name: "Актер" },
+    { _id: "67rdca3eeb7f6fgeed471829", name: "Повар" }
+    ];
+
+    for (const el in myObj) {
+        console.log(myObj[el]);
+    }
 
 ---------------------------------------------------------
 //// Использование import, export, export default
