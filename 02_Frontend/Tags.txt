@@ -7208,7 +7208,7 @@ Fix:
 Используя метод Array.from():
 ---------
 // Syntax: 
-    Array.from({ length: number }, (_, i) => i)
+    Array.from({ length: n }, (_, i) => i)
 
     const numberOfPages = 4;
     const arr = Array.from({ length: numberOfPages }, (_, i) => i); 
