@@ -8669,6 +8669,45 @@ set, get, has, delete и clear.
     // Output: [ '23', '25', '26', '29', '26', '28', '29', '33', '35', '36', '39', '36', '38', '39', '63', '65', '66', '69', '66', '68', '69' ]
 
 ---------------------------------------------------------
+/// Слой абстракции — минимум, необходимый для взаимодействия с компонентами, без лишних деталей.
+-------------------
+
+return (
+    <div className="d-flex">
+        {professions && (
+            <div className="d-flex flex-column flex-shrink-0 p-3">
+            <GroupList
+                items={professions}
+                selectedItem={selectedProf}
+                onItemSelect={handleProfessionSelect}
+            />
+            <button
+                className="btn btn-secondary btn-sm mt-2"
+                onClick={handleResetFilters}
+            >
+                Очистить
+            </button>
+            </div>
+        )}
+        <div className="d-flex flex-column">
+            {isLoaded && <SearchStatus numberOfUsers={pageSize} />}
+            {pageSize > 0 && (
+            <UsersTable usersCurntPage={itemsCurntPage} {...rest} />
+            )}
+            <div className="d-flex justify-content-center">
+            <Pagination
+                pageSize={pageSize}
+                itemsPerPage={itemsPerPage}
+                onPageChange={handlePageChange}
+                currentPage={currentPage}
+            />
+            </div>
+        </div>
+    </div>
+    );
+};
+
+Например, руководитель не разрабатывает приложение и не рисует дизайн. Он говорит, какому отделу что нужно сделать. Так и в нашем примере. В users.jsx мы пишем высокоуровневый код, в котором следим, только за самой логикой, не отвлекаясь на отображение.
 
 ---------------------------------------------------------
 
