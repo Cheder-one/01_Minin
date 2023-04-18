@@ -7527,6 +7527,34 @@ className используется для добавления класса в H
     !!! ОБЯЗАТЕЛЬНО помести в скобки (тернарный выбор класса)
 
 ---------
+// Ветвление с использованием &&
+---------
+role в JSX может использовтаься только в {...{role:}}
+Подобно style={{ height: "100%" }}
+
+    {...{ role: colums[colum].iter && "button" }}
+
+Если свойство iter существует в colums[colum] (где colum - это название столбца), и оно является истинным значением, то свойство role будет установлено на значение "button". В противном случае свойство role не будет добавлено в th.
+
+    <thead>
+      <tr>
+        {Object.keys(colums).map((colum) => (
+          <th
+            key={colum}
+            onClick={
+              colums[colum].iter
+                ? () => handleSort(colums[colum].iter)
+                : undefined
+            }
+            scope="col"
+            {...{ role: colums[colum].iter && "button" }}
+          >
+            {colums[colum].name}
+          </th>
+        ))}
+      </tr>
+    </thead>
+-------------------
 // key={id} 
 ---------
 - Key={id} нужен при работе с Массивами и отображении их el. 
