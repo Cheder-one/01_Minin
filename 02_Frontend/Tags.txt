@@ -7577,6 +7577,22 @@ className используется для добавления класса в H
     !!! ОБЯЗАТЕЛЬНО помести в скобки (тернарный выбор класса)
 
 ---------
+// Ветвление с использованием ||
+---------
+    colums[colum].component || _.get(item, colums[colum].iter)
+
+Если colums[colum].component не существет, то отображаем _.get(item, colums[colum].iter)
+---------
+    {data.map((item) => (
+        <tr key={item._id}>
+          {Object.keys(colums).map((colum) => (
+            <td key={colum}>
+              {colums[colum].component || _.get(item, colums[colum].iter)}
+            </td>
+          ))}
+        </tr>
+    ))}
+---------
 // Ветвление с использованием &&
 ---------
 role в JSX может использовтаься только в {...{role:}}
