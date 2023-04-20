@@ -31,9 +31,29 @@ lorem20 - набор рыбьего текста
 
 <li value="3"> -ставит значение 3 для нумерации строки
 style= "list-style-type: disc/circle/square/decimal/georgian/trad-chinese-informal/kannada; "
-
+---------
 ul>li{Элемент $}*5 - Появится 5 строк с наименованием "Элемент".При добавлении "$", появится нумерация   
 
+    const NavBar = () => {
+        return (
+            ul>(li>a)*4
+        )
+    };
+    ---------
+    vvvvvvvvv 
+    ---------
+    const NavBar = () => {
+        return (
+            <ul>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+            </ul>
+        )
+    };
+
+---------
 <table></table> - оболочка для тегов таблицы
 <thead></thead> - заголовок таблицы 
 (столбцы именуются как <th></th>, а не как <td></td>. Но вкладываются все равно в <tr> <th></th> </tr>)
