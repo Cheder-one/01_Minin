@@ -8958,6 +8958,50 @@ return (
 
 Например, путь “/post/id” тоже будет срабатывать для роута:
 <Route path="/post" component={Posts} />
+
+-------------------
+/// Switch -  комутатор. Будет отображать `один из`
+---------
+Может выступать как аналог для атрибута `exact`. 
+!!! Внимание! Но Switch работает последовательно!
+
+Не сработает:
+    <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/posts" component={Posts} />
+        <Route path="/dashboard" component={Dashboard} />
+    </Switch>
+Сработает:
+    <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/posts" component={Posts} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/" component={Home} />
+    </Switch>
+
+Тк Switch находит совпадение по первому символу и оставляет его.
+
+!!! Из этого следует, что при использовании Switch необходимо упорядочить наши маршруты от наиболее Конкретизированных => к наиболее Общим
+-------------------
+/// Link to="" - позволяет загружать элементы без обновления стр. Тк берет их из памяти
+---------
+    <li>
+      <a href="/">Home</a>
+    </li>
+
+Заменим на:
+    const NavBar = () => {
+      return (
+        <ul>
+            <li>
+                <Link to="/">Home</Link>
+            </li>
+        </ul>
+      )
+    }
+--------- 
+
 ---------------------------------------------------------
 
 ---------------------------------------------------------
