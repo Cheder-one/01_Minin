@@ -9050,7 +9050,21 @@ return (
 -------------------
 /// Использование Route для настройки URL путей
 ---------
+Допустим, мы хотим на странице “/posts” выводить все статьи.
+А например на “/posts/123” хотим выводить какую-то конкретную запись. 
 
+Для этого мы должны указать URL-параметры. Добавим новый роут и у него укажем:
+    <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/posts/:postId" component={Posts} />
+        <Route path="/posts" component={Posts} />
+        <Route path="/contacts" component={Contacts} />
+    </Switch>
+
+URL-параметры указываются в виде “:{param}” (двоеточие, название переменной). 
+
+Теперь, перейдя по адресу “/posts/231”, мы увидим, что в props в matсh по ключу params попало postId:231
 
 ---------------------------------------------------------
 
