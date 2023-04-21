@@ -9031,10 +9031,18 @@ return (
         }}
     />
 
-    // Передать потомка как render-функцию. Передаются history, location, match
+// Передать потомка как render-функцию. Передаются history, location, match
+
     <Route path="/">
         { (routeProps) =>  <Home {...routeProps} withSidebar/> }
     </Route>
+-----
+// Необязательно возвращать Компонент, можно вернуть что угодно
+
+    <Route path="/catalog/:category?/:subCategoy?">
+        {({ match }) => <pre>{JSON.stringify(match.params)}</pre>}
+    </Route>
+
 ---------
 Вызывая функцию мы возвращаем в нее Компонент вместе с его пропсами (history,  location, match). 
 Результат(Компонент) данной функции будет передан для отображения.
@@ -9072,22 +9080,23 @@ URL-параметры указываются в виде “:{param}” (дво
 ---------
 path="/posts/:postId?" - говорит маршрутизатору о том что, если есть `postId` и если `postId` нет - он должен отобразить Компонент <Posts {...props}/>
 
-return (
-    <Switch>
-        <Route
-            path="/posts/:postId?"
-            render={(props) => <Posts {...props} />}
-        />
-    </Switch>
-)
+    return (
+        <Switch>
+            <Route
+                path="/posts/:postId?"
+                render={(props) => <Posts {...props} />}
+            />
+        </Switch>
+    )
 -------------------
 /// Указание нескольких опциональных параметров
 ---------
-return (
-    <Switch>
-        <Route path="/posts/:postId?/:display?" component={Posts} />
-    </Switch>
-)
+// App.jsx
+    return (
+        <Switch>
+            <Route path="/posts/:postId?/:display?" component={Posts} />
+        </Switch>
+    )
 
 // posts.jsx
     import PostList from "../postsList";
@@ -9117,7 +9126,32 @@ return (
         </>
       );
     };
+    
+---------
+function App() {
+    return (
+        <Switch>
+            <Route path="/catalog/:category?/:subCategoy?">
+                {({ match }) => <pre>{JSON.stringify(match.params)}</pre>}
+            </Route>
+        </Switch>
+    );
+}
 
+    path="/catalog/:category?/:subCategoy?"
+    URL: http://localhost:5174/catalog/tools/hammer
+
+    {"category":"tools","subCategoy":"hammer"}
+
+---------
+    // Последовательность параметров в URL полученных из CMS
+    const pathConfig = ['year', 'mounth', 'date', 'slug']
+    // Паттерн для роута
+    const routePath = "/:" + pathConfig.join('/:') // -> /:year/:mounth/:date/:slug
+
+    <Route path={routePath} component={Post}/>
+
+При обращении на URL “/2022/02/12/my-post” будет срабатывать наш роут. 
 ---------------------------------------------------------
 
 ---------------------------------------------------------
