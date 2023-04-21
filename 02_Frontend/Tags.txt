@@ -9009,7 +9009,8 @@ return (
 /// Route путь + передача через него Props
 ---------
     1) Отображение Компонента без доп параметров
-
+    
+    // Передаются history, location, match. Но не передаются мои Props
     <Route path="/dashboard" component={Dashboard} />
     
     // Через атрибут render. Не передаются history, location, match
@@ -9067,16 +9068,55 @@ URL-параметры указываются в виде “:{param}” (дво
 Теперь, перейдя по адресу “/posts/231”, мы увидим, что в props в matсh по ключу params попало postId:231
 
 -------------------
-/// Установка опциональных параметров
+/// Указание опциональных параметров
 ---------
 path="/posts/:postId?" - говорит маршрутизатору о том что, если есть `postId` и если `postId` нет - он должен отобразить Компонент <Posts {...props}/>
 
+return (
     <Switch>
         <Route
             path="/posts/:postId?"
             render={(props) => <Posts {...props} />}
         />
     </Switch>
+)
+-------------------
+/// Указание нескольких опциональных параметров
+---------
+return (
+    <Switch>
+        <Route path="/posts/:postId?/:display?" component={Posts} />
+    </Switch>
+)
+
+// posts.jsx
+    import PostList from "../postsList";
+    import Post from "../post";
+
+    const Posts = ({ match }) => {
+      const posts = [
+        { id: 1, title: "Post 1" },
+        { id: 2, title: "Post 2" },
+        { id: 3, title: "Post 3" },
+      ];
+
+      const postId = match.params.postId;
+      const display = match.params.display;
+
+      return (
+        <>
+          {/* Передаем ли мы опциональный URL адрес поста? */}
+          {postId ? (
+            <>
+              {display && <h2>{display}</h2>}
+              <Post posts={posts} id={postId} />
+            </>
+          ) : (
+            <PostList posts={posts} />
+          )}
+        </>
+      );
+    };
 
 ---------------------------------------------------------
 
