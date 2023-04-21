@@ -9220,25 +9220,37 @@ function App() {
 ---------
 Когда пользователь попадает на страницу, содержащую компонент "Redirect", его браузер автоматически перенаправляется на указанный в компоненте URL. 
 
-function App() {
-    return (
-        <div className="ms-3 mt-2">
-            <Switch>
-            <Route path="/dashboard" component={Dashboard} />
+    <Switch>
+        <Route path="/dashboard" component={Dashboard} />
+        <Redirect from="/admin" to="/dashboard" /> 
+          // Перенаправит со старого адреса: /admin на новый: /dashboard
 
-            // Если ничего не найдено         => Redirect на путь /404 
-            // Если мы перешли по path="/404" => отобразить Компонент 
-            <Route path="/404" component={NotFound} />
+          // Если ничего не найдено         => Redirect на путь /404 
+          // Если мы перешли по path="/404" => отобразить Компонент 
+        <Route path="/404" component={NotFound} />
+        <Redirect to="/404" /> 
+          // Всегда в самом низу
+    </Switch>
+-------------------
+/// Перенаправление на страницу 404
+---------
+Есть два варианта. Добавляем в конце
 
-            <Redirect from="/admin" to="/dashboard" /> 
-              // Перенаправит со старого адреса: /admin на новый: /dashboard
+    <Switch>
+        ...
+        <Route path="/404" component={NotFound} />
+        <Redirect to="/404" /> 
+    </Switch>
+---------
+     <Switch>
+        ...
+        <Route component={NotFound} />
+    </Switch>         
+        
+-------------------
+/// History
+---------
 
-            <Redirect to="/404" /> 
-              // Всегда в самом низу
-            </Switch>
-        </div>
-    );
-}
 
 ---------------------------------------------------------
 
