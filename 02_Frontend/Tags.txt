@@ -9205,10 +9205,16 @@ function App() {
         <div className="ms-3 mt-2">
             <Switch>
             <Route path="/dashboard" component={Dashboard} />
-            {/* Если ничего не найдено то Redirect на путь /404 */}
-            {/* Если мы перешли по path="/404" => отобразить Компонент */}
+
+            // Если ничего не найдено         => Redirect на путь /404 
+            // Если мы перешли по path="/404" => отобразить Компонент 
             <Route path="/404" component={NotFound} />
-            <Redirect to="/404" />
+
+            <Redirect from="/admin" to="/dashboard" /> 
+              // Перенаправит со старого адреса: /admin на новый: /dashboard
+
+            <Redirect to="/404" /> 
+              // Всегда в самом низу
             </Switch>
         </div>
     );
