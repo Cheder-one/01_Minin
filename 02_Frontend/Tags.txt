@@ -7280,9 +7280,9 @@ Fix:
 ---------
     'text-success' - окрасить текст
 ---------
-    style={{ "font-weight": "bold" }} - Выделенный текст
+    style={{ fontWeight: "bold" }} - Выделенный текст
 
-    <h3 className="text-success" style={{ "font-weight": "bold" }}>
+    <h3 className="text-success" style={{ fontWeight: "bold" }}>
         Специальное предложение
     </h3>
 -------------------
@@ -9194,7 +9194,25 @@ function App() {
   // { block: 'pr_1', fromUrl: 'https://example.partner.com' }
 
   const { block, fromUrl } = search;
+
 -------------------
+/// Redirect - перенаправляет пользователя на другую страницу
+---------
+Когда пользователь попадает на страницу, содержащую компонент "Redirect", его браузер автоматически перенаправляется на указанный в компоненте URL. 
+
+function App() {
+    return (
+        <div className="ms-3 mt-2">
+            <Switch>
+            <Route path="/dashboard" component={Dashboard} />
+            {/* Если ничего не найдено то Redirect на путь /404 */}
+            {/* Если мы перешли по path="/404" => отобразить Компонент */}
+            <Route path="/404" component={NotFound} />
+            <Redirect to="/404" />
+            </Switch>
+        </div>
+    );
+}
 
 ---------------------------------------------------------
 
