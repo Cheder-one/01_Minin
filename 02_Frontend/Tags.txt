@@ -9179,14 +9179,34 @@ function App() {
 -------------------
 // query.parse() - Преобразует строку запроса  в Объект 
 ---------
-    query.parse("name=John&age=30") 
-    
-    // { name: 'John', age: '30' }
----------
+    const search = query.parse("name=John&age=30") 
+
+    console.log(search) // { name: 'John', age: '30' }
+-------------------
+! Внимание! 
+Как проверить передается ли опциональный параметр в URL:
+
+Передаем опциональный параметр в URL:
+    http://localhost:5173/posts/?count=1
+    const search = query.parse(location.search); // { count: '1' }
+
+Не передаем опциональный параметр в URL:
+    http://localhost:5173/posts 
+    const search = query.parse(location.search); // {}
+
+Необходимо проверить именно есть ли в нашем Пропарсеном Объекте наш опциональный параметр-ключ. В частности `count` (тк в URL пишем count=1)
+
+  const cropPosts = search.count
+    ? _(posts).slice(0).take(search.count).value()
+    : posts;
+
+Иначе будет всегда выдаваться true. Тк просто `search` даже без передачи опциональный параметров (http://localhost:5173/posts) выдаст пустой Объект. 
+А пустой Объект {} === true
+
+-------------------
     Параметры запроса: /posts/?name=John&count=30"
 
     query.parse(location.search) => // {count: '30', name: 'John'}
-
 -------------------
 Удобная деструктуризация
 
