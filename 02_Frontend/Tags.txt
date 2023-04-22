@@ -9006,22 +9006,28 @@ return (
 /// Switch -  коммутатор. Будет отображать `один из`
 -------------------
 Может выступать как аналог для атрибута `exact`. 
-!!! Внимание! Но Switch работает последовательно!
+! Внимание! Но Switch работает последовательно!
+
+!!! Switch и Route всегда должны возвращаться. Иначе не будут работать!
 
 Сработает:
+return (
     <Switch>
         <Route path="/login" component={Login} />
         <Route path="/posts" component={Posts} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/" component={Home} />
     </Switch>
+)
 
+return (
     <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/posts" component={Posts} />
         <Route path="/dashboard" component={Dashboard} />
     </Switch>
+)
 
 Не сработает:
     <Switch>
@@ -9110,6 +9116,8 @@ return (
 А например на “/posts/123” хотим выводить какую-то конкретную запись. 
 
 Для этого мы должны указать URL-параметры. Добавим новый роут и у него укажем:
+
+return (
     <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/signin" component={SignIn} />
@@ -9117,6 +9125,7 @@ return (
         <Route path="/posts" component={Posts} />
         <Route path="/contacts" component={Contacts} />
     </Switch>
+)
 
 URL-параметры указываются в виде “:{param}” (двоеточие, название переменной). 
 
@@ -9127,19 +9136,24 @@ URL-параметры указываются в виде “:{param}” (дво
 -------------------
 * path="/posts/:postId?" - говорит маршрутизатору о том что, если есть `postId` и если `postId` нет - он должен отобразить Компонент <Posts {...props}/>
 
+return (
     <Switch>
         <Route
             path="/posts/:postId?"
             render={(props) => <Posts {...props} />}
         />
     </Switch>
+)
 -------------------
 /// Указание нескольких опциональных параметров
 ---------
 // App.jsx
+
+return (
     <Switch>
         <Route path="/posts/:postId?/:display?" component={Posts} />
     </Switch>
+)
 
 // posts.jsx
     import PostList from "../postsList";
