@@ -8985,13 +8985,13 @@ return (
 А пример с NavBar, при клике на "href" <a href="/">Главная</a>, лишь позволяет сменить URL в браузере. 
 Но сам NavBar здесь не играет роли.
 
-    import { Route } from "react-router-dom";
     import Home from "./components/navBar/home";
+    import { Route } from "react-router-dom";
 
-        <Route path="/" exact component={Home} />
+    <Route path="/" exact component={Home} />
         
 ---------
-Если нет атрибута `exact`, Route будет вызываться и на вложенные страницы. 
+Если нет атрибута `exact`, то Route будет вызываться и на вложенные страницы. 
 
 Например, путь “/post/id” тоже будет срабатывать для роута:
 <Route path="/post" component={Posts} />
@@ -9002,19 +9002,19 @@ return (
 Может выступать как аналог для атрибута `exact`. 
 !!! Внимание! Но Switch работает последовательно!
 
-Не сработает:
-    <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/posts" component={Posts} />
-        <Route path="/dashboard" component={Dashboard} />
-    </Switch>
 Сработает:
     <Switch>
         <Route path="/login" component={Login} />
         <Route path="/posts" component={Posts} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/" component={Home} />
+    </Switch>
+Не сработает:
+    <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/posts" component={Posts} />
+        <Route path="/dashboard" component={Dashboard} />
     </Switch>
 
 Тк Switch находит совпадение по первому символу и оставляет его.
@@ -9069,10 +9069,10 @@ return (
     <Route path="/">
         { (routeProps) =>  <Home {...routeProps} withSidebar/> }
     </Route>
------
+---------
 // Необязательно возвращать Компонент, можно вернуть что угодно
 
-    <Route path="/catalog/:category?/:subCategoy?">
+    <Route path="/catalog/:category?/:subCategory?">
         {({ match }) => <pre>{JSON.stringify(match.params)}</pre>}
     </Route>
 
@@ -9111,25 +9111,21 @@ URL-параметры указываются в виде “:{param}” (дво
 ---------------------------------------------------------
 /// Указание опциональных параметров
 -------------------
-path="/posts/:postId?" - говорит маршрутизатору о том что, если есть `postId` и если `postId` нет - он должен отобразить Компонент <Posts {...props}/>
+* path="/posts/:postId?" - говорит маршрутизатору о том что, если есть `postId` и если `postId` нет - он должен отобразить Компонент <Posts {...props}/>
 
-    return (
-        <Switch>
-            <Route
-                path="/posts/:postId?"
-                render={(props) => <Posts {...props} />}
-            />
-        </Switch>
-    )
+    <Switch>
+        <Route
+            path="/posts/:postId?"
+            render={(props) => <Posts {...props} />}
+        />
+    </Switch>
 -------------------
 /// Указание нескольких опциональных параметров
 ---------
 // App.jsx
-    return (
-        <Switch>
-            <Route path="/posts/:postId?/:display?" component={Posts} />
-        </Switch>
-    )
+    <Switch>
+        <Route path="/posts/:postId?/:display?" component={Posts} />
+    </Switch>
 
 // posts.jsx
     import PostList from "../postsList";
@@ -9164,20 +9160,20 @@ path="/posts/:postId?" - говорит маршрутизатору о том �
 function App() {
     return (
         <Switch>
-            <Route path="/catalog/:category?/:subCategoy?">
+            <Route path="/catalog/:category?/:subCategory?">
                 {({ match }) => <pre>{JSON.stringify(match.params)}</pre>}
             </Route>
         </Switch>
     );
 }
 
-    path="/catalog/:category?/:subCategoy?"
+    path="/catalog/:category?/:subCategory?"
     URL: http://localhost:5174/catalog/tools/hammer
 
-    {"category":"tools","subCategoy":"hammer"}
+    {"category":"tools","subCategory":"hammer"}
 
 ---------
-    // Последовательность параметров в URL полученных из CMS
+    // Последовательность параметров в URL
     const pathConfig = ['year', 'mounth', 'date', 'slug']
     // Паттерн для роута
     const routePath = "/:" + pathConfig.join('/:') // -> /:year/:mounth/:date/:slug
@@ -9213,7 +9209,7 @@ function App() {
     http://localhost:5173/posts 
     const search = query.parse(location.search); // {}
 
-Необходимо проверить именно есть ли в нашем Пропарсеном Объекте наш опциональный параметр-ключ. В частности `count` (тк в URL пишем count=1)
+Необходимо проверить есть ли в нашем пропарсеном Объекте наш опциональный параметр-ключ. В частности `count` (тк в URL пишем count=1)
 
   const cropPosts = search.count
     ? _(posts).slice(0).take(search.count).value()
@@ -9299,6 +9295,9 @@ replace() - перенаправляет, но пользователь не с�
     * useRouteMatch() - позволяет получить информацию о совпадении маршрута.
 
     * useParams() - позволяет получить доступ к параметрам маршрута, определенным с помощью Route.
+      URL: .../posts/231
+      <Route path="/posts/:postId" component={Posts} />
+      
 ---------
 Например, чтобы получить доступ к истории браузера в компоненте React, вы можете использовать следующий код:
 
