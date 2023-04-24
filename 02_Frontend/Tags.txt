@@ -6632,6 +6632,7 @@ Yarn - это менеджер пакетов, а Vite - это быстрый �
 -------------------
 // Установка Bootstrap и Popper: 
 
+    $ yarn add bootstrap
     $ yarn add react-bootstrap
     $ yarn add @popperjs/core
 // OR
