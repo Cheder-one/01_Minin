@@ -9951,7 +9951,7 @@ export default MyForm;
             description: ""
         });
         
-        const [errors, setErrors] = useState();
+        const [errors, setErrors] = useState({});
 
         const handleInputChange = (e) => {
             const { name, value } = e.target;
@@ -10003,8 +10003,8 @@ export default MyForm;
     export default IssueForm;
 
 ---------------------------------------------------------
-
----------------------------------------------------------
+/// Отображение ошибки валидации
+-------------------
 
 ---------------------------------------------------------
 
