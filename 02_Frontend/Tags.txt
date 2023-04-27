@@ -9905,13 +9905,102 @@ export default MyForm;
         ...
     <form/>
 ---------------------------------------------------------
-/// Валидация формы
+/// Валидация форм
 -------------------
 У валидации есть несколько подходов, заключающихся в том, в какой момент она срабатывает. Это может быть непосредственно перед отправкой, во время изменения данных или при переключении между полями. У каждого из этих способов есть свои недостатки и преимущества, мы будем использовать комбинированный способ. 
 
 Для начала создадим состояние для хранения ошибок:
-// MyForm
+// issueForm.jsx
     const [errors, setErrors] = useState({});
+
+// utils/validateRules.js
+    export const isFilledField = (value) => Boolean(value.trim());
+
+Реализуем саму функцию validate(). Она будет:
+    * Принимать наши значения полей
+    * Проверять, что они не являются пустой строкой
+    * Возвращать объект с ошибками, если они есть
+
+// utils/validator.js
+    import { isFilledField } from "./validateRules";
+
+    export const validate = (inputFields) => {
+      const errors = {};
+
+      for (const field in inputFields) {
+        const value = inputFields[field];
+        const hasError = !isFilledField(value);
+
+        if (hasError) {
+          errors[field] = `Поле ${field} обязательно`;
+        }
+      }
+      return errors;
+    };
+
+Теперь можем использовать нашу функцию в компоненте формы. При изменении values мы будем вызывать функцию validate() и получать ошибки:
+
+    import React, { useEffect, useState } from "react";
+    import TextField from "../../utils/templates/textField";
+    import { validate } from "../../utils/validators/validator";
+
+    const IssueForm = () => {
+        const [inputFields, setInputFields] = useState({
+            email: "",
+            link: "",
+            description: ""
+        });
+        
+        const [errors, setErrors] = useState();
+
+        const handleInputChange = (e) => {
+            const { name, value } = e.target;
+            setInputFields((prev) => ({
+            ...prev,
+            [name]: value
+            }));
+        };
+
+        const foundErrors = validate(inputFields);
+
+        useEffect(() => {
+            setErrors(foundErrors);
+        }, [inputFields]);
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            const hasErrors = Object.keys(foundErrors).length !== 0;
+            if (hasErrors) return;
+            console.log(inputFields);
+        };
+
+        const { email, link, description } = inputFields;
+
+        return (
+            <div>
+            <h2>Отчёт об ошибке</h2>
+
+            {/* Для удобства просмотра */}
+            <div>
+                <pre>{JSON.stringify(errors, null, 2)}</pre>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                <TextField
+                    label={"Email:"}
+                    type="text"
+                    id="email"
+                    name="email"
+                    value={email}
+                    onChange={handleInputChange}
+                />
+                </div>
+            </div>
+        );
+    };
+
+    export default IssueForm;
 
 ---------------------------------------------------------
 
