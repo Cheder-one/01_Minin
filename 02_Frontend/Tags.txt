@@ -738,7 +738,24 @@ let result = Number((amount / rate).toFixed(2)); // .toFixed(2) - обрезае
     }
 ---------------------------------------------------------
 //// switch case / break / default 
+-------------------
+В `case` можно передавать Функцию
 
+    case "isRequired": {
+        return Boolean(value.trim());
+    }
+---------
+    switch (ruleName) {
+        case "isRequired": {
+            return Boolean(value.trim());
+        }
+        case "isEmail":
+            return isEmail(value);
+        default:
+            return true;
+    }
+    
+-------------------
     let arg = prompt("Введите число?");
     switch (arg) {
     case '0':
@@ -10088,8 +10105,35 @@ const Login = () => {
 
 
 ---------------------------------------------------------
+/// Продвинутая Валидация
+-------------------
+Валидация RegExp email: 
 
----------------------------------------------------------
+    function validateEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    console.log(validateEmail("example@gmail.com")); // true
+    console.log(validateEmail("john.doe@example.co.uk")); // true
+    console.log(validateEmail("jane+doe@example.net")); // true
+
+    console.log(validateEmail("example")); // false
+    console.log(validateEmail("example@")); // false
+    console.log(validateEmail("example.com")); // false
+    console.log(validateEmail("example@com")); // false
+---------
+   - ^[^\s@]+ означает, что строка должна начинаться с одного или более символов, которая не должна содержать пробелов или @
+   - @[^\s@]+ означает, что после символа @ должно следовать один или более символов, которые не являются пробелами или символами @.
+   - \.[^\s@]+$ означает, что после `точки` должно следовать один или более символов, которые не являются пробелами или символами @.
+---------
+   - \S Соответствует чему угодно, кроме символа пробела, табуляции или новой строки.
+   - \s Соответствует любому символу пробела, табуляции или новой строки.
+   - + Соответствует одному или нескольким последовательным символам «a».
+   - ^ Частица "не". 
+    [^abc] Соответствует любому символу, кроме a, b или c
+    [^a-z] Соответствует любым символам, кроме символов в диапазоне от a до z.
+
 
 ---------------------------------------------------------
 
