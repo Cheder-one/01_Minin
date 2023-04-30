@@ -7326,7 +7326,6 @@ Fix:
     <div className="container d-flex justify-content-end">
         <button className="btn btn-warning mt-2">Reset</button>
     </div>
-
 -------------------
     'd-grid gap-2 d-md-flex justify-content-md-end' - Выравнивает элементы контейнера по правой стороне 
 ---------
@@ -7412,6 +7411,8 @@ Fix:
             <Form.Control id="email" className="my-1" type="text" name="email" />
         </Form.Group>
     </Form>
+-------------------
+    'btn btn-outline-primary disabled' - отключить кнопку
 -------------------
     'style={{ width: "250px" }}' - установит ширину 250px
 -------------------
@@ -7777,7 +7778,7 @@ className используется для добавления класса в H
 ---------
     columns[column].component || _.get(item, columns[column].iter)
 
-Если columns[column].component не существет, то отображаем _.get(item, columns[column].iter)
+Если columns[column].component не существует, то отображаем _.get(item, columns[column].iter)
 ---------
     {data.map((item) => (
         <tr key={item._id}>
@@ -10265,17 +10266,19 @@ const Login = () => {
     <form>
         <input 
             type="text"
-            pattern="^S+@S+.S+$" // проверка на соответствие
-            required // поле обязательно
+            pattern="^S+@S+.S+$" // Проверка на соответствие
+            required // Поле обязательно
         >
-        <button type="submit">Отправить</button>
+        <button type="submit" disabled={!isValid}> // Отключает кнопку 
+            Отправить
+        </button>
     </form>
 
 Если значение не будет соответствовать регулярному выражению, то при попытке отправить форму мы увидим ошибку.
 ---------
     <form>
         <input 
-            type="email" // проверяет емаил
+            type="email" // Проверяет емаил
             required
         >
         <button type="submit">Отправить</button>
@@ -10284,7 +10287,7 @@ const Login = () => {
     <form>
         <input 
             type="text"
-            minlength="6" // указывает минимальное количество символов
+            minlength="6" // Указывает минимальное количество символов
             required
         >
         <button type="submit">Отправить</button>
