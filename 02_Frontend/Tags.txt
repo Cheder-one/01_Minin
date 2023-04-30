@@ -7412,19 +7412,128 @@ Fix:
         </Form.Group>
     </Form>
 -------------------
-    'btn btn-outline-primary disabled' - отключить кнопку
+    'disabled={hasErrors}' - отключить кнопку
+    <button
+        disabled={hasErrors}
+        className={"btn btn-primary"}
+        type="submit"
+    >
+        Вход
+    </button>
+---------
+    className={"btn btn-primary " + (hasErrors ? "disabled" : "")} - более мороченско через бутстрап
 -------------------
     'style={{ width: "250px" }}' - установит ширину 250px
 -------------------
-    'w-50' для установки ширины элемента в 50% от ширины родительского элемента
+    'w-100' для установки ширины элемента в 100% от ширины родительского элемента
 ---------
      w-25, w-50, w-75, w-100, w-auto 
      h-25, h-50, h-75, h-100, h-auto
 -------------------
-    'mx-auto' -  устанавливает margin-left: auto; и margin-right: auto; для элемента, что центрирует элемент по горизонтали.
+    'mx-auto' - задает элементу автоматический отступ слева и справа, выравнивая его по центру горизонтально.
+-------------------
+    'invalid-feedback' - им должен быть обернут родительский <div> и <div> для вывода
+    <div className="mb-4">
+        <label htmlFor="id">Email</label>
+        <input
+            id="id"
+            className="form-control is-invalid" // ("is-valid")
+        />
+        <div className="invalid-feedback">"Invalid Email"</div>
+    </div>
+---------
+const TextField = ({ label, type, id, name, value, onChange, error }) => {
+    const getInputClasses = () => {
+        return "form-control " + (error ? "is-invalid" : "is-valid");
+    };
+    return (
+        <div className="mb-4">
+        <label htmlFor={id}>{label}</label>
+        <input
+            className={getInputClasses()}
+            type={type}
+            id={id}
+            name={name}
+            value={value}
+            onChange={onChange}
+        />
+        <div className="invalid-feedback">{error}</div>
+        </div>
+    );
+};
+-------------------
+    Login <form> - Создание формы Логина
+    <div className="container mt-5">
+        <div className="row">
+            <div className="col-md-6 offset-md-3 shadow p-4">
+                <form className="mx-3" onSubmit={handleSubmit}>
+                    // ...
+                <button
+                    disabled={hasErrors}
+                    className={"btn btn-primary w-100 mx-auto"}
+                    type="submit"
+                    >
+                        Вход
+                </button>
+            </form>
+            </div>
+        </div>    
+    </div>  
+---------
+return (
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-6 offset-md-3 shadow p-4">
+          <form className="mx-3" onSubmit={handleSubmit}>
+            <h3 className="mb-4">Login</h3>
+            <div className="form-group">
+              <TextField
+                label={"Email:"}
+                type="text"
+                id="email"
+                name="email"
+                value={email}
+                onChange={handleInputChange}
+                error={errors.email}
+              />
+            </div>
+            <div className="form-group">
+              <TextField
+                label={"Пароль:"}
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={handleInputChange}
+                error={errors.password}
+              />
+            </div>
+            <button
+              disabled={hasErrors}
+              className={"btn btn-primary w-100 mx-auto"}
+              type="submit"
+            >
+              Вход
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+-------------------
+    'col-md-6 offset-md-3' - центрирует. Занимает по середине 6 колонок, отступ слева и справа - 3 колонки
+---------
+    '<div className="row">
+        <div className="col-md-6 offset-md-3 shadow">
+            // ...
+        </div>
+    </div>
+-------------------
+    'shadow' - придает тени div-у
 -------------------
 
-
+-------------------
 -------------------
 /// Добавление ветвления класса:
 ---------
