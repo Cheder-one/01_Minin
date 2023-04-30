@@ -7432,20 +7432,23 @@ Fix:
 -------------------
     'mx-auto' - задает элементу автоматический отступ слева и справа, выравнивая его по центру горизонтально.
 -------------------
-    'invalid-feedback' - им должен быть обернут родительский <div> и <div> для вывода
+    'invalid-feedback' - Визуальный отклик на валидацию поля. Им должен быть обернут родительский <div> и <div> для вывода
+
     <div className="mb-4">
         <label htmlFor="id">Email</label>
         <input
             id="id"
-            className="form-control is-invalid" // ("is-valid")
+            className=""form-control " + (error ? "is-invalid" : "is-valid")
         />
-        <div className="invalid-feedback">"Invalid Email"</div>
+        <div className="invalid-feedback">{error}</div>
     </div>
 ---------
 const TextField = ({ label, type, id, name, value, onChange, error }) => {
+
     const getInputClasses = () => {
         return "form-control " + (error ? "is-invalid" : "is-valid");
     };
+
     return (
         <div className="mb-4">
         <label htmlFor={id}>{label}</label>
@@ -7532,8 +7535,42 @@ return (
 -------------------
     'shadow' - придает тени div-у
 -------------------
+    'has-validation' - исправляет баг квадратной кнопки в div-е с проверкой валидности формы и кнопкой скрыть/показать пароль
+-------------------
+    'input-group' - связывает поле <input/> и <button/> для создания поля с кнопкой
+-------------------
+    <div className="input-group has-validation">
+        <input
+          className={getInputClasses()}
+          type={showPass ? "text" : type}
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+        />
+        {type === "password" && (
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={toggleShowPass}
+          >
+            {showPass ? eyeSlash : eyeFill}
+          </button>
+        )}
+        <div className="invalid-feedback">{error}</div>
+    </div>
+-------------------
 
 -------------------
+
+-------------------
+
+-------------------
+
+-------------------
+
+-------------------
+
 -------------------
 /// Добавление ветвления класса:
 ---------
@@ -10403,20 +10440,45 @@ const Login = () => {
     </form>
 
 ---------------------------------------------------------
-// Реализация проверки по отдельным RegExp
+/// Скрыть/Показать пароль
 -------------------
-    const isStrongPass = (value) => {
-        const regexps = {
-            capital: /[A-ZА-Я]+/,
-            digit: /\d+/
-        };
-        const results = Object.values(regexps).map((regexp) => regexp.test(value));
-        return results.every((result) => result);
-    };
----------------------------------------------------------
+const TextField = ({ label, type, id, name, value, onChange, error }) => {
+  const [showPass, setShowPass] = useState(false);
 
----------------------------------------------------------
+  const getInputClasses = () => {
+    return "form-control " + (error ? "is-invalid" : "is-valid");
+  };
 
+  const toggleShowPass = () => {
+    setShowPass((perv) => !perv);
+  };
+
+  return (
+    <div className="mb-4">
+      <label htmlFor={id}>{label}</label>
+      <div className="input-group has-validation">
+        <input
+          className={getInputClasses()}
+          type={showPass ? "text" : type}
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+        />
+        {type === "password" && (
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={toggleShowPass}
+          >
+            {showPass ? eyeSlash : eyeFill}
+          </button>
+        )}
+        <div className="invalid-feedback">{error}</div>
+      </div>
+    </div>
+  );
+};
 ---------------------------------------------------------
 
 ---------------------------------------------------------
