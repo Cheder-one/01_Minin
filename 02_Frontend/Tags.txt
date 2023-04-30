@@ -10449,32 +10449,35 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
     return "form-control " + (error ? "is-invalid" : "is-valid");
   };
 
-  const toggleShowPass = () => {
+  const toggleShowPass = () => {    // Меняем статус show/hide при нажатии 
     setShowPass((perv) => !perv);
   };
 
   return (
     <div className="mb-4">
       <label htmlFor={id}>{label}</label>
-      <div className="input-group has-validation">
+        // связываем поле ввода и кнопку 
+        // исправляем баг квадратной кнопки при отображении текста с ошибкой 
+      <div className="input-group has-validation"> 
         <input
           className={getInputClasses()}
-          type={showPass ? "text" : type}
+          type={showPass ? "text" : type} 
+            // Если нажали `show`, меняем type с `password` на "text"
           id={id}
           name={name}
           value={value}
           onChange={onChange}
         />
-        {type === "password" && (
+        {type === "password" && (   // отображаем только для поля `password`
           <button
             type="button"
             className="btn btn-outline-primary"
             onClick={toggleShowPass}
           >
-            {showPass ? eyeSlash : eyeFill}
+            {showPass ? eyeSlash : eyeFill}  // меняем значок кнопки скрытия 
           </button>
         )}
-        <div className="invalid-feedback">{error}</div>
+        <div className="invalid-feedback">{error}</div> // отображение ошибок
       </div>
     </div>
   );
