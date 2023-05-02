@@ -2050,7 +2050,7 @@ console.log('agesOfDevelopers', agesOfDevelopers);
     const pattern = /NORTH\s*,\s*SOUTH|SOUTH\s*,\s*NORTH/g;
     str.replace(pattern, "");
 
----------
+-------------------
 // Если нужно передать переменные:
 ---------
     let arr = ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"];
@@ -2059,7 +2059,28 @@ console.log('agesOfDevelopers', agesOfDevelopers);
     let str = arr.join(",");
     const pattern = new RegExp(`${n}\\s*,\\s*${s}|${s}\\s*,\\s*${n}`, 'g');
     str = str.replace(pattern, "");
+---------
 
+    function handleSearch(search) {
+        const regex = new RegExp(search, "gi"); // /рататуй/gi
+
+        return users.filter((user) => user.name.match(regex));
+    }
+
+    handleSearch('рататуй')  //   [
+      {
+        _id: '63eeb7471824',
+        name: 'Рататуй',
+        profession: { _id: '63eeb7471829', name: 'Повар' },
+        qualities: Array(2) [
+          { _id: '63eeb7471102', name: 'Красавчик', color: 'info' }, { _id: '67eeb7f711012', name: 'Юморист', color: 'success' },
+          
+        ],
+        completedMeetings: 17,
+        rate: 4.5,
+        bookmark: false
+      }
+    ]
 -------------------
 /// .match(/../g) - Разбить строку на равные куски по два символа 
 ---------
