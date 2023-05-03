@@ -8738,7 +8738,7 @@ Child Component with default props
                     </span>
                     ))}
                 </td>
-                <td}>{profession.name}</td>
+                <td>{profession.name}</td>
                 <td>{completedMeetings}</td>
                 <td>{rate}/5</td>
             </>
