@@ -10547,7 +10547,26 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
 ---------------------------------------------------------
 /// Реструктуризация проекта
 -------------------
-    * `common` - Папка для хранения переиспользуемых компонентов 
+    * `common` - Переиспользуемые компоненты
+    * `ui` - Конкретные, не переиспользуемые компоненты
+    * `page` - Компоненты для страниц
+
+-------------------
+// Для чего создание index.js в папке с файлами
+---------
+// table/index.js
+    import tableShell from "./tableShell";
+    import tableBody from "./tableBody";
+    import tableHeader from "./tableHeader";
+
+    export default tableShell;
+    export { tableBody, tableHeader };
+
+Теперь мы можем не дублировать каждый путь к файлу, а лишь ссылаться к папке с данными файлами и вытаскивать необходимые.
+Это некая своеобразная деструктуризация файлов.
+
+// usersTable.jsx
+    import TableShell, { TableHeader, TableBody } from "../common/table";
 
 ---------------------------------------------------------
 
