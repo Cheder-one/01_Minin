@@ -10552,9 +10552,9 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
     * `ui` - Конкретные, не переиспользуемые компоненты имеющие специфические данные.
     * `page` - Компоненты, которые будут вызваны на конкретной странице
 
+---------------------------------------------------------
+/// Выстраивание уровней Абстракции 
 -------------------
-// Выстраивание уровней Абстракции 
----------
     layouts (Высокоуровневые компоненты)
         \/
     components
@@ -10665,6 +10665,140 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
 
 // usersTable.jsx
     import TableShell, { TableHeader, TableBody } from "../common/table";
+
+---------------------------------------------------------
+/// Выстраивание уровней Абстракции для Компонента "FeedbackPage"
+-------------------
+    FormLayout 
+        \/
+    FeedbackForm    
+        \/
+    FeedbackPage
+-------------------
+|> Компонент "FormLayout" - содержит общую разметку формы, которая может быть использована для различных форм на сайте. Это позволяет избежать дублирования кода и упрощает поддержку кода в будущем.
+---------
+=<< FormLayout выполняет функцию обертки и принимает содержание `children`
+
+  const FormLayout = ({ children, title }) => { 
+    return (
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-md-6 offset-md-3 shadow p-4">
+            <h2>{title}</h2>
+            {children}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  export default FormLayout;
+
+-------------------
+|> Компонент "FeedbackForm" - содержит логику обработки данных и валидации для конкретной формы обратной связи. 
+---------
+  const FeedbackForm = () => {
+    const [inputFields, setInputFields] = useState({
+      email: "",
+      link: "",
+      description: "",
+      password: ""
+    });
+  
+    const [errors, setErrors] = useState({});
+  
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setInputFields((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    };
+  
+    const foundErrors = validate(inputFields, issueFormSchema);
+  
+    useEffect(() => {
+      setErrors(foundErrors);
+    }, [inputFields]);
+  
+    const hasErrors = Object.keys(foundErrors).length !== 0;
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (hasErrors) return;
+      console.log(inputFields);
+    };
+  
+    const { email, link, description, password } = inputFields;
+  
+    return (
+      <div className="container p-4">
+  
+      // Передаем в `FormLayout` `children` и `title`  
+        <FormLayout title="Отчет об ошибке">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <TextField
+                label="Ссылка на страницу с ошибкой:"
+                type="text"
+                id="link"
+                name="link"
+                value={link}
+                onChange={handleInputChange}
+                error={errors.link}
+              />
+            </div>
+            <div className="form-group">
+              <TextField
+                label="Описание:"
+                type="text"
+                id="description"
+                name="description"
+                value={description}
+                onChange={handleInputChange}
+                error={errors.description}
+              />
+            </div>
+            <button
+              disabled={hasErrors}
+              className="btn btn-primary w-100 mx-auto"
+              type="submit"
+            >
+              Отправить
+            </button>
+          </form>
+        </FormLayout>
+      </div>
+    );
+  };
+
+  export default FeedbackForm;
+
+-------------------
+|> Компонент "FeedbackPage" - отвечает за создание страницы обратной связи, включая в себя компонент `FeedbackForm` и другие возможные
+---------
+=<< FeedbackPage определяет макет и внешний вид страницы, а также может содержать дополнительную логику, связанную с роутингом или взаимодействием с другими компонентами.
+
+  const FeedbackPage = () => {
+    return <FeedbackForm />;
+  };
+  
+  export default FeedbackPage;
+
+---------
+// Почему просто не разместить `FeedbackForm` напрямую?
+---------
+Использование FeedbackPage имеет несколько преимуществ:
+
+    1) Масштабируемость: если в будущем появится необходимость добавить дополнительную логику на страницу обратной связи, вы можете легко добавить это внутри компонента FeedbackPage, не затрагивая логику компонента FeedbackForm.
+
+    2) Гибкость: если в будущем вы захотите использовать компонент FeedbackForm на других страницах, вы можете просто вставить его туда, не заботясь о том, как правильно оформить страницу.
+
+    3) Читаемость: использование FeedbackPage делает код более читаемым и понятным, поскольку он группирует логику, связанную с определенной страницей, в отдельном компоненте.
+
+---------------------------------------------------------
+/// 
+-------------------
+
 
 ---------------------------------------------------------
 
