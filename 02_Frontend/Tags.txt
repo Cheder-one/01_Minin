@@ -9464,7 +9464,7 @@ URL-параметры указываются в виде “:{param}” (дво
 ---------------------------------------------------------
 /// Указание опциональных параметров
 -------------------
-* path="/posts/:postId?" - говорит маршрутизатору о том что, если есть `postId` и если `postId` нет - он должен отобразить Компонент <Posts {...props}/>
+=<< path="/posts/:postId?" - говорит маршрутизатору о том что. независимо есть ли `postId` или `postId` нет - он должен отобразить Компонент <Posts {...props}/>
 
 return (
     <Switch>
@@ -9491,12 +9491,12 @@ return (
 ---------
 // App.jsx
 
-return (
-    <Switch>
-        <Route path="/posts/:postId?/:display?" component={Posts} />
-    </Switch>
-)
-
+    return (
+        <Switch>
+            <Route path="/posts/:postId?/:display?" component={Posts} />
+        </Switch>
+    )
+---------
 // posts.jsx
     import PostList from "../postsList";
     import Post from "../post";
@@ -9526,7 +9526,40 @@ return (
       );
     };
     
----------
+-------------------
+*** Refactoring App.jsx
+
+|> App.jsx
+  const App = () => {
+    return (
+      <>
+        <Switch>
+Стало ==> <Route path="/users/:userId?" component={Users} />   
+          <Route path="/login" component={Login} />
+          <Route path="/" component={Main} />
+          <Route component={Page404} />
+        </Switch>
+      </>
+    );
+  };
+
+|> Users.jsx
+  const Users = () => {
+    const params = useParams();
+    const { userId } = params;
+  
+    return <>{userId ? <UserPage userId={userId} /> : <UsersListPage />}</>;
+  };
+  export default Users;
+
+Было:
+|> App.jsx
+    <Switch>
+        <Route path="/users/:userId" component={User} />
+        <Route path="/users/" component={UsersListPage} />
+    </Switch>
+
+-------------------
 function App() {
     return (
         <Switch>
@@ -9541,12 +9574,11 @@ function App() {
     URL: http://localhost:5174/catalog/tools/hammer
 
     {"category":"tools","subCategory":"hammer"}
-
----------
+-------------------
     // Последовательность параметров в URL
-    const pathConfig = ['year', 'mounth', 'date', 'slug']
+    const pathConfig = ['year', 'month', 'date', 'slug']
     // Паттерн для роута
-    const routePath = "/:" + pathConfig.join('/:') // -> /:year/:mounth/:date/:slug
+    const routePath = "/:" + pathConfig.join('/:') // -> /:year/:month/:date/:slug
 
     <Route path={routePath} component={Post}/>
 
@@ -10669,17 +10701,17 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
 ---------------------------------------------------------
 /// Выстраивание уровней Абстракции для Компонента "FeedbackPage"
 -------------------
-    FormLayout 
+       Form 
         \/
     FeedbackForm    
         \/
     FeedbackPage
 -------------------
-|> Компонент "FormLayout" - содержит общую разметку формы, которая может быть использована для различных форм на сайте. Это позволяет избежать дублирования кода и упрощает поддержку кода в будущем.
+|> Компонент "Form" - содержит общую разметку формы, которая может быть использована для различных форм на сайте. Это позволяет избежать дублирования кода и упрощает поддержку кода в будущем.
 ---------
-=<< FormLayout выполняет функцию обертки и принимает содержание `children`
+=<< Form выполняет функцию обертки и принимает содержание `children`
 
-  const FormLayout = ({ children, title }) => { 
+  const Form = ({ children, title }) => { 
     return (
       <div className="container mt-5">
         <div className="row">
@@ -10692,7 +10724,7 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
     );
   };
 
-  export default FormLayout;
+  export default Form;
 
 -------------------
 |> Компонент "FeedbackForm" - содержит логику обработки данных и валидации для конкретной формы обратной связи. 
@@ -10733,8 +10765,8 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
     return (
       <div className="container p-4">
   
-      // Передаем в `FormLayout` `children` и `title`  
-        <FormLayout title="Отчет об ошибке">
+      // Передаем в `Form` `children` и `title`  
+        <Form title="Отчет об ошибке">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <TextField
@@ -10766,7 +10798,7 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
               Отправить
             </button>
           </form>
-        </FormLayout>
+        </Form>
       </div>
     );
   };
