@@ -10848,7 +10848,7 @@ const Example = () => {
     <form>
       <p>Выбранное значение: {value}</p>
       <select name="fruit" value={value} onChange={handleChange}>
-        <option value="">-- Выберите фрукт --</option>
+        <option value=""> -- Выберите фрукт -- </option>
         <option value="banana">Банан</option>
         <option value="orange">Апельсин</option>
         <option value="apple">Яблоко</option>
@@ -10859,7 +10859,7 @@ const Example = () => {
 };
 
 export default Example;
-
+-------------------
 
 
 |> registerForm.jsx
