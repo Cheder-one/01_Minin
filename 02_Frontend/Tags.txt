@@ -7369,9 +7369,9 @@ Fix:
 -------------------
  >- 'text-success' - окрасить текст
 -------------------
- >- 'font-weight-bold' - жирный шрифт
-    'font-weight-normal'
-    'font-weight-light'
+ >- 'fw-bold' - жирный шрифт
+    'fw-normal'
+    'fw-light'
 ---------
     style={{ fontWeight: "bold" }} - Выделенный текст
 
@@ -7512,7 +7512,6 @@ return (
         <div className="col-md-6 offset-md-3 shadow p-4">
           <form className="mx-3" onSubmit={handleSubmit}>
             <h3 className="mb-4">Login</h3>
-            <div className="form-group">
               <TextField
                 label={"Email:"}
                 type="text"
@@ -7522,8 +7521,6 @@ return (
                 onChange={handleInputChange}
                 error={errors.email}
               />
-            </div>
-            <div className="form-group">
               <TextField
                 label={"Пароль:"}
                 type="password"
@@ -7533,7 +7530,6 @@ return (
                 onChange={handleInputChange}
                 error={errors.password}
               />
-            </div>
             <button
               disabled={hasErrors}
               className={"btn btn-primary w-100 mx-auto"}
@@ -10252,7 +10248,6 @@ export default MyForm;
             </div>
 
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
                 <TextField
                     label={"Email:"}
                     type="text"
@@ -10261,7 +10256,6 @@ export default MyForm;
                     value={email}
                     onChange={handleInputChange}
                 />
-                </div>
             </div>
         );
     };
@@ -10305,7 +10299,9 @@ export default MyForm;
         isUrl: (value) => /^https?:\/\/(www.)?[^\s]+$/g.test(value),
         isStrongPass: (value) => /(?=.*[A-ZА-Я])(?=.*[a-zа-я])(?=.*\d)/g.test(value),
         minLength: (value, allowValue) => value.length > allowValue,
-        maxLength: (value, allowValue) => value.length < allowValue
+        maxLength: (value, allowValue) => value.length < allowValue,
+        isFio: (value) =>
+          /^(([a-zA-Zа-яА-Я]+)\s){1,}(([a-zA-Zа-яА-Я]+)\s?){1,}$/.test(value)
     };
 
 -------------------
@@ -10642,7 +10638,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
             <div className="col-md-6 offset-md-3 shadow p-4">
             <form className="mx-3" onSubmit={handleSubmit}>
                 <h3 className="mb-4">Login</h3>
-                <div className="form-group">
                 <TextField
                     label={"Email:"}
                     type="text"
@@ -10652,8 +10647,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
                     onChange={handleInputChange}
                     error={errors.email}
                 />
-                </div>
-                <div className="form-group">
                 <TextField
                     label={"Пароль:"}
                     type="password"
@@ -10663,7 +10656,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
                     onChange={handleInputChange}
                     error={errors.password}
                 />
-                </div>
                 <button
                 disabled={hasErrors}
                 className={"btn btn-primary w-100 mx-auto"}
@@ -10701,11 +10693,11 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
 ---------------------------------------------------------
 /// Выстраивание уровней Абстракции для Компонента "FeedbackPage"
 -------------------
-       Form 
+       Form (стандартная обертка формы)
         \/
-    FeedbackForm    
+    FeedbackForm (передаем тело и название в шаблон/ опционально add elems)
         \/
-    FeedbackPage
+    FeedbackPage (передаем форму и опционально добавляем специфические элементы на итоговую страницу)
 -------------------
 |> Компонент "Form" - содержит общую разметку формы, которая может быть использована для различных форм на сайте. Это позволяет избежать дублирования кода и упрощает поддержку кода в будущем.
 ---------
@@ -10768,7 +10760,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
       // Передаем в `Form` `children` и `title`  
         <Form title="Отчет об ошибке">
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
               <TextField
                 label="Ссылка на страницу с ошибкой:"
                 type="text"
@@ -10778,8 +10769,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
                 onChange={handleInputChange}
                 error={errors.link}
               />
-            </div>
-            <div className="form-group">
               <TextField
                 label="Описание:"
                 type="text"
@@ -10789,7 +10778,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
                 onChange={handleInputChange}
                 error={errors.description}
               />
-            </div>
             <button
               disabled={hasErrors}
               className="btn btn-primary w-100 mx-auto"
