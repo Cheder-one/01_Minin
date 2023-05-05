@@ -7579,6 +7579,10 @@ return (
         <div className="invalid-feedback">{error}</div>
     </div>
 -------------------
+ >- 'col-md-6' - создать столбец, который занимает половину ширины родительского элемента.
+-------------------
+
+-------------------
 
 -------------------
 
@@ -10920,8 +10924,8 @@ const RegisterForm = ({ text }) => {
         lable="Ваша профессия:"
         name="profession"
         value={profession}
-        onChange={handleInputChange}
         options={professions}
+        onChange={handleInputChange}
         error={errors.profession}
       />
       <button
@@ -10953,13 +10957,13 @@ const SelectField = ({
 
   return (
     <div className="mb-4">
-      <label htmlFor="profFormSelect" className="form-label">
+      <label htmlFor={name} className="form-label">
         {lable}
       </label>
 
       <select   /=/ Обертка для вариантов-`option`
         className={getInputClasses()}
-        id="profFormSelect" /=/ Скрепляет поле с `label`
+        id={name} /=/ Скрепляет поле с `label`
         name={name} // 'profession' /=/ Имя поля. По нему будет искаться Объект с правилами для поля.
         value={value} // `option._id` /=/ Значение в <option>, которое будет отправлено вместе с формой.
         onChange={onChange}
