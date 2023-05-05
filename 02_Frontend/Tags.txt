@@ -10833,7 +10833,7 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
     -< disabled – элемент недоступен для самостоятельного выбора.
 
 -------------------
-/// Контролируемый элемент <select>
+// Контролируемый элемент <select>
 ---------
 import React, { useState } from "react";
 
@@ -10859,18 +10859,23 @@ const Example = () => {
 };
 
 export default Example;
+
+    * Внутри <select> находятся несколько <option>, у которых установлен собственный атрибут `value`.
+    * Если внутри <select> есть <option> с таким же значением `value` (как у самого <select>), то он будет отображен выбранным. 
+    В данном примере изначально будет выбран “-- Выберите фрукт --”, так как у него `value` === "", так же как `value` из useState("").
+
 -------------------
-
-
+// Создание Компонента "SelectField"
+---------
 |> registerForm.jsx
 
 const RegisterForm = ({ text }) => {
   const [inputFields, setInputFields] = useState({
     email: "",
     password: "",
-    profSelect: "" /=/ Добавили для поля выбора профессии
+    profession: "" /=/ Добавили для поля выбора профессии
   });
-  const { email, password, profSelect } = inputFields;
+  const { email, password, profession } = inputFields;
 
   const [errors, setErrors] = useState({});
   
@@ -10913,10 +10918,11 @@ const RegisterForm = ({ text }) => {
       />
       <SelectField
         lable="Ваша профессия:"
-        value={profSelect}
+        name="profession"
+        value={profession}
         onChange={handleInputChange}
         options={professions}
-        error={errors.profSelect}
+        error={errors.profession}
       />
       <button
         disabled={hasErrors}
@@ -10934,6 +10940,7 @@ const RegisterForm = ({ text }) => {
 
 const SelectField = ({
   lable,
+  name,
   value,
   onChange,
   defaultOptions,
@@ -10953,8 +10960,8 @@ const SelectField = ({
       <select   /=/ Обертка для вариантов-`option`
         className={getInputClasses()}
         id="profFormSelect" /=/ Скрепляет поле с `label`
-        name="profSelect" /=/ Имя поля. По нему будет искаться RuleName:{}
-        value={value} /=/ значение  <option>, которое будет отправлено вместе с формой.
+        name={name} // 'profession' /=/ Имя поля. По нему будет искаться Объект с правилами для поля.
+        value={value} // `option._id` /=/ Значение в <option>, которое будет отправлено вместе с формой.
         onChange={onChange}
       >
         <option disabled value="">
@@ -10965,8 +10972,10 @@ const SelectField = ({
           (Array.isArray(options)
             ? options.map((option) => (
                 <option key={option._id} value={option._id}>
-                  {option.name}
-                </option>
+                  /=/ Если <option value> сходится с <select value>, el отображается как выбранный
+                  
+                  {option.name} 
+                </select>
               ))
             : Object.keys(options).map((optionName) => {
                 const optionInfo = options[optionName];
@@ -10986,57 +10995,6 @@ SelectField.defaultProps = {
   defaultOptions: "Choose..."
 };
 
-
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        label={"Email:"}
-          // ...
-      />
-      <TextField
-        label={"Пароль:"}
-          // ...
-      />
-  // Создаем `select-список`
-      <div className="mb-4">
-        <label htmlFor="profFormSelect" className="form-label">
-          Ваша профессия:
-        </label>
-        <select
-          className="form-select"
-          id="profFormSelect"
-          name="profession"
-          value={selectedProf} // Передает `id` выбранной профессии
-          onChange={handleInputChange}
-        >
-          <option disabled value="">
-            Choose...
-          </option>
-          {professions &&
-            Object.keys(professions).map((profName) => {
-              const profInfo = professions[profName];
-              return (                                  
-                <option key={profInfo._id} value={profInfo._id}> 
-                  // `value` получает `id` отрендеренной профессии и связывается с `value` в <select> понимая какой el отобразить
-
-                  {profInfo.name} 
-                </option>
-              );
-            })}
-        </select>
-        <div className="invalid-feedback">Please select a valid state.</div>
-      </div>
-      <button
-        disabled={hasErrors}
-        className={"btn btn-primary w-100 mx-auto"}
-        type="submit"
-      >
-        {text}
-      </button>
-    </form>
-  );
-};
 
 ---------------------------------------------------------
 
