@@ -10818,18 +10818,64 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
 ---------------------------------------------------------
 /// Создание Контролируемого `Select-form`
 -------------------
+<select name="fruit">
+    <option value=""> -- Выберите фрукт -- </option>
+    <option value="banana">Банан</option>
+    <option value="orange">Апельсин</option>
+    <option value="apple">Яблоко</option>
+</select>
+---------
+У <select> помимо атрибута `name`,  есть и другие, например `multiple` или  `required` (обязательное поле).
+
+У <option> также есть атрибуты, например: 
+    -< value – значение, которое будет отправлено вместе с формой, если выбран этот <option>. Если этого атрибута нет, значение берется из текстового содержимого элемента <option>.
+    -< selected – задает изначально выбранный элемент.
+    -< disabled – элемент недоступен для самостоятельного выбора.
+
+-------------------
+/// Контролируемый элемент <select>
+---------
+import React, { useState } from "react";
+
+const Example = () => {
+  const [value, setValue] = useState("");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  return (
+    <form>
+      <p>Выбранное значение: {value}</p>
+      <select name="fruit" value={value} onChange={handleChange}>
+        <option value="">-- Выберите фрукт --</option>
+        <option value="banana">Банан</option>
+        <option value="orange">Апельсин</option>
+        <option value="apple">Яблоко</option>
+      </select>
+      <button type="submit">Отправить</button>
+    </form>
+  );
+};
+
+export default Example;
+
+
+
+|> registerForm.jsx
+
 const RegisterForm = ({ text }) => {
   const [inputFields, setInputFields] = useState({
     email: "",
     password: "",
-    profession: "" // Добавили для поля выбора профессии
+    profSelect: "" /=/ Добавили для поля выбора профессии
   });
-  const { email, password, profession: selectedProf } = inputFields;
+  const { email, password, profSelect } = inputFields;
 
   const [errors, setErrors] = useState({});
-
-// Получаем список профессий
-  const [professions, setProfessions] = useState(); 
+  
+  /=/ Получаем список профессий
+  const [professions, setProfessions] = useState();
   useEffect(() => {
     API.professions.fetchAll().then((profs) => {
       setProfessions(profs);
@@ -10856,6 +10902,91 @@ const RegisterForm = ({ text }) => {
     if (hasErrors) return;
     console.log(inputFields);
   };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <TextField
+        label={"Email:"}
+      />
+      <TextField
+        label={"Пароль:"}
+      />
+      <SelectField
+        lable="Ваша профессия:"
+        value={profSelect}
+        onChange={handleInputChange}
+        options={professions}
+        error={errors.profSelect}
+      />
+      <button
+        disabled={hasErrors}
+        className={"btn btn-primary w-100 mx-auto"}
+        type="submit"
+      >
+        {text}
+      </button>
+    </form>
+  );
+};
+
+---------
+|> selectField.jsx
+
+const SelectField = ({
+  lable,
+  value,
+  onChange,
+  defaultOptions,
+  options,
+  error
+}) => {
+  const getInputClasses = () => {
+    return "form-select " + (error ? "is-invalid" : "is-valid");
+  };
+
+  return (
+    <div className="mb-4">
+      <label htmlFor="profFormSelect" className="form-label">
+        {lable}
+      </label>
+
+      <select   /=/ Обертка для вариантов-`option`
+        className={getInputClasses()}
+        id="profFormSelect" /=/ Скрепляет поле с `label`
+        name="profSelect" /=/ Имя поля. По нему будет искаться RuleName:{}
+        value={value} /=/ значение  <option>, которое будет отправлено вместе с формой.
+        onChange={onChange}
+      >
+        <option disabled value="">
+          {defaultOptions}
+        </option>
+
+        {options &&
+          (Array.isArray(options)
+            ? options.map((option) => (
+                <option key={option._id} value={option._id}>
+                  {option.name}
+                </option>
+              ))
+            : Object.keys(options).map((optionName) => {
+                const optionInfo = options[optionName];
+                return (
+                  <option key={optionInfo._id} value={optionInfo._id}>
+                    {optionInfo.name}
+                  </option>
+                );
+              }))}
+      </select>
+      <div className="invalid-feedback">{error}</div>
+    </div>
+  );
+};
+
+SelectField.defaultProps = {
+  defaultOptions: "Choose..."
+};
+
+
 
   return (
     <form onSubmit={handleSubmit}>
