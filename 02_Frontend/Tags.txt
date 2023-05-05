@@ -7466,7 +7466,7 @@ Fix:
         <div className="invalid-feedback">{error}</div>
     </div>
 ---------
-const TextField = ({ label, type, id, name, value, onChange, error }) => {
+const TextField = ({ label, type, name, value, onChange, error }) => {
 
     const getInputClasses = () => {
         return "form-control " + (error ? "is-invalid" : "is-valid");
@@ -7474,11 +7474,11 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
 
     return (
         <div className="mb-4">
-        <label htmlFor={id}>{label}</label>
+        <label htmlFor={name}>{label}</label>
         <input
             className={getInputClasses()}
             type={type}
-            id={id}
+            id={name}
             name={name}
             value={value}
             onChange={onChange}
@@ -7515,7 +7515,6 @@ return (
               <TextField
                 label={"Email:"}
                 type="text"
-                id="email"
                 name="email"
                 value={email}
                 onChange={handleInputChange}
@@ -7524,7 +7523,6 @@ return (
               <TextField
                 label={"Пароль:"}
                 type="password"
-                id="password"
                 name="password"
                 value={password}
                 onChange={handleInputChange}
@@ -7562,7 +7560,7 @@ return (
         <input
           className={getInputClasses()}
           type={showPass ? "text" : type}
-          id={id}
+          id={name}
           name={name}
           value={value}
           onChange={onChange}
@@ -10101,7 +10099,6 @@ export default MyForm;
           <TextField
             label={"Email:"}
             type="text"
-            id="email"
             name="email"
             value={email}
             onChange={handleInputChange}
@@ -10111,14 +10108,14 @@ export default MyForm;
   )
 
 // textField.jsx
-  const TextField = ({ label, type, id, name, value, onChange }) => {
+  const TextField = ({ label, type, name, value, onChange }) => {
     return (
       <>
         <label htmlFor="email">{label}</label>
         <input
           className="form-control"
           type={type}
-          id={id}
+          id={name}
           name={name}
           value={value}
           onChange={onChange}
@@ -10255,7 +10252,6 @@ export default MyForm;
                 <TextField
                     label={"Email:"}
                     type="text"
-                    id="email"
                     name="email"
                     value={email}
                     onChange={handleInputChange}
@@ -10537,7 +10533,7 @@ const Login = () => {
 ---------------------------------------------------------
 /// Скрыть/Показать пароль
 -------------------
-const TextField = ({ label, type, id, name, value, onChange, error }) => {
+const TextField = ({ label, type, name, value, onChange, error }) => {
   const [showPass, setShowPass] = useState(false);
 
   const getInputClasses = () => {
@@ -10550,7 +10546,7 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
 
   return (
     <div className="mb-4">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={name}>{label}</label>
         // связываем поле ввода и кнопку 
         // исправляем баг квадратной кнопки при отображении текста с ошибкой 
       <div className="input-group has-validation"> 
@@ -10558,7 +10554,7 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
           className={getInputClasses()}
           type={showPass ? "text" : type} 
             // Если нажали `show`, меняем type с `password` на "text"
-          id={id}
+          id={name}
           name={name}
           value={value}
           onChange={onChange}
@@ -10645,7 +10641,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
                 <TextField
                     label={"Email:"}
                     type="text"
-                    id="email"
                     name="email"
                     value={email}
                     onChange={handleInputChange}
@@ -10654,7 +10649,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
                 <TextField
                     label={"Пароль:"}
                     type="password"
-                    id="password"
                     name="password"
                     value={password}
                     onChange={handleInputChange}
@@ -10767,7 +10761,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
               <TextField
                 label="Ссылка на страницу с ошибкой:"
                 type="text"
-                id="link"
                 name="link"
                 value={link}
                 onChange={handleInputChange}
@@ -10776,7 +10769,6 @@ const TextField = ({ label, type, id, name, value, onChange, error }) => {
               <TextField
                 label="Описание:"
                 type="text"
-                id="description"
                 name="description"
                 value={description}
                 onChange={handleInputChange}
