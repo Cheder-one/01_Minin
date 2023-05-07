@@ -10973,7 +10973,7 @@ const SelectField = ({
           (Array.isArray(options)
             ? options.map((option) => (
                 <option key={option._id} value={option._id}>
-                  /=/ Если <option value> сходится с <select value>, el отображается как выбранный
+                  /=/ Если <option value> сходится с <select value>, `el` отображается как выбранный
                   
                   {option.name} 
                 </select>
@@ -11030,8 +11030,59 @@ Other:
     };
 
 ---------------------------------------------------------
+/// Radio form-check
+-------------------
+Чтобы значения устанавливались корректно, требуется указывать одинаковый атрибут `name` каждому <input type="radio">, относящемуся к одному “полю”
+---------
+    const options = [
+        { label: "Да", value: "yes" },
+        { label: "Нет", value: "no" }
+    ];
 
----------------------------------------------------------
+|> radioField.jsx
+
+const RadioField = ({ options, lable, name: fieldName, value, onChange }) => { 
+    /=/ Получаем более уникальный `id` из `label + value`
+  const getOptionId = (option) => `${option.label}_${option.value}`;
+
+    /=/ Создаем класс для опционального показа <div> с ошибкой
+  const getInputClasses = () => {
+    return "form-check form-check-inline " + (error ? " is-invalid" : "");
+  };
+
+  return (
+    <div className="mb-4">
+      <p>
+        <label>{label}</label> /=/ Название radio
+      </p>
+      {options.map((option) => (
+        <div key={option.value} className={getInputClasses()}> 
+        /=/ Оборачиваем каждый radio в <div>, он определяет показ ошибок
+          <input
+            className="form-check-input"
+            type="radio"
+            name={name} 
+            /=/ У каждого поля должен быть одинаковый `name`
+            id={getOptionId(option)} 
+            /=/ `id` должно быть уникальным
+            value={option.value} 
+            /=/ Внутреннее значение выбранного варианта, `id` этого варианта. Будет отправлено вместе с формой.
+            checked={option.value === value} 
+            /=/ Если `id` рендерящегося элемента === `id` `el` который был передан через обработчик `onChange` и установлен в состояние поля, которое было передано сюда как `value`, то отметить вариант как выбранный
+            onChange={onChange} 
+          />
+          /=/ Отображает название пункта `radio`
+          <label className="form-check-label" htmlFor={getOptionId(option)}>
+            {option.label}
+          </label>
+        </div>
+      ))}
+      /=/ При наличии ошибок отображает <div> с ошибкой
+      {error && <div className="invalid-feedback">{error}</div>}
+    </div>
+  );
+};
+
 
 ---------------------------------------------------------
 
