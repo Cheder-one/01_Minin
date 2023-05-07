@@ -11083,10 +11083,28 @@ const RadioField = ({ options, lable, name: fieldName, value, onChange }) => {
   );
 };
 
-
 ---------------------------------------------------------
+/// Множественный select. React Select 
+-------------------
+    $ yarn add react-select
+    $ npm i --save react-select
+---------
+Import the default export and render in your component:
 
----------------------------------------------------------
+    import React from 'react'
+    import Select from 'react-select'
+
+    const options = [
+        { value: 'chocolate', label: 'Chocolate' },
+        { value: 'strawberry', label: 'Strawberry' },
+        { value: 'vanilla', label: 'Vanilla' }
+    ]
+
+    const MyComponent = () => (
+        <Select options={options} />
+    )
+---------
+
 
 ---------------------------------------------------------
 
