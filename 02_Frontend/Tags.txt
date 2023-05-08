@@ -11101,10 +11101,39 @@ Import the default export and render in your component:
     ]
 
     const MyComponent = () => (
-        <Select options={options} />
+        <Select
+            isMulti
+            options={options}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={handleInputChange}
+        />
     )
----------
+---------------------------------------------------------
+/// Метод проверки входных данных и преобразования Объекта в Массив 
+-------------------
+const options =  {
+    tedious: { _id: '67rdс1198', name: 'Нудила', color: 'primary' },
+    strange: { _id: '67rdс1100', name: 'Странный', color: 'warning' },
+    humorist: { _id: '67rdс11012', name: 'Юморист', color: 'success' },
+    difficile: { _id: '67rdс1101', name: 'Несговорчивый', color: 'danger' },
+    handsome: { _id: '67rdс1102', name: 'Красавчик', color: 'info' },
+    uncertain: { _id: '67rdс1103', name: 'Робкий', color: 'dark' }
+}
 
+/=/ Переменная `optionsArray` говорит что это Массив из `options`
+  const optionsArray =
+    /=/ Массив и Объект, оба имеют typeof "object". Поэтому тут 2 проверки.
+    /=/ Первая на то что это Массив да/нет. Вторая, если нет => то возможно это Объект, а возможно и Строка?
+    !Array.isArray(options) && typeof options === "object"
+        ? Object.keys(options).map((key) => {
+            const option = options[key];
+            return {
+              name: option.name,
+              value: option._id,
+            };
+          })
+        : options;
 
 ---------------------------------------------------------
 
