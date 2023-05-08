@@ -11154,15 +11154,16 @@ const RegisterForm = ({ entryBtnText }) => {
 |> multiSelectField.jsx
 
 const MultiSelectField = ({ options, name: fieldName, label, onChange }) => {
+    
     /=/ Опционально преобразуем данные в Массив
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
         ? Object.keys(options).map((key) => {
-            const option = options[key];
-            return {
-                value: option._id,
-                label: option.name
-            };
+                const option = options[key];
+                return {
+                    value: option._id,
+                    label: option.name
+                };
             })
         : options;
 
@@ -11181,6 +11182,7 @@ const MultiSelectField = ({ options, name: fieldName, label, onChange }) => {
     return (
         <div className="mb-4">
             <label className="form-label">{label}</label>
+            /=/ Нужен класс `form-label` чтобы был отступ 
             <Select
                 isMulti
                 closeMenuOnSelect={false}
