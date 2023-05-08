@@ -11094,30 +11094,117 @@ Import the default export and render in your component:
     import React from 'react'
     import Select from 'react-select'
 
-  /=/ В <Select/> важно передавать именно такой формат:
+    /=/ В <Select/> важно передавать именно такой формат:
     const options = [ 
         { value: 'chocolate', label: 'Chocolate' },
         { value: 'strawberry', label: 'Strawberry' },
         { value: 'vanilla', label: 'Vanilla' }
     ]
+---------
+|> registerForm.jsx
 
-    const MyComponent = () => (
-        <Select
-            isMulti
-            options={options}
+const RegisterForm = ({ entryBtnText }) => {
+  const [inputFields, setInputFields] = useState({
+    email: "",
+    password: "",
+    profession: "",
+    gender: "other",
+    qualities: []
+  });
+  
+  const [errors, setErrors] = useState({});
+  const [professions, setProfessions] = useState();
+  const [qualities, setQualities] = useState({});
+
+  useEffect(() => {
+    API.professions.fetchAll().then((profs) => setProfessions(profs));
+    API.qualities.fetchAll().then((quals) => setQualities(quals));
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setInputFields((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  //...
+
+  return (
+    <form onSubmit={handleSubmit}>
+        //...
+
+        <MultiSelectField
+            isMulti="isMulti"
+            options={qualities}
+            name="qualities"
+            label={"Ваши качества:"}
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={handleInputChange}
         />
-    )
+        
+        //...
+    </form>
+  );
+};
+
+---------
+|> multiSelectField.jsx
+
+const MultiSelectField = ({ options, name: fieldName, label, onChange }) => {
+    /=/ Опционально преобразуем данные в Массив
+    const optionsArray =
+        !Array.isArray(options) && typeof options === "object"
+        ? Object.keys(options).map((key) => {
+            const option = options[key];
+            return {
+                value: option._id,
+                label: option.name
+            };
+            })
+        : options;
+
+    /=/ Создаем доп. фейковую прослойку, тк <Select onChange/> вместо `event` выдает конечные значения. Это нарушает нашу дальнейшую деструктуризацию в проекте.
+    const handleChange = (event) => {
+        const fakeEvent = {
+            target: {
+                fieldName,
+                value: event
+            }
+        };
+        onChange(fakeEvent); 
+        /=/ Передаем измененный ответ в функцию которую мы передали в Компонент 
+    };
+
+    return (
+        <div className="mb-4">
+            <label className="form-label">{label}</label>
+            <Select
+                isMulti
+                closeMenuOnSelect={false}
+                options={optionsArray}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={handleChange} 
+                /=/ Слушатель должен передать свой `не-event` в нашу функцию для модификации и создания прослойки.
+            />
+        </div>
+    );
+};
+
+-------------------
+// 
+---------
+
+
 ---------------------------------------------------------
 /// Метод проверки входных данных и преобразования Объекта в Массив 
 -------------------
 const options =  {
-    tedious: { _id: '67rdс1198', name: 'Нудила', color: 'primary' },
     strange: { _id: '67rdс1100', name: 'Странный', color: 'warning' },
     humorist: { _id: '67rdс11012', name: 'Юморист', color: 'success' },
-    difficile: { _id: '67rdс1101', name: 'Несговорчивый', color: 'danger' },
     handsome: { _id: '67rdс1102', name: 'Красавчик', color: 'info' },
     uncertain: { _id: '67rdс1103', name: 'Робкий', color: 'dark' }
 }
