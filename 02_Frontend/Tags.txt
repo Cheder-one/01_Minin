@@ -10918,7 +10918,7 @@ const RegisterForm = ({ text }) => {
         label={"Пароль:"}
       />
       <SelectField
-        lable="Ваша профессия:"
+        label="Ваша профессия:"
         name="profession"
         value={selectedProfession}
         options={professions}
@@ -10940,7 +10940,7 @@ const RegisterForm = ({ text }) => {
 |> selectField.jsx
 
 const SelectField = ({
-  lable,
+  label,
   name: fieldName,
   value,
   onChange,
@@ -10955,7 +10955,7 @@ const SelectField = ({
   return (
     <div className="mb-4">
       <label htmlFor={fieldName} className="form-label">
-        {lable}
+        {label}
       </label>
 
       <select   /=/ Обертка для вариантов-`option`
@@ -11041,7 +11041,7 @@ Other:
 
 |> radioField.jsx
 
-const RadioField = ({ options, lable, name: fieldName, value, onChange }) => { 
+const RadioField = ({ options, label, name: fieldName, value, onChange }) => { 
     /=/ Получаем более уникальный `id` из `label + value`
   const getOptionId = (option) => `${option.label}_${option.value}`;
 
