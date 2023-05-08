@@ -11052,9 +11052,8 @@ const RadioField = ({ options, label, name: fieldName, value, onChange }) => {
 
   return (
     <div className="mb-4">
-      <p>
-        <label>{label}</label> /=/ Название radio
-      </p>
+      <label className="form-label">{label}</label>
+      <div>
       {options.map((option) => (
         <div key={option.value} className={getInputClasses()}> 
         /=/ Оборачиваем каждый radio в <div>, он определяет показ ошибок
@@ -11077,6 +11076,7 @@ const RadioField = ({ options, label, name: fieldName, value, onChange }) => {
           </label>
         </div>
       ))}
+      </div>
       /=/ При наличии ошибок отображает <div> с ошибкой
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
@@ -11154,7 +11154,7 @@ const RegisterForm = ({ entryBtnText }) => {
 |> multiSelectField.jsx
 
 const MultiSelectField = ({ options, name: fieldName, label, onChange }) => {
-    
+
     /=/ Опционально преобразуем данные в Массив
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
