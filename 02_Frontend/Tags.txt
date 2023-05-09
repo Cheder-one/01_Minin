@@ -11090,7 +11090,7 @@ const RadioField = ({ options, label, name: fieldName, value, onChange }) => {
 };
 
 ---------------------------------------------------------
-/// Множественный select. React Select 
+/// Множественный Select
 -------------------
     $ yarn add react-select
     $ npm i --save react-select
@@ -11202,11 +11202,6 @@ const MultiSelectField = ({ options, name: fieldName, label, onChange }) => {
     );
 };
 
--------------------
-// 
----------
-
-
 ---------------------------------------------------------
 /// Метод проверки входных данных и преобразования Объекта в Массив 
 -------------------
@@ -11232,6 +11227,170 @@ const options =  {
         : options;
 
 ---------------------------------------------------------
+/// Создание одиночного Checkbox
+-------------------
+|> registerForm.jsx
+
+const RegisterForm = ({ entryBtnText }) => {
+    const [inputFields, setInputFields] = useState({
+        email: "",
+        password: "",
+        profession: "",
+        gender: "other",
+        qualities: [],
+        privacyPolicy: false
+    });
+
+    /* |> validateRules.jsx
+
+        isRequired: (value) =>
+            typeof value === "boolean" ? value : Boolean(value.trim())
+    */
+    
+    //...
+
+    return (
+        <form onSubmit={handleSubmit}>
+            //...
+
+            <CheckboxField
+                name="privacyPolicy"
+                value={inputFields.privacyPolicy}
+                onChange={handleInputChange}
+                error={errors.privacyPolicy}
+            >
+                Согласен с <a href="#">политикой конфиденциальности</a>
+            </CheckboxField>
+            
+            //...
+        </form>
+    );
+};
+
+---------
+|> checkboxField.jsx
+
+const CheckboxField = ({ name: fName, value: fValue, onChange, children, error }) => {
+    const handleChange = () => {
+        onChange({
+        target: {
+            name: fName,
+            value: !fValue
+        }
+        });
+    };
+
+    const getInputClasses = () => {
+        return "form-check-input " + (error ? "is-invalid" : "");
+    };
+
+    return (
+        <div className="mb-4">
+            <div className="form-check has-validation">
+                <input
+                    className={getInputClasses()}
+                    type="checkbox"
+                    value="" /=/ Для одиночного оставляем пустам 
+                    id={fName}
+                    checked={fValue} /=/ Передаем значение состояния
+                    onChange={handleChange}
+                />
+                <label
+                    className="form-check-label"
+                    htmlFor={fName}
+                    style={{ fontSize: "14px" }}
+                >
+                    {children}
+                </label>
+                <div className="invalid-feedback">{error}</div>
+            </div>
+        </div>
+    );
+};
+
+CheckboxField.propTypes = {
+    //...
+
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]),
+};
+
+---------------------------------------------------------
+/// Создание нескольких Checkbox
+-------------------
+У Checkbox мы можем хранить значения как массив или как Boolean (true/false). 
+
+Как массив мы храним значения, если у нас есть несколько Checkbox’ов для одного поля:
+
+const ExampleCheckbox = () => {
+  const [checkboxValues, setCheckboxValues] = useState([]);  
+  /=/ Начальное состояние – пустой массив
+
+  const handleChange = (e) => {   /=/ Обработчик события onChange
+    const { value } = e.target;  /=/ Получаем значение нажатого checkbox
+    setCheckboxValues((prevValues) => { /=/ Устанавливаем новое значение
+      /**
+       * Если такое значение есть в checkboxValues,
+       * то удаляем это значение из массива,
+       * иначе добавляем
+       */
+      const newValues = prevValues.includes(value)
+        ? prevValues.filter((prevValue) => prevValue !== value)
+        : [...prevValues, value];
+
+      return newValues; /=/  Возвращаем новое значение
+    });
+  };
+
+  return (
+    <>
+      <p>Выбранные значения: {JSON.stringify(checkboxValues)}</p>
+      <p>
+        <label htmlFor="checkboxColor1">Зеленый</label>
+        {/**
+         * Определяем выбран ли checkbox
+         * через атрибут checked.
+         * Если есть в checkboxValues значение
+         * равное value у checkbox, то он выбран
+         */}
+        <input
+          id="checkboxColor1"
+          name="color"
+          type="checkbox"
+          value="green"
+          checked={checkboxValues.includes("green")}
+          onChange={handleChange}
+        />
+      </p>
+      <p>
+        <label htmlFor="checkboxColor2">Желтый</label>
+        <input
+          id="checkboxColor2"
+          name="color"
+          type="checkbox"
+          value="yellow"
+          checked={checkboxValues.includes("yellow")}
+          onChange={handleChange}
+        />
+      </p>
+      <p>
+        <label htmlFor="checkboxColor3">Синий</label>
+        <input
+          id="checkboxColor3"
+          name="color"
+          type="checkbox"
+          value="blue"
+          checked={checkboxValues.includes("blue")}
+          onChange={handleChange}
+        />
+      </p>
+    </>
+  );
+};
+
+export default ExampleCheckbox;
 
 ---------------------------------------------------------
 
