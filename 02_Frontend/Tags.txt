@@ -7964,7 +7964,7 @@ className используется для добавления класса в H
 -------------------
 // Ветвление с использованием &&
 ---------
-role в JSX может использовтаься только в {...{role:}}
+role в JSX может использоваться только в {...{role:}}
 Подобно style={{ height: "100%" }}
 
     {...{ role: columns[column].iter && "button" }}
@@ -8618,10 +8618,10 @@ Props - это способ передачи данных из родитель�
             <nav>
             <ol className="breadcrumb">
                 <li className={mainPageClass} onClick={onGoMain}>
-                Главная
+                    Главная
                 </li>
                 {!isMainPage && (
-                <li className="breadcrumb-item active">{page.text}</li>
+                    <li className="breadcrumb-item active">{page.text}</li>
                 )}
             </ol>
             </nav>
@@ -11318,79 +11318,35 @@ CheckboxField.propTypes = {
 };
 
 ---------------------------------------------------------
-/// Создание нескольких Checkbox
+/// Создание переиспользуемого Checkbox
 -------------------
-У Checkbox мы можем хранить значения как массив или как Boolean (true/false). 
-
-Как массив мы храним значения, если у нас есть несколько Checkbox’ов для одного поля:
+У Checkbox мы можем хранить значения как массив (несколько Checkbox’ов для одного поля) или как Boolean (true/false). 
 
 const ExampleCheckbox = () => {
-  const [checkboxValues, setCheckboxValues] = useState([]);  
   /=/ Начальное состояние – пустой массив
+  const [checkboxValues, setCheckboxValues] = useState([]);  
 
   const handleChange = (e) => {   /=/ Обработчик события onChange
     const { value } = e.target;  /=/ Получаем значение нажатого checkbox
     setCheckboxValues((prevValues) => { /=/ Устанавливаем новое значение
-      /**
-       * Если такое значение есть в checkboxValues,
-       * то удаляем это значение из массива,
-       * иначе добавляем
-       */
-      const newValues = prevValues.includes(value)
+ 
+      /=/ Если такое значение есть в `state` checkboxValues
+      const newValues = prevValues.includes(value) 
+          /=/ то удаляем это значение из массива
         ? prevValues.filter((prevValue) => prevValue !== value)
-        : [...prevValues, value];
+          /=/ иначе добавляем новое значение в Массив
+        : [...prevValues, value]; 
 
       return newValues; /=/  Возвращаем новое значение
     });
   };
 
-  return (
-    <>
-      <p>Выбранные значения: {JSON.stringify(checkboxValues)}</p>
-      <p>
-        <label htmlFor="checkboxColor1">Зеленый</label>
-        {/**
-         * Определяем выбран ли checkbox
-         * через атрибут checked.
-         * Если есть в checkboxValues значение
-         * равное value у checkbox, то он выбран
-         */}
-        <input
-          id="checkboxColor1"
-          name="color"
-          type="checkbox"
-          value="green"
-          checked={checkboxValues.includes("green")}
-          onChange={handleChange}
-        />
-      </p>
-      <p>
-        <label htmlFor="checkboxColor2">Желтый</label>
-        <input
-          id="checkboxColor2"
-          name="color"
-          type="checkbox"
-          value="yellow"
-          checked={checkboxValues.includes("yellow")}
-          onChange={handleChange}
-        />
-      </p>
-      <p>
-        <label htmlFor="checkboxColor3">Синий</label>
-        <input
-          id="checkboxColor3"
-          name="color"
-          type="checkbox"
-          value="blue"
-          checked={checkboxValues.includes("blue")}
-          onChange={handleChange}
-        />
-      </p>
-    </>
-  );
-};
+  //...
+}
 
-export default ExampleCheckbox;
+-------------------
+
+---------
 
 ---------------------------------------------------------
 
