@@ -11345,8 +11345,203 @@ const ExampleCheckbox = () => {
 }
 
 -------------------
+export const agreements = [
+  { label: "Согласие на обработку данных", value: "1" },
+  { label: "Сохранить данные для будущих заказов", value: "2" }
+];
+---------
+|> orderForm.jsx
+
+const OrderForm = () => {
+  const [inputFields, setInputFields] = useState({
+    //...
+    
+    agreements: [], /=/ Массив для принятых соглашений
+    test: false /=/ Состояние для одиночного Checkbox 
+  });
+
+return (
+    <Form title="Оформление заказа">
+      <form onSubmit={handleSubmit}>
+        //...
+        <CheckboxField  
+        /=/ Если передать один `elem` [{label: "name", value: 1}], то тоже получится singleCheckbox
+          options={agreements} 
+          name="agreements" 
+          /=/ Имя поля. Чтобы найти данные Компонента в состоянии `inputFields`
+          value={inputFields.agreements} 
+          /=/ Значения поля. Передаем Массив с принятыми соглашениями
+          onChange={handleChange}
+          error={errors.agreements}
+        />
+        <SingleCheckboxField
+          name="test"
+          onChange={handleChange}
+          value={inputFields.test}
+          label="Проверка" 
+          /=/ Для одиночного Checkbox передаем его `label` сразу
+          checked={inputFields.test}
+          /=/ Принимает `boolean` значение. В Компоненте при срабатывании `onChange`, будем менять полученное значение `value` из `state` на противоположное и возвращать его обратно к `state`. Так круг замкнется и значение для `checked={inputFields.test}` обновится.
+          error={errors.test}
+        />
+        //...
+      </form>
+    </Form>
+  );
+};
 
 ---------
+|> validationSchema.js/orderFormSchema
+
+const orderFormSchema = {
+    //...
+    agreements: {
+        isContainValue: {
+            message: "Необходимо согласие с политикой конфиденциальности",
+            param: "1" 
+            /=/ Устанавливаем значение поля которое нужно проверить
+        }
+    },
+    test: {
+        isRequired: {
+            message: "Проверка работоспособности полей"
+        }
+    }
+};
+
+---------
+|> checkboxField.jsx - Для создания нескольких `checkbox-ов`
+
+const CheckboxField = ({ options, name, value, onChange, error }) => {
+
+  const handleChange = (e) => {
+    /=/ Создаем прослойку чтобы 
+    const { name, value: eventVal } = e.target;
+
+    const newValue = value.includes(eventVal)
+    /=/ Проверяем, есть ли в состоянии поля значение, которое поступает с событием.
+      ? value.filter((val) => val !== eventVal)
+      /=/ Если значение есть, то возвращаем Массив без него.
+      : [...value, eventVal];
+      /=/ Если нет, то добавляем.
+      
+    /=/ Воссоздаем формат `event` для соответствия формам в Компонентах
+    /=/ И передаем новое состояние поля в `handleChange` в род. Компоненте
+    onChange({
+      target: {
+        name, 
+        /=/ Название поля, для нахождения в `state`
+        value: newValue 
+        /=/ Обновленное значение поля, которое будет иметь в себе Массив из `value`(id предметов) для отображения // [1, 2]
+      }
+    });
+  };
+
+  const getIsChecked = (inputVal) => value.includes(inputVal);
+  /=/ Есть ли в состоянии поля значение которое сейчас ренерится? 
+
+  const getInputClasses = () => "" + (error ? " is-invalid" : "");
+
+  return (
+    <div className="mb-4">
+      <p className={getInputClasses()}></p>
+      /=/ Если нет возможности поменять класс в <input> для отображения `is-invalid`
+      /=/ То передаем класс в созданный тег перед мапированием.
+      {options &&
+        options.map((option) => (
+          <SingleCheckboxField
+            key={option.value}
+            name={name}
+            label={option.label}
+            value={option.value}
+            checked={getIsChecked(option.value)}
+            /=/ Если true, то отображаем помеченным 
+            onChange={handleChange}
+            /=/ Пропускаем `event` слушателя событий сначала через нашу прослойку
+          />
+        ))}
+      {error && <div className="invalid-feedback">{error}</div>}
+    </div>
+  );
+};
+
+CheckboxField.propTypes = {
+  name: PropTypes.string.isRequired,
+  value: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
+  label: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    }).isRequired
+  ),
+  error: PropTypes.string
+};
+
+export default CheckboxField;
+
+---------
+|> singleCheckboxField.jsx
+      
+const SingleCheckboxField = ({
+  name,
+  label,
+  value,
+  checked,
+  onChange,
+  error
+}) => {
+  /=/ Если используется `singleCheckbox`, то его значение поля === true/false. Их состояние меняем на противоположное. 
+  /=/ Если `singleCheckbox` используется внутри `multiCheckbox`, то передаем `event` далее в род Компонент для его модификации в Массив [1,2]
+  const handleChange = (e) => {
+    typeof value === "boolean"
+      ? onChange({
+          target: {
+            name,
+            value: !value
+          }
+        })
+      : onChange(e);
+  };
+
+  const getOptionId = () => `${label}_${value}`;
+  /=/ Создаем более уникальный id
+
+  const getInputClasses = () =>
+    "form-check-input " + (error ? "is-invalid" : "");
+
+  return (
+    <div className="form-check">
+      <input
+        className={getInputClasses()}
+        type="checkbox"
+        id={getOptionId()}
+        name={name}
+        value={value}
+        checked={checked}
+        /=/ Получает значение от род Компонента 
+           /* checked={getIsChecked(option.value)}
+           /* Если true, то отображаем помеченным 
+        onChange={handleChange}
+        /=/ Так же запускаем нашу прослойку для проверки event-a
+      />
+      <label className="form-check-label" htmlFor={getOptionId()}>
+        {label}
+      </label>
+      {error && <div className="invalid-feedback">{error}</div>}
+    </div>
+  );
+};
+
+SingleCheckboxField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+  checked: PropTypes.bool,
+  onChange: PropTypes.func,
+  error: PropTypes.string
+};
 
 ---------------------------------------------------------
 
