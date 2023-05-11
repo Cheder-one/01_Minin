@@ -158,7 +158,6 @@ flex-direction: row/column; - элементы в строку/ в колонк�
 .container { justify-content: center; } - установка элемента по центру
 justify-content: space-around; - равномерное распределение элементов по контейнеру (space-around/space-between/center/start/end)
 ---------------------------------------------------------
-_______________________________
 JavaScript 
 JS - регистрозависимый язык
 ---------------------------------------------------------
@@ -11358,7 +11357,7 @@ const OrderForm = () => {
     //...
     
     agreements: [], /=/ Массив для принятых соглашений
-    test: false /=/ Состояние для одиночного Checkbox 
+    test: false /=/ ! Обязательно true/false Состояние для одиночного Checkbox. 
   });
 
 return (
@@ -11549,6 +11548,156 @@ SingleCheckboxField.propTypes = {
 ---------------------------------------------------------
     $ yarn add yup
     $ npm i yup
+---------
+    import * as yup from 'yup'
+
+    const schema = yup
+      .string()
+      .min(15, "Минимум 15 символов")
+      .required("Поле обязательно");
+
+    schema
+      .validate("some string")
+      .then()
+      .catch((err) => {
+        // const { inner } = err;
+        console.log(err.message);
+      });
+
+-------------------
+Вернемся к нашим правилам формы заказа:
+
+|> orderForm.jsx
+  const [inputFields, setInputFields] = useState({ /=/ Объект с полями
+    fio: "",
+    email: "",
+    deliveryType: "",
+    needLift: "",
+    gifts: [],
+    agreements: [],
+  });
+---------
+1) Можно увидеть, что мы собираем значения формы в Объект.
+Поэтому нужно начать описывать схему с того, что мы ожидаем объект с определёнными полями:
+
+|> order-form/validationSchema.js
+    import * as yup from 'yup'
+
+    export const validationSchema = yup.object().shape({ // объект с полями
+        fio: yup.string(), /=/ Все поля у нас строки, кроме...
+        email: yup.string(), 
+        deliveryType: yup.string(), 
+        needLiftFloor: yup.string(), 
+        agreement: yup.array() /=/ ...кроме agreement, он массив
+    });
+
+2) Далее добавим всем полям требование, что они обязательны и добавим правило для email.
+И укажем текст ошибки.
+
+    export const validationSchema = yup.object().shape({
+        fio: yup.string().required("ФИО обязательно для заполнения"),
+        email: yup
+            .string()
+            .required("Электронная почта обязательна для заполнения")
+            .email("Email введён некорректно"),
+        deliveryType: yup.string().required("Выберите вариант доставки"),
+        needLiftFloor: yup.string().required("Укажите нужен ли подъём на этаж"),
+        agreement: yup.array()
+    });
+
+3) Для проверки ФИО у нас есть свое регулярное выражение. 
+Для того, чтобы задать проверку на соответствие регулярному выражению, в библиотеке есть метод `matches()`.
+
+    export const validationSchema = yup.object().shape({
+        fio: yup
+            .string()
+            .required("ФИО обязательно для заполнения")
+            .matches(
+                /^(([a-zA-Zа-яА-Я]+)s){1,}(([a-zA-Zа-яА-Я]+)s?){1,}$/g,
+                "Введите корректное ФИО"
+            ),
+        //...
+    });
+
+4) Осталось лишь проверить поле `agreement` на наличие значения в массиве. 
+Такую проверку можно сделать через метод `test()`, это самый простой способ написать кастомное правило Yup:
+
+export const validationSchema = yup.object().shape({
+    //...
+    agreement: yup.array().test(
+        "contains value",
+        /=/ Название проверки
+        "Согласие на обработку данных обязательно", 
+        /=/ Текст ошибки
+        (value) => value.includes("1") 
+        /=/ Функция, которая проверит валидность
+    )
+});
+
+---------
+Мы перенесли все правила. Вызовем проверку 
+
+|> orderForm.jsx
+
+useEffect(() => {
+    /=/ На месте вызова validate() в orderForm
+    validationSchema
+          /=/ `abortEarly: false` - Вывести все ошибки полей
+        .validate(inputFields, { abortEarly: false })
+          /=/ Если ошибок нет, очищаем состояние ошибок
+        .then(() => setErrors({}))
+          /=/ Если ошибки есть, добавляем их в состояние
+        .catch((yupError) => {
+            const { inner } = yupError;
+
+            /=/ Создаём объект с ошибками
+            const foundErrors = Array.isArray(inner)
+                ? inner.reduce((acc, item) => {
+                    const { path, errors } = item;
+                        /=/ Проверяем есть ли ошибка уже в объекте
+                        if (!acc.hasOwnProperty(path) && errors.length) {
+                            /=/ Если нет, то добавляем первую
+                            acc[path] = errors[0];
+                        }
+
+                        return acc;
+                    }, {})
+                : {};
+
+            setErrors(foundErrors);
+        });
+}, [inputFields]);
+---------
+Получилось довольно громоздко. Перенесём получение ошибки в отдельную утилиту: 
+|> utils/parseYupError.js
+
+export const parseYupError = (yupError) => {
+    const { inner } = yupError;
+
+    return Array.isArray(inner)
+        ? inner.reduce((acc, item) => {
+              const { path, errors } = item;
+ 
+              if (!acc.hasOwnProperty(path) && errors.length) {
+                  acc[path] = errors[0];
+              }
+
+              return acc;
+          }, {})
+        : {};
+};
+
+|> orderForm.jsx
+
+    useEffect(() => {
+        validationSchema
+            .validate(values, { abortEarly: false })
+            .then(() => setErrors({}))
+            .catch((yupError) => {
+                const errors = parseYupError(yupError);
+                setErrors(errors);
+            });
+    }, [values])
 
 ---------------------------------------------------------
 
