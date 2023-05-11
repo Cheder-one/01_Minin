@@ -10958,6 +10958,13 @@ const SelectField = ({
     return "form-select " + (error ? "is-invalid" : "is-valid");
   };
 
+  ***
+  const optionsArray =
+    !Array.isArray(options) && typeof options === "object"
+    ? Object.values(options)
+    : options;
+  ***
+
   return (
     <div className="mb-4">
       <label htmlFor={fieldName} className="form-label">
@@ -10975,6 +10982,16 @@ const SelectField = ({
           {defaultOptions}
         </option>
 
+        ***
+        {optionsArray &&
+            optionsArray.map((option) => (
+                <option key={option._id} value={option._id}>
+                {option.name}
+                </option>
+        ))}
+        ***
+
+        ==/delete/==
         {options &&
           (Array.isArray(options)
             ? options.map((option) => (
@@ -10991,7 +11008,9 @@ const SelectField = ({
                     {optionInfo.name}
                   </option>
                 );
-              }))}
+            }))}
+        ==/delete/==
+
       </select>
       <div className="invalid-feedback">{error}</div>
     </div>
@@ -11027,7 +11046,7 @@ Other:
         const email = formData.get("email");
 
         console.log({ fio, email });
-    =//= OR =//=
+    ==/OR/==
         const allFormData = new FormData(e.target);
 
         for (const [key, value] of allFormData.entries()) {
