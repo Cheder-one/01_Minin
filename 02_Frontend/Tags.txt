@@ -7493,7 +7493,8 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
     );
 };
 -------------------
-    Login <form> - Создание формы Логина
+    '<form>' - Создание формы (логина)
+-------------------
     <div className="container mt-5">
         <div className="row">
             <div className="col-md-6 offset-md-3 shadow p-4">
@@ -11999,7 +12000,9 @@ const MultiSelectField = ({
       <Select
         isMulti
         closeMenuOnSelect={false}
+        ***
         defaultValue={defaultValue}
+        ***
         options={optionsArray}
         className="basic-multi-select"
         classNamePrefix="select"
