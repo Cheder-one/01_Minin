@@ -9629,6 +9629,7 @@ function App() {
 -------------------
     // Последовательность параметров в URL
     const pathConfig = ['year', 'month', 'date', 'slug']
+    
     // Паттерн для роута
     const routePath = "/:" + pathConfig.join('/:') // -> /:year/:month/:date/:slug
 
