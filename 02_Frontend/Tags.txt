@@ -9414,7 +9414,7 @@ return (
 -------------------
 // Разница между <Link/> и history.push() 
 ---------
-<Link/> обрабатывает клик на ссылку, обновляет URL и перенаправляет пользователя на новую страницу
+<Link/> обрабатывает клик на ссылку, обновляет URL и перенаправляет пользователя на новую страницу)
 history.push() изменяет URL вручную, но перенаправляет пользователя на новую страницу без необходимости клика на ссылку.
 
 В вашем случае, если вы хотите, чтобы пользователь перешел на другую страницу при клике на кнопку "Редактировать", вы можете использовать <Link/>. 
@@ -11237,7 +11237,42 @@ Import the default export and render in your component:
         { value: 'strawberry', label: 'Strawberry' },
         { value: 'vanilla', label: 'Vanilla' }
     ]
+    
+-------------------
+// Правильная передача `value` и `defaultValue`
 ---------
+import Select from "react-select";
+
+const options = [
+  { label: "Option 1", value: "option1" },
+  { label: "Option 2", value: "option2" },
+  { label: "Option 3", value: "option3" }
+];
+
+const defaultValues = [
+  { label: "Option 1", value: "option1" },
+  { label: "Option 2", value: "option2" }
+];
+
+const SelectWithDefaultValues = () => {
+  const [selectedValues, setSelectedValues] = useState(defaultValues);
+
+  const handleChange = (selectedOptions) => {
+    setSelectedValues(selectedOptions);
+  };
+
+  return (
+    <Select
+      options={options}
+      isMulti
+      defaultValue={defaultValues}
+      value={selectedValues}
+      onChange={handleChange}
+    />
+  );
+};
+
+-------------------
 |> registerForm.jsx
 
 const RegisterForm = ({ entryBtnText }) => {
@@ -12031,7 +12066,7 @@ const SelectField = ({
         value={fValue}
         onChange={onChange}
       >
-        <option disabled value={defaultOptions}>
+        <option disabled value="">
           {defaultOptions}
         </option>
         /=/ Заменяем преобразование в массив на:
