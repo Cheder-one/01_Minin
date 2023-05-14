@@ -12015,7 +12015,7 @@ const SelectField = ({
         value={fValue}
         onChange={onChange}
       >
-        <option disabled value="">
+        <option disabled value={defaultOptions}>
           {defaultOptions}
         </option>
         /=/ Заменяем преобразование в массив на:
