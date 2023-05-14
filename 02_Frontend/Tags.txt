@@ -7592,7 +7592,7 @@ return (
 
     <Spinner
         animation="border"
-        className="mb-4 mx-auto d-block"
+        className="mb-3 mt-3 mx-auto d-block"
         style={{ height: "3rem", width: "3rem" }}
     />
 -------------------
@@ -11237,7 +11237,7 @@ Import the default export and render in your component:
         { value: 'strawberry', label: 'Strawberry' },
         { value: 'vanilla', label: 'Vanilla' }
     ]
-    
+
 -------------------
 // Правильная передача `value` и `defaultValue`
 ---------
