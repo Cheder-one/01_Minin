@@ -11821,12 +11821,9 @@ SingleCheckboxField.propTypes = {
 export const validationSchema = yup.object().shape({
     //...
     agreement: yup.array().test(
-        "contains value",
-        /=/ Название проверки
-        "Согласие на обработку данных обязательно", 
-        /=/ Текст ошибки
-        (value) => value.includes("1") 
-        /=/ Функция, которая проверит валидность
+        "contains value", /=/ Название проверки
+        "Согласие на обработку данных обязательно", /=/ Текст ошибки
+        (value) => value.includes("1") /=/ Функция, которая проверит валидность
     )
 });
 
@@ -11836,26 +11833,17 @@ export const validationSchema = yup.object().shape({
 |> orderForm.jsx
 
 useEffect(() => {
-    /=/ На месте вызова validate() в orderForm
-    validationSchema
-          /=/ `abortEarly: false` - Вывести все ошибки полей
-        .validate(inputFields, { abortEarly: false })
-          /=/ Если ошибок нет, очищаем состояние ошибок
-        .then(() => setErrors({}))
-          /=/ Если ошибки есть, добавляем их в состояние
-        .catch((yupError) => {
+    validationSchema /=/ На месте вызова validate() в orderForm
+        .validate(inputFields, { abortEarly: false }) /=/ `abortEarly: false` - Вывести все ошибки полей
+        .then(() => setErrors({})) /=/ Если ошибок нет, очищаем состояние ошибок
+        .catch((yupError) => { /=/ Если ошибки есть, добавляем их в состояние
             const { inner } = yupError;
-
-            /=/ Создаём объект с ошибками
-            const foundErrors = Array.isArray(inner)
+            const foundErrors = Array.isArray(inner) /=/ Создаём объект с ошибками
                 ? inner.reduce((acc, item) => {
                     const { path, errors } = item;
-                        /=/ Проверяем есть ли ошибка уже в объекте
-                        if (!acc.hasOwnProperty(path) && errors.length) {
-                            /=/ Если нет, то добавляем первую
-                            acc[path] = errors[0];
+                        if (!acc.hasOwnProperty(path) && errors.length) { /=/ Проверяем есть ли ошибка уже в объекте
+                            acc[path] = errors[0]; /=/ Если нет, то добавляем первую
                         }
-
                         return acc;
                     }, {})
                 : {};
@@ -11863,6 +11851,23 @@ useEffect(() => {
             setErrors(foundErrors);
         });
 }, [inputFields]);
+
+    ==/OR/== (не факт что корректно, но работает)
+
+    useEffect(() => { 
+        validationSchema
+        .validate(inputFields, { abortEarly: false })
+        .then(setErrors({}))
+        .catch(({ inner }) => {
+            for (const error of inner) {
+            setErrors((prev) => ({
+                ...prev,
+                [error.path]: error.message
+            }));
+            }
+        });
+    }, [inputFields]);
+
 ---------
 Получилось довольно громоздко. Перенесём получение ошибки в отдельную утилиту: 
 |> utils/parseYupError.js
