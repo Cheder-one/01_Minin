@@ -11756,6 +11756,9 @@ SingleCheckboxField.propTypes = {
         // const { inner } = err;
         console.log(err.message);
       });
+          
+    * .validate(inputFields, { abortEarly: false })
+      /=/ `abortEarly: false` - Вывести все ошибки полей
 
 -------------------
 Вернемся к нашим правилам формы заказа:
@@ -11773,7 +11776,7 @@ SingleCheckboxField.propTypes = {
 1) Можно увидеть, что мы собираем значения формы в Объект.
 Поэтому нужно начать описывать схему с того, что мы ожидаем объект с определёнными полями:
 
-|> order-form/validationSchema.js
+|> validationSchema.js
     import * as yup from 'yup'
 
     export const validationSchema = yup.object().shape({ // объект с полями
