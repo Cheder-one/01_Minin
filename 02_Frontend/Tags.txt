@@ -9834,23 +9834,48 @@ replace() - перенаправляет, но пользователь не с�
            Сохранить
         </button>
 
----------
+-------------------
     * useLocation() - позволяет получить текущий объект `location`, который содержит информацию о текущем URL-адресе и параметрах запроса.
 
         const location = useLocation();
         const isEdit = location.pathname.endsWith("/edit");
         
----------
+-------------------
     * useRouteMatch() - позволяет получить информацию о совпадении маршрута.
 
----------
+-------------------
     * useParams() - позволяет получить доступ к параметрам маршрута, определенным с помощью Route.
     (Выведет то, что указано после ":", но не статические параметры.
     /posts/ - статический. /:postId - динамический)
 
       URL: .../posts/231
       <Route path="/posts/:postId" component={Posts} />
+---------
+    Так выдаст `edit` из `useParams()`:
 
+    |> App.jsx
+        <Route path="/users/:userId?/:edit?" component={Users} />
+
+    |> Users.jsx
+        const Users = () => {
+            const params = useParams();
+            const { userId, edit } = params; /=/ { userId: '67rdca3eeb7f6fgeed471817', edit: undefined }
+
+            return <>{userId ? <UserPage {...params} /> : <UsersListPage />}</>;
+        };
+---------
+    Так ==/НЕ/== выдаст `edit` из `useParams()`:
+
+    |> App.jsx
+        <Route path="/users/:userId?/edit?" component={Users} /> /=/ Убрали ':' из `edit`
+
+    |> Users.jsx
+        const Users = () => {
+            const params = useParams();
+            const { userId, edit } = params; /=/ { userId: '67rdca3eeb7f6fgeed471817', edit: undefined }
+
+            return <>{userId ? <UserPage {...params} /> : <UsersListPage />}</>;
+        };
 -------------------
 Получить доступ к истории браузера в компоненте React:
 
