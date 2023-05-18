@@ -12251,7 +12251,7 @@ const MultiSelectField = ({
         waiter: { _id: "67rdca3eeb7f6fgeed471820", name: "Официант" }
     };
 
-    const convertFormatData = (obj, id = "_id", name = "name") => {
+    const formatData = (obj, id = "_id", name = "name") => {
         return Object.values(obj).map(({ id, name, ...rest }) => ({
             value: id,
             label: name,
@@ -12261,7 +12261,7 @@ const MultiSelectField = ({
     /=/ На самом деле происходит не "замена", а "не передача" `_id` и `name`
     /=/ Тк при деструктуризации мы изъяли их свойства и возвращаем `...rest` без них.
 
-    convertFormatData(profsObject) 
+    formatData(profsObject) 
      // { value: "67rdca3eeb7f6fgeed471818", label: "Доктор" },
      // { value: "67rdca3eeb7f6fgeed471820", label: "Официант" }
 
