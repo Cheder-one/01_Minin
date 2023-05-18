@@ -12123,9 +12123,11 @@ const RegisterForm = ({ entryBtnText }) => {
 const SelectField = ({
   label,
   name: fName,
-  value: fValue,
+  value: fValue, /=/ Должно передавать `string`. 
+                /=/ Точнее `_id ` относящиеся к отображаемому `name`
   onChange,
-  defaultOptions,
+  defaultOptions, /=/ Почти не играет роли. 
+                 /=/ Лишь высвечивает некий `label` для поля Select
   options,
   error
 }) => {
@@ -12171,7 +12173,17 @@ const SelectField = ({
   );
 };
 
+SelectField.propTypes = {
+  label: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  defaultOptions: PropTypes.string,     /=/ Строка
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  error: PropTypes.string
+};
 
+---------
 const MultiSelectField = ({
   options,
   name: fName,
