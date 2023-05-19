@@ -480,9 +480,26 @@ alert( str[str.length - 1] ); // o
    }).join(" ");
 ---------------------------------------------------------
 // slice, substring - Если нужно получить символы между определенными индексами
-const programmingLanguage1 = 'JavaScript';
-console.log('slice', programmingLanguage1.slice(1, 5)); // avaS
-console.log('slice', programmingLanguage1.substring(1, 5)); // avaS
+    const programmingLanguage1 = 'JavaScript';
+
+    console.log('slice', programmingLanguage1.slice(1, 5)); // avaS
+    console.log('slice', programmingLanguage1.substring(1, 5)); // avaS
+
+---------
+// Удалить 1-й и last символ
+---------
+    const arr = [
+        { _id: "673eeb7f6f471100", name: "Странный", color: "warning" },
+        { _id: "673eeb7f6f471103", name: "Робкий", color: "dark" }
+    ];
+
+    const stringArr = JSON.stringify(arr);
+
+    stringArr.slice(1, -1); 
+    // {"_id":"673eeb7f6f471100","name":"Странный","color":"warning"},
+       {"_id":"673eeb7f6f471103","name":"Робкий","color":"dark"}
+       // Удалил внешние скобки массива
+
 ---------------------------------------------------------
 // replace, replaceAll - Замена (одного и всех)символов символов в строке.
 
@@ -1714,7 +1731,7 @@ flatMap() метод возвращает новый массив, сформи�
     }
 
 -------------------
-/// includes()/indexOf()/find() - Проверка на вхождение элемента в массив.
+/// includes()/indexOf()/find() - Проверка на вхождение элемента в массив/строку.
 ---------
 Метод includes(): он возвращает true, если значение найдено в массиве, и false в противном случае.
 
