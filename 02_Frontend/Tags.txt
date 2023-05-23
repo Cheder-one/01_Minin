@@ -12468,6 +12468,15 @@ const MultiSelectField = ({
 /// useRef() - в нем можно сохранять любое значение и хранить/изменять его в течение всей жизни Компонента. 
 При изменении значения не произойдет повторный рендер.
 ---------------------------------------------------------
+Хук useRef() возвращает изменяемый ref-объект. 
+В его свойстве `current` будет находится заданное значение
+
+! Важная особенность useRef() – ссылка на ref-объект неизменна, и поэтому сам он не может быть передан в useEffect() в качестве зависимости (так как useEffect() попросту не будет вызываться вновь). 
+Но можно передать его свойство `current` и его изменение будет влиять на вызов useEffect()
+
+-------------------
+=<< Подсчет кол-ва рендеров
+
     const RenderCountExample = () => {
         const renderCount = useRef(0); /=/ Будет хранить кол-во рендеров 
         const [otherState, setOtherState] = useState(false);
@@ -12492,6 +12501,8 @@ const MultiSelectField = ({
     };
 
 -------------------
+=<< Сохранение предыдущего состояния переменной
+
     const PrevStateExample = () => {
         const prevState = useRef("");
         const [currentState, setCurrentState] = useState("false");
@@ -12516,10 +12527,77 @@ const MultiSelectField = ({
         );
     };
 
----------------------------------------------------------
-/// Программируемые действия и свойства
 -------------------
+=<< Сохранение предыдущего состояния <div>, обращение к нему и управление им
 
+const ProgrammableActionsExample = () => {
+    const inputRef = useRef(); /=/ Экземпляр useRef()
+
+    const prevInputDiv = inputRef.current; /=/ Переменная для хранения prevState <input>
+
+    const handleClick = () => {
+        console.log(prevInputDiv); /=/ Отобразит <input id="email" type="email" class="form-control">
+        prevInputDiv.focus(); /=/ Установит `focus()` для `prevInputDiv` которое хранит в себе ссылку на <input>. 
+    };
+
+    const handleClickWidth = () => {
+        prevInputDiv.style.width = "100px"; /=/ Добавит стиль в тег который хранится в useRef() в виде ссылки на него. 
+        console.log(prevInputDiv); /=/ <input id="email" type="email" class="form-control" style="width: 100px;">
+    };
+
+    return (
+        <CardWrapper>
+            <SmallTitle className="card-title">
+                Программируемые действия и свойства
+            </SmallTitle>
+            <label htmlFor="email" className="form-label">
+                Email
+            </label>
+            <input
+                ref={inputRef} /=/ Указываем переменную для сохранения его prevState
+                id="email"
+                type="email"
+                className="form-control"
+            />
+            <button className="btn btn-primary" onClick={handleClick}>
+                Фокус Input
+            </button>
+            <button className="btn btn-primary" onClick={handleClickWidth}>
+                Изменить Ширину
+            </button>
+        </CardWrapper>
+    );
+};
+
+-------------------
+Самый распространенный способ использования – получение доступа к потомку в компоненте
+
+=<< Доступ к потомку
+
+    export const ExampleFileInput = () => {
+        const inputRef = useRef(null);
+        const [isValueSet, setIsValueSet] = useState(false);
+
+        const handleSend = () => {
+            const file = inputRef.current.files; /=/ `inputRef.current` - ссылка на тег <input>
+            console.log(file);
+        };
+
+        return (
+            <div>
+                <h2>Получения доступа к потомку</h2>
+                <label htmlFor="file">Выберите файл</label>
+                <input
+                    ref={inputRef}
+                    type="file"
+                    onChange={() => setIsValueSet(true)}
+                />
+                <button onClick={handleSend} disabled={!isValueSet}>
+                    Отправить файл
+                </button>
+            </div>
+        );
+    };
 ---------------------------------------------------------
 
 ---------------------------------------------------------
