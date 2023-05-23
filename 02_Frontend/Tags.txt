@@ -12465,20 +12465,20 @@ const MultiSelectField = ({
     * Ререндер родителя вызывает ререндер children
 
 ---------------------------------------------------------
-/// useRef() - в нем можно сохранять любое значение и хранить/изменять его в течение всей жизни компонента. 
+/// useRef() - в нем можно сохранять любое значение и хранить/изменять его в течение всей жизни Компонента. 
 При изменении значения не произойдет повторный рендер.
 ---------------------------------------------------------
     const RenderCountExample = () => {
-        const renderCount = useRef(0);
+        const renderCount = useRef(0); /=/ Будет хранить кол-во рендеров 
         const [otherState, setOtherState] = useState(false);
 
         useEffect(() => {
             renderCount.current++;
-        });
+        }); /=/ При каждом ререндере Компонента +1
 
         const handleChange = () => {
             setOtherState((prev) => !prev);
-        };
+        }; /=/ Вызываем изменение `state` для провоцирования ререндера Компонента
 
         return (
             <CardWrapper>
@@ -12490,7 +12490,35 @@ const MultiSelectField = ({
             </CardWrapper>
         );
     };
+
+-------------------
+    const PrevStateExample = () => {
+        const prevState = useRef("");
+        const [currentState, setCurrentState] = useState("false");
+
+        useEffect(() => {
+            prevState.current = currentState; /=/ Указываем переменную для сохранения прошлого состояния
+        }, [currentState]); /=/ Вызывается только при изменении нашей переменной
+
+        const handleChange = () => {
+            setCurrentState((prev) => (prev === "false" ? "true" : "false"));
+        }; /=/ Провоцируем изменение состояния переменной 
+
+        return (
+            <CardWrapper>
+                <SmallTitle>Предыдущее состояние</SmallTitle>
+                <p>{`prevState: ${prevState.current}`}</p> /=/ Отображаем предыдущее значение переменной
+                <p>{`currentState: ${currentState}`}</p> /=/ Отображаем текущее значение
+                <button className="btn btn-primary" onClick={handleChange}>
+                    Toggle other state
+                </button>
+            </CardWrapper>
+        );
+    };
+
 ---------------------------------------------------------
+/// Программируемые действия и свойства
+-------------------
 
 ---------------------------------------------------------
 
