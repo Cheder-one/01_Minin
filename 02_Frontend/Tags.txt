@@ -2913,16 +2913,18 @@ console.log(id in user); // true
 /// Object.assign() - копирование и объединение Объектов
 -------------------
    Object.assign(Объект-хранилище, перемещаемый объект)
+
 -------
    Object.assign(developerInfo, developerExtraInfo);
 
    console.log('developerInfo', developerInfo); 
     // developerInfo { a: 1, b: 2, c: 3 }
+    
 -------
    const developer2 = Object.assign({}, developerExtraInfo);
 
    console.log('developer2', developer2); 
-     // developer2 { a: 1, b: 2, c: 3 }
+    // developer2 { a: 1, b: 2, c: 3 }
 -------------------
 /// Копирование данных Объекта через for in
 -------------------
@@ -12475,7 +12477,52 @@ const MultiSelectField = ({
 В его свойстве `current` будет находится заданное значение
 
 ! Важная особенность useRef() – ссылка на ref-объект неизменна, и поэтому сам он не может быть передан в useEffect() в качестве зависимости (так как useEffect() попросту не будет вызываться вновь). 
-Но можно передать его свойство `current` и его изменение будет влиять на вызов useEffect()
+! Но можно передать его свойство `current` и его изменение будет влиять на вызов useEffect()
+
+-------------------
+// useRef().current.style - установка стилей
+---------
+const UseRefExercise = () => {
+    const blockRef = useRef();
+    const smallRef = useRef();
+
+    const handleChange = () => {
+    /=/ 3 способа установки стилей:
+        blockRef.current.style.color = "white";
+        blockRef.current.style.width = "150px";
+        blockRef.current.style.height = "150px";
+    ==/OR/==
+        const { style } = blockRef.current;
+        style.color = "white";
+        style.width = "150px";
+        style.height = "150px";
+    ==/OR/==
+        Object.assign(blockRef.current.style, {
+            color: "white",
+            width: "150px",
+            height: "150px"
+        });
+
+        smallRef.current.innerText = "text"; /=/ Установка текста
+    };
+
+    return (
+        <div
+            className="bg-primary d-flex flex-row justify-content-center align-items-center rounded"
+            style={{
+                height: 40,
+                width: 60,
+                color: "white"
+            }}
+            ref={blockRef}
+        >
+            <small ref={smallRef}>Блок</small>
+        </div>
+        <button className="btn btn-primary mt-2" onClick={handleChange}>
+            Change
+        </button>
+    );
+};
 
 -------------------
 =<< Подсчет кол-ва рендеров
