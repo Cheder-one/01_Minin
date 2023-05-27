@@ -6524,8 +6524,12 @@ Rollup имеет интересную возможность, которая н
 Например если мы убрали вызов функции, он уберет всю неактивную функцию.
 
 ---------
-0.1) Установить ласт версию
-    $ npm install -g npm@latest
+0.0) Install & add репозиторий Node.js в систему.
+   $ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+   
+0.1) Установить/обновить ласт версию
+    $ sudo npm install -g npm
+
 
 1.1) Чтобы установить все пакеты которые уже прописаны package.json 
     $ npm i
