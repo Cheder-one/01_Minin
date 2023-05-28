@@ -13019,6 +13019,30 @@ const ParentComponent = () => {
 };
 
 ---------------------------------------------------------
+/// Faker.js - генерация фиктивных данных для пользователей
+-------------------
+    $ yarn add @faker-js/faker --dev
+    $ npm install @faker-js/faker --save-dev
+
+    Faker functions(): https://fakerjs.dev/api/
+---------
+    import { faker } from '@faker-js/faker';
+
+    const users = [];
+
+    for (let i = 0; i < 10; i++) {
+        const user = {
+            id: i + 1,
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            phone: faker.phone.phoneNumber()
+        };
+        users.push(user);
+    }
+
+    console.log(users);
+
+В этом примере мы используем функцию faker.name.findName() для генерации фиктивных имен для каждого пользователя в цикле. Остальные поля, такие как email и phone, также генерируются с помощью функций из библиотеки Faker.js.
 
 ---------------------------------------------------------
 
