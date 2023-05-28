@@ -12992,7 +12992,7 @@ const withQuery = (Component) => {
         const [user, setUser] = useState(null);
 
         useEffect(() => {
-            fakeApiGetUser(userGuid).then((r) => {
+            getUser(userGuid).then((r) => {
                 setUser(r);
             });
         }, [userGuid]);
