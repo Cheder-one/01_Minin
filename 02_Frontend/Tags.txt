@@ -7635,7 +7635,16 @@ return (
         style={{ height: "3rem", width: "3rem" }}
     />
 -------------------
-
+ >- 'card' - создать карточку
+---------
+    <div className="card">
+        <div className="card-body">
+            <h3 className="card-title">{name}</h3>
+            <div className="card-text">
+               Tel.: {phone}, email: {email}
+            </div>
+        </div>
+    </div>
 -------------------
 
 -------------------
@@ -12970,7 +12979,7 @@ useCallback() возвращает мемоизированную версию �
 -------------------
 // Создание и внедрение HOC Компонента
 ---------
-/=/ Обычный Компонент
+/=/ Обычный переиспользуемый Компонент
 
 const UserMeta = ({ name, email, phone }) => {
     return (
@@ -12988,17 +12997,26 @@ const UserMeta = ({ name, email, phone }) => {
 /=/ Компонент Высшего Порядка
 
 const withQuery = (Component) => {
-    return ({ userGuid }) => {
-        const [user, setUser] = useState(null);
+   return ({ userGuid }) => {
+      const [user, setUser] = useState(null);
+      const [error, setError] = useState(null);
 
-        useEffect(() => {
-            getUser(userGuid).then((r) => {
-                setUser(r);
+      useEffect(() => {
+         getUser(userGuid)
+            .then((r) => {
+               setUser(r);
+            })
+            .catch((e) => {
+               setError(e.message);
             });
-        }, [userGuid]);
+      }, [userGuid]);
 
-        return <>{user ? <Component {...user} /> : <div>Загрузка...</div>}</>;
-    };
+      if (error) {
+         return <div>{error}</div>;
+      }
+
+      return <>{user ? <Component {...user} /> : <div>Загрузка...</div>}</>;
+   };
 };
 ---------
 /=/ Родительский Компонент
@@ -13017,6 +13035,50 @@ const ParentComponent = () => {
         </>
     );
 };
+---------
+/=/ fake.API
+
+import { faker } from "@faker-js/faker";
+
+const fakeUsers = Array.from({ length: 10 }, (_, i) => {
+   const gender = faker.person.sex();
+   const user1Name = faker.person.firstName(gender);
+   const user2Name = faker.person.lastName(gender);
+   const userPhone = faker.phone.number("501-###-###");
+   const userEmail = `${user1Name.toLowerCase()}@mail.com`;
+
+   return {
+      name: `${user1Name} ${user2Name}`,
+      userGuid: `userGuid_${i}`,
+      phone: userPhone,
+      email: userEmail
+   };
+});
+
+if (!localStorage.getItem("fakeUsers")) {
+   localStorage.setItem("fakeUsers", JSON.stringify(fakeUsers));
+}
+
+export const getAllUsers = () =>
+   new Promise((resolve) => {
+      setTimeout(function () {
+         resolve(JSON.parse(localStorage.getItem("fakeUsers")));
+      }, 1000);
+   });
+
+export const getUser = (userGuid) =>
+   new Promise((resolve, reject) => {
+      setTimeout(function () {
+         const user = JSON.parse(localStorage.getItem("fakeUsers")).find(
+            (user) => user.userGuid === userGuid
+         );
+         if (user) {
+            resolve(user);
+         } else {
+            reject(new Error("User not found"));
+         }
+      }, 1000);
+   });
 
 ---------------------------------------------------------
 /// Faker.js - генерация фиктивных данных для пользователей
