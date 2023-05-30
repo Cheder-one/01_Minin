@@ -7151,11 +7151,12 @@ To use localStorage to remember that a button was pressed, you can use the follo
     const myNumber = 42;
     
     Записать el
-    >- localStorage.setItem('number', myNumber.toString()) 
+    >- localStorage.setItem("users", JSON.stringify(users));
 
     Получить el
     >- localStorage.getItem('number') 
-
+    >- JSON.parse(localStorage.getItem("users"))
+    
     Удалить el
     >- localStorage.removeItem('number') 
 
