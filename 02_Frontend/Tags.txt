@@ -13181,6 +13181,30 @@ export const withEditUserPhone = (Component) => {
         );
     };
 };
+
+
+/** 
+ * Просто нужно обернуть UserMeta в withEditUserPhone(), а потом 
+ * получившееся обернуть в withQuery(),
+ * так как в withQuery() мы получаем пользователя
+ */
+const UserMetaWithQuery = withQuery(UserMeta);
+const UserMetaWithEditUserPhone = withQuery(withEditUserPhone(UserMeta));
+
+const ParentComponent = () => {
+   return (
+      <>
+         <p>Пользователи:</p>
+         <UserMetaWithQuery 
+            userGuid="userGuid_0" 
+         />
+         <br />
+         <UserMetaWithEditUserPhone
+            userGuid="userGuid_1" 
+         />
+      </>
+   );
+};
 ---------------------------------------------------------
 /// Faker.js - генерация фиктивных данных для пользователей
 -------------------
