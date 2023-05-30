@@ -13080,6 +13080,107 @@ export const getUser = (userGuid) =>
       }, 1000);
    });
 
+-------------------
+// HOC - некий высокоуровневый коммутатор
+---------
+/=/ Создание 2го HOC для редактирования телефона польз-ля.
+
+Данный HOC будет принимать пользователя и давать нам кнопку для редактирования его поля. Пусть это будет телефон.
+
+
+/**
+ * Компонент поля редактирования телефона.
+ * Просто управляемый <input> и кнопка сохранить.
+ */
+export const EditUserPhone = ({ value, onChange, onSuccess }) => {
+    return (
+        <div className="alert alert-success mt-2">
+            <h4>Введите новый телефон</h4>
+            <div className="d-flex justify-content-between">
+                <input
+                    value={value}
+                    onChange={onChange}
+                    className="w-100 me-2 form-control"
+                />
+                <button className="btn btn-primary" onClick={onSuccess}>
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    );
+};
+
+
+/**
+ * Кнопка для перехода в режим редактирования, когда появляется поле
+ */
+export const UserEditBtn = ({ onClick }) => {
+    return (
+        <div className="d-flex justify-content-end mt-2">
+            <button className="btn btn-primary" onClick={onClick}>
+                Редактировать телефон
+            </button>
+        </div>
+    );
+};
+
+
+/**
+ * Новый HOC для редактирования телефона.
+ * Принимает Component и возвращает новый, которому 
+ * нужно передать props как у UserMeta.
+ */
+export const withEditUserPhone = (Component) => {
+    return (props) => {
+        const [isEdit, setIsEdit] = useState(false);
+        const [phone, setPhone] = useState(props.phone);
+        const [fieldValue, setFieldValue] = useState(props.phone);
+
+        /=/ Если придут новые данные то установить их
+        useEffect(() => {
+            setPhone(props.phone);
+            setFieldValue(props.phone);
+        }, [props.phone]);
+				
+
+        /=/ Переключение режима редактирования
+        const handleToggleEdit = () => {
+            setIsEdit((prevEdit) => !prevEdit);
+        };
+				
+        const handleSuccess = () => {
+            handleToggleEdit();
+            setPhone(fieldValue);
+        };
+
+        const handleInputChange = (event) => {
+            const { value } = event.target;
+            setFieldValue(value);
+        };
+
+        return (
+            <>
+                <Component {...props} phone={phone} />
+                {
+                     /**
+                      * Если в режиме редактирования, то 
+                      * вернёт форму редактирования,
+                      * иначе - кнопку "редактировать телефон"
+                      */
+                }
+                {isEdit ? (
+                    <EditUserPhone
+                        value={fieldValue}
+                        onChange={handleInputChange}
+                        onSuccess={handleSuccess}
+                    />
+                ) : (
+                    <UserEditBtn onClick={handleToggleEdit} />
+                )}
+            </>
+        );
+    };
+};
 ---------------------------------------------------------
 /// Faker.js - генерация фиктивных данных для пользователей
 -------------------
@@ -13105,6 +13206,12 @@ export const getUser = (userGuid) =>
     console.log(users);
 
 В этом примере мы используем функцию faker.name.findName() для генерации фиктивных имен для каждого пользователя в цикле. Остальные поля, такие как email и phone, также генерируются с помощью функций из библиотеки Faker.js.
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
 
 ---------------------------------------------------------
 
