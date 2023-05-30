@@ -7150,14 +7150,18 @@ To use localStorage to remember that a button was pressed, you can use the follo
 ---------
     const myNumber = 42;
     
-// записать el
-    localStorage.setItem('number', myNumber.toString()) 
-// получить el
-    localStorage.getItem('number') 
-// удалить el
-    localStorage.removeItem('number') 
-// очистить полностью storage
-    localStorage.clear() 
+    Записать el
+    >- localStorage.setItem('number', myNumber.toString()) 
+
+    Получить el
+    >- localStorage.getItem('number') 
+
+    Удалить el
+    >- localStorage.removeItem('number') 
+
+    Очистить полностью storage
+    >- localStorage.clear() 
+
 ---------
 /// Работа с Объектами
 ---------
