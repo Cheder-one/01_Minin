@@ -13530,7 +13530,7 @@ React.cloneElement() клонирует и возвращает новый React
 ---------
 Первым параметром он принимает элемент, вторым config и третьим потомков (опционально):
 
-    React.cloneElement(element, config, ...children);
+    React.cloneElement(element, {config}, ...children);
 
  >- `config` может содержать все новые пропсы, key и ref. Полученный таким способом элемент будет иметь пропсы исходного элемента (element) и также новые пропсы из config. 
  >- Если в `config` совпадет название пропса, который уже есть у element, то применится проп из config. 
@@ -13550,12 +13550,12 @@ React.cloneElement() клонирует и возвращает новый React
 Утилита получения 2-х параграфов и сообщения вот такая:
 
     const getTwoParagraph = (text) => {
-        const arrParagraph = text.split(/n/);
+        const arrParagraph = text.split(/\n/);
         return arrParagraph.length > 2
             ? [
                   ...arrParagraph.slice(0, 2),
                   "Для продолжения оформите подписку"
-              ].join("n")
+              ].join("\n")
             : text;
     };
 
@@ -13565,12 +13565,10 @@ const CheckSubscribe = () => {
 
     /=/ Получаем элемент
     const myText = <Text text={someText} />;
-		
 
     /=/ Клонируем его
     const nextText = React.cloneElement(myText, {
-        /=/ Меняем пропс `text`
-        text: isSubscribe  
+        text: isSubscribe   <<- /=/ Меняем пропс `text`
             ? myText.props.text  
             : getTwoParagraph(myText.props.text)  
     });
