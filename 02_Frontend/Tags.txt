@@ -13737,13 +13737,95 @@ const ReactChildrenExample = () => {
     const App = () => {
       return (
         <List>
-          <ListItem>Item 1</ListItem>
-          <ListItem>Item 2</ListItem>
-          <ListItem>Item 3</ListItem>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+            <ListItem>Item 3</ListItem>
         </List>
       );
     };
 
+-------------------
+// Создание пошагового ToDo списка
+---------
+|> SomeComponent.jsx
+const SomeComponent = () => {
+   const [doneValue, setDoneValue] = useState(0);
+
+   const handleClickDone = (stepValue) => {
+      setDoneValue(stepValue);
+   };
+   /=/ При нажатии на элемент списка, в `StatusItem` передаем value-шага по которому кликнули. 
+   /=/ Принимаем value-шага в `Statusbar`, который определяет для элемента класс (выполнено/нет) посредством вычисления и передачи дочернему элементу пропса isDone: value >= child.props.value,
+
+   return (
+      <CardWrapper>
+         <Statusbar value={doneValue} onDone={handleClickDone}>
+            <StatusItem value={1}>Шаг 1</StatusItem>
+            <StatusItem value={2}>Шаг 2</StatusItem>
+            <StatusItem value={3}>Шаг 3</StatusItem>
+            <StatusItem value={4}>Шаг 4</StatusItem>
+            <StatusItem value={5}>Шаг 5</StatusItem>
+         </Statusbar>
+      </CardWrapper>
+   );
+};
+
+|> Statusbar.jsx
+const Statusbar = ({ children, value, onDone }) => {
+   const countChildren = React.Children.count(children);
+   /=/ Проверка на наличие items в списке дел
+
+   if (!countChildren) {
+      return <div>Нет элементов</div>;
+   }
+
+   return (
+      <div className="wrapper">
+         <ul className="step-progress">
+            {React.Children.map(children, (child) => {
+               if (child.type === StatusItem) {
+                  return React.cloneElement(child, {
+                     isDone: value >= child.props.value,
+                     onDone: onDone
+                  });
+               }
+               return null;
+            })}
+         </ul>
+      </div>
+   );
+};
+
+Statusbar.propTypes = {
+   children: PropTypes.node.isRequired,
+   value: PropTypes.number.isRequired,
+   onDone: PropTypes.func
+};
+
+|> StatusItem.jsx
+const StatusItem = ({ children, value, isDone, onDone }) => {
+   const className = `step-progress-item ${isDone ? "is-done" : "current"}`;
+
+   const handleClickDone = () => {
+      onDone && onDone(value);
+   };
+   /=/ Тк props не передается по-умолчанию, и он не обязан быть там, а мы его добавляем, делаем проверку на то что мы его передали
+
+   return (
+      <div className={className} onClick={handleClickDone}>
+         <strong style={{ cursor: "pointer" }}>
+            {children} /=/ это "Шаг 1"
+         </strong>
+      </div>
+   );
+};
+
+StatusItem.propTypes = {
+   children: PropTypes.string.isRequired,
+   value: PropTypes.number.isRequired,
+   isDone: PropTypes.bool,
+   onDone: PropTypes.func
+};
 
 ---------------------------------------------------------
 
