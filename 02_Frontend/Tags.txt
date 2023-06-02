@@ -13772,6 +13772,7 @@ const SomeComponent = () => {
 
 |> Statusbar.jsx
 const Statusbar = ({ children, value, onDone }) => {
+   
    const countChildren = React.Children.count(children);
    /=/ Проверка на наличие items в списке дел
 
@@ -13784,6 +13785,8 @@ const Statusbar = ({ children, value, onDone }) => {
          <ul className="step-progress">
             {React.Children.map(children, (child) => {
                if (child.type === StatusItem) {
+               /=/ Делаем проверку чтобы мы работали именно с StatusItem, а не с любыми дочерними компонентами Statusbar-а
+
                   return React.cloneElement(child, {
                      isDone: value >= child.props.value,
                      onDone: onDone
