@@ -14027,6 +14027,12 @@ StatusItem.propTypes = {
 };
 
 ---------------------------------------------------------
+/=/=/ Formik
+-------------------
+    $ npm install formik --save
+    $ yarn add formik 
+
+import { Formik } from 'formik';
 
 ---------------------------------------------------------
 
