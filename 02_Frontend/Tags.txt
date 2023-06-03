@@ -12534,26 +12534,18 @@ const MultiSelectField = ({
 ---------
 const UseRefExercise = () => {
     const blockRef = useRef();
-    const smallRef = useRef();
 
     const handleChange = () => {
-    /=/ 3 способа установки стилей:
-        blockRef.current.style.color = "white";
         blockRef.current.style.width = "150px";
         blockRef.current.style.height = "150px";
+        blockRef.current.children[0].innerText = "text";
     ==/OR/==
-        const { style } = blockRef.current;
-        style.color = "white";
+        const { style, children } = blockRef.current;
         style.width = "150px";
         style.height = "150px";
-    ==/OR/==
-        Object.assign(blockRef.current.style, {
-            color: "white",
-            width: "150px",
-            height: "150px"
-        });
-
-        smallRef.current.innerText = "text"; /=/ Установка текста
+        children[0].innerText = "text";
+        /=/ Установка текста для Дочернего компонента
+        /=/ Не переназначаем `color`, тк устраивает исходный "white"
     };
 
     return (
@@ -12566,7 +12558,7 @@ const UseRefExercise = () => {
             }}
             ref={blockRef}
         >
-            <small ref={smallRef}>Блок</small>
+            <small>Блок</small>
         </div>
         <button className="btn btn-primary mt-2" onClick={handleChange}>
             Change
@@ -13028,7 +13020,7 @@ const HocExercise = () => {
 
 const withFunctions = (Component) => {
     return (props) => {
-        const [isAuth, setIsAuth] = useState(false);
+        const [isAuth, setIsAuth] = useState(!!localStorage.getItem("auth"));
 
         const toggleAuth = () => {
             setIsAuth((prev) => !prev);
@@ -13721,13 +13713,17 @@ const ChildrenExercise = () => {
 };
 
 const ListComponent = ({ children }) => {
-   return React.Children.map(children, (child, i) =>
-      React.cloneElement(child, { i })
-   );
+    return React.Children.map(children, (child, i) =>
+        React.cloneElement(child, {
+                num: i,
+                ..child.props, 
+                /=/ Все неизмененные `props` переносятся автоматически, но рекомендуется делать очевидный перенос вручную
+            })
+    );
 };
 
-const Component = ({ i }) => {
-   return <div>Компонент списка {i}</div>;
+const Component = ({ num }) => {
+   return <div>Компонент списка {num}</div>;
 };
 
 -------------------
@@ -13753,13 +13749,19 @@ const ListComponent = ({ children }) => {
    const childrenArray = React.Children.toArray(children);
    return (
       <div>
-         {childrenArray.map((child, i) => React.cloneElement(child, { i }))}
+         {childrenArray.map((child) =>
+            React.cloneElement(child, {
+               ...child.props,
+               num: Number(child.key.replace(".", "")) + 1
+               /=/ У `child` есть свойство `key` (.0 .1 .2)
+            })
+         )}
       </div>
    );
 };
 
-const Component = ({ i }) => {
-   return <div>Компонент списка {i}</div>;
+const Component = ({ num }) => {
+   return <div>Компонент списка {num}</div>;
 };
 
 -------------------
