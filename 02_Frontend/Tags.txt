@@ -12982,8 +12982,7 @@ useCallback() возвращает мемоизированную версию �
 // Отличие Компонента от Экземпляра компонента
 ---------
 =<< Компонент Button
-    class Button extends React.Component {
-        render() {
+    const Button () => {
             return (
                 <button onClick={this.props.onClick}>
                     {this.props.label}
@@ -12993,15 +12992,79 @@ useCallback() возвращает мемоизированную версию �
     }
 
 =<< Экземпляры компонента Button
-    const button1 = <Button 
+    const button1 = 
+        <Button 
             label="Нажми меня" 
             onClick={() => alert('Вы нажали кнопку 1')} 
         />;
 
-    const button2 = <Button 
-        label="Клик сюда" 
-        onClick={() => alert('Вы нажали кнопку 2')} 
-    />;
+-------------------
+->> Пример HOC
+---------
+
+const HocExercise = () => {
+    const ComponentWithHoc = withFunctions(SimpleComponent);
+
+    return (
+        <ComponentWithHoc label="Login form" />
+    );
+};
+
+
+const withFunctions = (Component) => {
+    return (props) => {
+        const [isAuth, setIsAuth] = useState(false);
+
+        const toggleAuth = () => {
+            setIsAuth((prev) => !prev);
+        };
+
+        const handleLogin = () => {
+            localStorage.setItem("auth", "token");
+            toggleAuth();
+        };
+
+        const handleLogOut = () => {
+            localStorage.removeItem("auth");
+            toggleAuth();
+        };
+
+        return (
+            <CardWrapper>
+                <Component
+                    {...props}
+                    onLogin={handleLogin}
+                    onLogOut={handleLogOut}
+                    isAuth={isAuth}
+                />
+            </CardWrapper>
+        );
+    };
+};
+
+const SimpleComponent = ({ onLogin, onLogOut, isAuth, label }) => {
+    return (
+        <>
+            {label && <h3>{label}</h3>}
+            {!isAuth ? (
+                <button className="btn btn-primary" onClick={onLogin}>
+                    Войти
+                </button>
+            ) : (
+                <button className="btn btn-primary" onClick={onLogOut}>
+                    Выйти из системы
+                </button>
+            )}
+        </>
+    );
+};
+
+SimpleComponent.propTypes = {
+    onLogin: PropTypes.func.isRequired,
+    onLogOut: PropTypes.func.isRequired,
+    isAuth: PropTypes.bool.isRequired,
+    label: PropTypes.string
+};
 
 -------------------
 ->> Создание и внедрение HOC Компонента
