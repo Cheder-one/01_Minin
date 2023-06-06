@@ -9188,14 +9188,43 @@ module.exports = {
          // Использование двойных кавычек
     }
 };
+-------------------
+/=/ Обновленная конфигурация `eslint`
 ---------
-Далее, исходя из параметров ESLint, нужно настроить Prettier. 
-Создаём файл .prettierrc.cjs
+|> .eslint.cjs
+
+    module.exports = {
+      env: { browser: true, es2020: true },
+      extends: [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended"
+      ],
+      parserOptions: { ecmaVersion: "latest", sourceType: "module" },
+      settings: { react: { version: "18.2" } },
+      plugins: ["react-refresh"],
+      rules: {
+        "react-refresh/only-export-components": "warn",
+        "multiline-ternary": "off",
+        indent: "off",
+        semi: [2, "always"],
+        "space-before-function-paren": [
+          "error",
+          { anonymous: "always", named: "never" }
+        ],
+        quotes: ["error", "double", { allowTemplateLiterals: true }]
+      }
+    };
+---------
+|> .prettierrc.cjs
+
     module.exports = {
         trailingComma: "none",
         tabWidth: 2,
         semi: true
     };
+
 ---------
 Отформатировать все документы согласно правилам:
 
@@ -9206,7 +9235,10 @@ module.exports = {
 -------------------
 /=/=/ Если Prettier не форматирует:
 ---------
-!!! Проверить название и расширение файла, должно быть: ! .prettierrc.cjs !
+!!! Проверить название и расширение файла, должно быть: 
+
+    .prettierrc.cjs 
+
 ---------
 // OR
 ---------
@@ -14092,23 +14124,36 @@ const reminders = [
 
 export default function () {
   createServer({
-
     models: {
-      reminder: Model,
+      list: Model.extend({
+        reminders: hasMany() /=/ может быть несколько
+      }),
+
+      reminder: Model.extend({
+        list: belongsTo() /=/ принадлежит
+      })
+      /=/ у одного списка может быть много напоминаний, а каждое напоминание относится к одному списку
     },
     /=/ Объект `models` хранит все БД
 
-    /**
-    * Метод seeds() заполняет выбранную БД
-    * Этот метод сам добавляет `id` каждому `el`
-    */
-    seeds(server) { 
-      reminders.forEach((el) => {
-        server.create("reminder", el);
-      });
-
-      
+   
+    factories: {
+      reminder: Factory.extend({
+        text(i) {
+          return `Reminder ${i}`;
+        }
+      })
     },
+
+    /=/ Метод seeds() заполняет выбранную БД
+    seeds(server) {
+      server.createList("reminder", 5);
+      /=/ Вызов генерации `factories`
+
+      // remindersArr.forEach((el) => {
+      //   server.create("reminder", el);
+      // });
+    }
 
     /**
     * Объект `schema` имеет доступ к БД
@@ -14126,6 +14171,7 @@ export default function () {
         let attrs = JSON.parse(request.requestBody);
         return schema.reminders.create(attrs);
       });
+      /=/ Используем метод create() для создания новой записи в БД, используя данные полученные из тела запроса 
 
       this.delete("/api/reminders/:id", (schema, request) => {
         const id = request.params.id;
