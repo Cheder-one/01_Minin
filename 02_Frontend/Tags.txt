@@ -14060,7 +14060,6 @@ import { Formik } from 'formik';
 
     import { Server } from "miragejs";
 
-    const server = new Server();
     const server = new Server({ timing: 2000 }); 
     /=/ Добавить задержку
 
@@ -14080,8 +14079,129 @@ import { Formik } from 'formik';
 
 Таким образом, когда клиент делает запрос на "/api/reminders" с помощью fetch, он обращается к MirageJS-серверу, который возвращает список напоминаний в ответ на этот запрос.
 
----------------------------------------------------------
+---------
+->> Классовая версия MirageJS
 
+import { Model, createServer } from "miragejs";
+
+export default function () {
+  createServer({
+    models: {
+      reminder: Model,
+    },
+
+    routes() {
+      this.get("/api/reminders", (schema) => {
+        return schema.reminders.all();
+      });
+
+      this.post("/api/reminders", (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+
+        return schema.reminders.create(attrs);
+      });
+    },
+  });
+}
+-------------------
+/=/ Как fetch понимает куда делать запрос
+---------
+    function App() {
+        let [users, setUsers] = useState([])
+
+        useEffect(() => {
+            fetch("/api/users")
+            .then((response) => response.json())
+            .then((json) => setUsers(json))
+        }, [])
+
+        return (
+            <ul>
+            {users.map((user) => (
+                <li key={user.id}>{user.name}</li>
+            ))}
+            </ul>
+        )
+    }
+
+Когда вы используете fetch для отправки запроса на сервер, вы обращаетесь к тому же серверу, на котором была загружена страница. Это происходит потому, что fetch отправляет запрос на относительный URL-адрес, который указывает на путь на сервере, а не на полный URL-адрес, который указывает на конкретный сервер.
+
+Например, если ваша страница была загружена с сервера https://example.com, и вы используете fetch("/api/users"), то запрос будет отправлен на этот же сервер example.com, а не на другой сервер.
+
+-------------------
+/=/ Как это выглядит вместе с React Route
+---------
+    function Reminders() {
+      const [reminders, setReminders] = useState([]);
+
+      useEffect(() => {
+        fetch("/api/reminders")
+          .then((response) => response.json())
+          .then((data) => setReminders(data.reminders))
+          .catch((error) => console.error(error));
+      }, []);
+
+      return (
+        <div>
+          {reminders.map((reminder) => (
+            <div key={reminder.id}>{reminder.text}</div>
+          ))}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <Router>
+          <Route path="/api/reminders" component={Reminders} />
+        </Router>
+      );
+    }
+
+    export default App;
+
+---------------------------------------------------------
+/=/=/ this - что-то вроде метода `new`, но не создает новый экземпляр, а вызывает например функцию в новом заданном контексте.
+-------------------
+Нет, this не создает экземпляр объекта. this является ссылкой на текущий объект, который вызывает метод или используется в контексте функции.
+
+Это означает, что если у вас есть объект `person` с методом `getName()`, то когда вы вызываете этот метод через объект person с помощью person.getName(), this будет ссылаться на объект person. Если вы вызываете этот метод без контекста объекта, например, просто getName(), то this ссылается на глобальный объект.
+---------
+->> const person = {
+      name: 'John',
+      age: 30,
+      getName() {
+        return this.name;
+      }
+    };
+
+    console.log(person.getName()); /=/ выводит "John"
+
+    const getName = person.getName;
+    console.log(getName()); 
+    /=/ Выводит "undefined", потому что this ссылается на глобальный объект
+
+---------
+->> class Person {
+      constructor(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+
+      greet() {
+        console.log(
+          `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+        );
+      }
+    }
+
+    const john = new Person("John", 30);
+    const jane = new Person("Jane", 25);
+
+    john.greet(); 
+    // "Hello, my name is John and I'm 30 years old."
+    jane.greet(); 
+    // "Hello, my name is Jane and I'm 25 years old."
 ---------------------------------------------------------
 
 ---------------------------------------------------------
