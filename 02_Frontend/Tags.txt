@@ -14084,25 +14084,57 @@ import { Formik } from 'formik';
 
 import { Model, createServer } from "miragejs";
 
+const reminders = [
+  { text: "Walk the dog" },
+  { text: "Take out the trash" },
+  { text: "Work out" },
+];
+
 export default function () {
   createServer({
+
     models: {
       reminder: Model,
     },
+    /=/ Объект `models` хранит все БД
 
+    /**
+    * Метод seeds() заполняет выбранную БД
+    * Этот метод сам добавляет `id` каждому `el`
+    */
+    seeds(server) { 
+      reminders.forEach((el) => {
+        server.create("reminder", el);
+      });
+
+      
+    },
+
+    /**
+    * Объект `schema` имеет доступ к БД
+    * Для обращения ко всем элементам выбранной БД 
+    * необходимо исп-ть постфикс 's' 
+    * reminder =>> reminders
+    */
     routes() {
       this.get("/api/reminders", (schema) => {
         return schema.reminders.all();
+        /=/ Получение всех элементов `reminder`
       });
 
       this.post("/api/reminders", (schema, request) => {
         let attrs = JSON.parse(request.requestBody);
-
         return schema.reminders.create(attrs);
+      });
+
+      this.delete("/api/reminders/:id", (schema, request) => {
+        const id = request.params.id;
+        return schema.reminders.find(id).destroy();
       });
     },
   });
 }
+
 -------------------
 /=/ Как fetch понимает куда делать запрос
 ---------
