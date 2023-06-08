@@ -4532,6 +4532,15 @@ DOM-узлы – это обычные объекты JavaScript. Мы може�
 
 // Назначить аттрибут for:
     newNavButton.htmlFor = "task-1"
+
+// Найти el по аттрибуту:
+    document.querySelectorAll('[attributeName="attributeValue"]');
+
+// Поиск по классу 
+    <div class="_1Fm4m _1h2dM app-wrapper-web font-fix">
+
+    document.querySelector("._1Fm4m._1h2dM.app-wrapper-web.font-fix");
+
 -------------------
 /=/=/ .innerText 
     .textContent - вывести/изменить текстовое содержимое элемента. 
@@ -4792,11 +4801,16 @@ elem.style.display = "" - Вернуть элемент
     const p = document.querySelector("p");
     p.classList.add("red");
 -------------------
-/=/=/ .replaceWith() - заменить один элемент на другой
+/=/=/ .replaceWith() - заменить элемент на другой
 -------------------
 Заменим первый абзац на новый с помощью этого метода:
     const firstParagraph = document.querySelector("p");
     firstParagraph.replaceWith(newParagraph);
+---------
+    myElement = document.querySelector("div._3ndVb");
+    
+    const myButton = document.createElement("button");
+    myElement.replaceWith(myButton);
 -------------------
 /=/=/ closest - ищет ближайший родительский элемент 
     (например div или body)
@@ -5208,9 +5222,44 @@ for (const el of arr) {
     function addText(event) {
         event.target.textContent += " клик";
     }
--------
+-------------------
+/=/ DOMContentLoaded - гарантирует, что вся структура DOM была загружена, прежде чем запускать ваш код
+---------
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("Страница загружена1!");
+    });
+  ==/OR/==
+    document.addEventListener("load", () => {
+        console.log("Страница загружена2!");
+    });
+    
+  ==/OR/==
+    const checkElement = setInterval(() => {
+        const myElement = document.querySelector('div[data-tab="2"]'); /=/ поиск по тегу и аттрибуту
+
+        if (myElement) {
+            clearInterval(checkElement);
+            console.log("loaded!");
+        }
+    }, 100);
+
+  ==/OR/==
+    (async function () {
+        "use strict";
+
+        let myElement = null;
+        while (!myElement) {
+            myElement = document.querySelector("div._3ndVb");
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        console.log(myElement);
+    })();
+
+Этот код будет проверять наличие элемента каждые 100 миллисекунд с помощью цикла while. Как только элемент будет найден и document.querySelector("div._3ndVb") вернет не null, цикл будет прерван, и вы сможете выполнить нужные действия с элементом. Обратите внимание, что вам нужно использовать await с setTimeout(), чтобы не блокировать выполнение скрипта.
+-------------------
 // Создать переключение темы для элемента при нажатии
--------
+---------
     const allNavButton = 
         document.querySelectorAll('.main-navigation__button-item');
 
@@ -5429,11 +5478,11 @@ for (const el of arr) {
     })
 -------
     document.addEventListener("keyup", (event) => {
-    const key = event.key;
-    const p = document.querySelector(`[data-id='${key}']`);
-    if (p) {
-        p.style.fontWeight = "bold";
-    }
+        const key = event.key;
+        const p = document.querySelector(`[data-id='${key}']`);
+        if (p) {
+            p.style.fontWeight = "bold";
+        }
     });
 ---------------------------------------------------------
 /=/=/ События "mouseover", "mouseout", "mousemove"
