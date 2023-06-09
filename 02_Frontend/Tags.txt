@@ -6761,12 +6761,13 @@ Yarn - это менеджер пакетов, а Vite - это быстрый �
 -------------------
 /=/ Установить большинство необходимых зависимостей:
 ---------
-    $ yarn add bootstrap @popperjs/core lodash eslint react-select yup react-router-dom@5
+    $ yarn add bootstrap @popperjs/core lodash eslint react-select yup nanoid react-router-dom@5 
 
     $ yarn add -D miragejs faker
 
     $ yarn add tailwindcss postcss autoprefixer cssnano
-
+    
+    $ eslint --init 
 ---------
 /=/=/ Шаг 1 — Создание проекта Vite
 ---------
