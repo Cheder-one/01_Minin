@@ -6838,7 +6838,7 @@ yarn add react-bootstrap устанавливает не только CSS-сти
 ---------
 Импортируйте CSS Bootstrap в свой основной файл JavaScript:
 
-    $ import 'bootstrap/dist/css/bootstrap.min.css' 
+    import 'bootstrap/dist/css/bootstrap.min.css' 
 
 Файл import 'bootstrap/dist/css/bootstrap.min.css' следует поместить в файл, который будет подключаться к вашей HTML-странице.
 
