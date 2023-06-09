@@ -6766,7 +6766,8 @@ Yarn - это менеджер пакетов, а Vite - это быстрый �
     $ yarn add -D miragejs faker
 
     $ yarn add tailwindcss postcss autoprefixer cssnano
-    
+    $ yarn remove tailwindcss postcss autoprefixer cssnano
+
     $ eslint --init 
 ---------
 /=/=/ Шаг 1 — Создание проекта Vite
