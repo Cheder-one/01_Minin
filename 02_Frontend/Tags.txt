@@ -14475,7 +14475,40 @@ export default function () {
     const CSS = await collectCSS();
 
     const isEnabled = isDarkReaderEnabled();
+    
 ---------------------------------------------------------
+/=/=/=/ useContext()
+-------------------
+    import React, { createContext, useState } from 'react';
+
+    export const ThemeContext = createContext();
+
+    const App = () => {
+    const [darkTheme, setDarkTheme] = useState(false);
+
+    const toggleTheme = () => {
+        setDarkTheme(prevDarkTheme => !prevDarkTheme);
+    };
+
+    return (
+        <ThemeContext.Provider value={{ darkTheme, toggleTheme }}>
+        <Switcher />
+        </ThemeContext.Provider>
+    );
+    };
+
+    const Switcher = () => {
+    const { darkTheme, toggleTheme } = useContext(ThemeContext);
+
+    return (
+        <div>
+        <label>
+            <input type="checkbox" checked={darkTheme} onChange={toggleTheme} />
+            Dark Theme
+        </label>
+        </div>
+    );
+    };
 
 ---------------------------------------------------------
 
