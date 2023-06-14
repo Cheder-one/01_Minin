@@ -14511,6 +14511,57 @@ export default function () {
     };
 
 ---------------------------------------------------------
+/=/=/=/ React Bootstrap
+-------------------
+-< Оформление формы с лейблом и полем ввода
+---------
+    <Form>
+      <Form.Group>
+        <Form.Label htmlFor={name}>{label}</Form.Label>
+        <InputGroup hasValidation>
+          <Form.Control
+            className={getInputClasses()}
+            type={showPass ? "text" : type}
+            id={name}
+            name={name}
+            value={value}
+            onChange={onChange}
+          />
+          {type === "password" && (
+            <Button variant="outline-secondary">
+              {showPass ? eyeSlash : eyeFill}
+            </Button>
+          )}
+          <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+        </InputGroup>
+      </Form.Group>
+    </Form>
+
+ * Form.Group используется для обертывания лейбла и поля ввода вместе. 
+ * InputGroup используется для создания группировки элементов ввода, таких как поля ввода текста, кнопки, выпадающие списки и т.д.
+ * Form.Control используется для создания поля ввода
+
+ * Form.Text используется для создания дополнительного текста под полем ввода, который может использоваться для предоставления дополнительной информации о поле ввода.
+
+-------------------
+-< 
+---------
+
+-------------------
+-< 
+---------
+
+-------------------
+-< 
+---------
+
+-------------------
+-< 
+---------
+
+-------------------
+-< 
+---------
 
 ---------------------------------------------------------
 
