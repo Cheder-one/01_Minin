@@ -14305,7 +14305,90 @@ import { Formik } from 'formik';
 
 Таким образом, когда клиент делает запрос на "/api/reminders" с помощью fetch, он обращается к MirageJS-серверу, который возвращает список напоминаний в ответ на этот запрос.
 
+-------------------
+->> Создание сервера с 10 пользователями
+
+|> main.jsx
+    import { makeServer } from "./app/api/server.js";
+
+    if (process.env.NODE_ENV === "development") {
+        makeServer({ environment: "development" });
+    }
 ---------
+|> server.js
+    import { createServer, Model } from "miragejs";
+    import { faker } from "@faker-js/faker";
+
+export function makeServer({ environment = "development" } = {}) {
+  const server = createServer({
+    environment,
+
+    models: {
+      user: Model
+    },
+
+    seeds(server) {
+      for (let i = 0; i < 10; i++) {
+        const gender = faker.person.sex();
+        const firstName = faker.person.firstName({ sex: gender });
+        const lastName = faker.person.lastName({ sex: gender });
+
+        server.create("user", {
+          name: `${firstName} ${lastName}`,
+          email: faker.internet.email({
+            firstName,
+            lastName: "_",
+            provider: "example.com"
+          }),
+          password: faker.internet.password(),
+          gender,
+          avatarUrl: `https://avatars.dicebear.com/api/avataaars/${(
+            Math.random() + 1
+          )
+            .toString(36)
+            .substring(7)}.svg`
+        });
+      }
+    },
+
+    routes() {
+      this.namespace = "api";
+
+      this.get(
+        "/users",
+        (schema) => {
+          return schema.users.all();
+        },
+        { timing: 2000 }
+      );
+
+      this.post("/users/:id", (schema, request) => {
+        const attrs = JSON.parse(request.requestBody);
+        const user = schema.users.find(request.params.id);
+        user.update(attrs);
+        return user.attrs;
+      });
+    }
+  });
+
+  return server;
+}
+---------
+/=/ Получение пользователей
+    const response = await fetch("/api/users");
+    const users = await response.json();
+    console.log(users);
+
+/=/ Изменение пользователя с id = 1
+    const user = { name: "Новое имя" };
+    await fetch("/api/users/1", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    });
+-------------------
 ->> Классовая версия MirageJS
 
 import { Model, createServer } from "miragejs";
