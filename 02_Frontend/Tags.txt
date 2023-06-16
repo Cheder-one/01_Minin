@@ -14779,6 +14779,7 @@ export default function () {
     <Form>
        <Form.Group className="mb-2 ">
         <label htmlFor={name}>{label}</label> 
+        // <Form.Label htmlFor={name}>{label}</Form.Label>
         <InputGroup hasValidation>
           <Form.Control
             id={name}
