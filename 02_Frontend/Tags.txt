@@ -14841,9 +14841,35 @@ export default function () {
     /=/ 1) и 2) - если оба вкл будет плавающее окно ошибки
 
 -------------------
--<< 
+-<< Оформление Формы Login/Register
 ---------
+  const [formType, setFormType] = useState("login");
 
+  return (    
+    <Container className="mt-3">
+      <Row>
+        <Col md="7" className="shadow p-4" style={{ maxWidth: "500px" }}>
+          <Nav
+            fill
+            variant="tabs"
+            defaultActiveKey="login"
+            activeKey={formType}
+            onSelect={(selectedKey) => setFormType(selectedKey)}
+          >
+            <Nav.Item>
+              <Nav.Link eventKey="login">Login</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="register">Register</Nav.Link>
+            </Nav.Item>
+          </Nav>
+          <div className="mt-2">
+            {formType === "login" ? <LoginForm /> : <RegisterForm />}
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  )
 -------------------
 -<< 
 ---------
