@@ -10052,7 +10052,7 @@ replace() - перенаправляет, но пользователь не с�
 Используя их, отпадает необходимость передавать через пропсы `{history} {location} {match}` в дочерние компоненты   
 
     * useHistory() - позволяет получить доступ к объекту истории браузера, который можно использовать для перехода на другой маршрут или для получения информации о предыдущих маршрутах.
-
+---------
         const history = useHistory();
 
         <button
@@ -10061,16 +10061,13 @@ replace() - перенаправляет, но пользователь не с�
         >
            Сохранить
         </button>
-
 -------------------
     * useLocation() - позволяет получить текущий объект `location`, который содержит информацию о текущем URL-адресе и параметрах запроса.
 
         const location = useLocation();
         const isEdit = location.pathname.endsWith("/edit");
-        
 -------------------
     * useRouteMatch() - позволяет получить информацию о совпадении маршрута.
-
 -------------------
     * useParams() - позволяет получить доступ к параметрам маршрута, определенным с помощью Route.
     (Выведет то, что указано после ":", но не статические параметры.
@@ -10087,7 +10084,8 @@ replace() - перенаправляет, но пользователь не с�
     |> Users.jsx
         const Users = () => {
             const params = useParams();
-            const { userId, edit } = params; /=/ { userId: '67rdca3eeb7f6fgeed471817', edit: undefined }
+            const { userId, edit } = params; 
+            /=/ { userId: '67rdca3eeb7f6fgeed471817', edit: undefined }
 
             return <>{userId ? <UserPage {...params} /> : <UsersListPage />}</>;
         };
@@ -10095,12 +10093,14 @@ replace() - перенаправляет, но пользователь не с�
     Так ==/НЕ/== выдаст `edit` из `useParams()`:
 
     |> App.jsx
-        <Route path="/users/:userId?/edit?" component={Users} /> /=/ Убрали ':' из `edit`
+        <Route path="/users/:userId?/edit?" component={Users} /> 
+        /=/ Убрали ':' из `edit`
 
     |> Users.jsx
         const Users = () => {
             const params = useParams();
-            const { userId, edit } = params; /=/ { userId: '67rdca3eeb7f6fgeed471817', edit: undefined }
+            const { userId, edit } = params; 
+            /=/ { userId: '67rdca3eeb7f6fgeed471817', edit: undefined }
 
             return <>{userId ? <UserPage {...params} /> : <UsersListPage />}</>;
         };
@@ -14852,7 +14852,50 @@ export default function () {
 ---------
 
 ---------------------------------------------------------
+/=/=/ Создать Компонент StickyFooter
+-------------------
+|> StickyFooter
+    const StickyFooter = ({ body, footer }) => {
+        return (
+            <div className="d-flex flex-column min-vh-100">
+            <div className="flex-grow-1">{body}</div>
+            {footer}
+            </div>
+        );
+    };
 
+    StickyFooter.propTypes = {
+        body: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.node),
+            PropTypes.node
+        ]),
+        footer: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.node),
+            PropTypes.node
+        ])
+    };
+
+|> App.js
+    return (
+        <>
+        <NavBar onToggleTheme={handleToggleTheme} darkTheme={darkTheme} />
+        <StickyFooter
+            body={
+            <Switch>
+                <Route path="/login/:type?" component={Login} />
+                <Route path="/profile" />
+                <Route path="/settings" />
+                <Route path="/history" />
+                <Route path="/analysis" />
+                <Route path="/main" />
+                <Route path="/" component={Welcome} />
+            </Switch>
+            }
+            footer={<Route path="/" component={Footer} />}
+        />
+        </>
+    );
+    };
 ---------------------------------------------------------
 
 ---------------------------------------------------------
