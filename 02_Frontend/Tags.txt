@@ -14275,159 +14275,169 @@ StatusItem.propTypes = {
 };
 
 ---------------------------------------------------------
-/=/=/ Formik
+/=/=/ FK Formik
 -------------------
     $ npm install formik --save
     $ yarn add formik 
 
-import { Formik } from 'formik';
+    import { Formik } from 'formik';
 
--------------------
+---------
 ->> Пример Формы 
 
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Row from "react-bootstrap/Row";
-import { Formik } from "formik";
-import * as yup from "yup";
+import { Formik, Field as FormikField, Form as FormikForm } from "formik";
+import * as Yup from "yup";
+import { Button, Form, Row, Col, InputGroup } from "react-bootstrap";
 
-function RegisterForm() {
-  const schema = yup.object().shape({
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    city: yup.string().required(),
-    state: yup.string().required(),
-    zip: yup.string().required(),
-    file: yup.mixed().required(),
-    terms: yup.bool().required().oneOf([true])
-  });
+const RegisterSchema = Yup.object().shape({
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Required"),
+  terms: Yup.bool().oneOf([true], "You must accept the terms and conditions")
+});
 
+const RegisterForm = () => {
   return (
     <Formik
-      validationSchema={schema}
-      onSubmit={console.log}
       initialValues={{
-        firstName: "Mark",
-        lastName: "Otto",
-        city: "",
-        state: "",
-        zip: "",
-        file: null,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
         terms: false
       }}
+      validationSchema={RegisterSchema}
+      onSubmit={console.log}
     >
-      {({ handleSubmit, handleChange, values, touched, errors }) => (
-        <Form noValidate onSubmit={handleSubmit}>
-          <Row className="mb-3">
-            <Form.Group
-              as={Col}
-              md="4"
-              controlId="validationFormik101"
-              className="position-relative"
-            >
-              <Form.Label>First name</Form.Label>
-              <Form.Control
-                type="text"
-                name="firstName"
-                value={values.firstName}
-                onChange={handleChange}
-                isValid={touched.firstName && !errors.firstName}
-              />
-              <Form.Control.Feedback tooltip>Looks good!</Form.Control.Feedback>
+      {({ errors, touched }) => {
+        const getClass = (name) => {
+          return `form-control ${
+            errors[name] && touched[name] ? "is-invalid" : ""
+          }`;
+        };
+
+        const getErrorDiv = (name, isCheckbox = false) => {
+          const getClass = () => (isCheckbox ? "" : "invalid-feedback");
+
+          return errors[name] && touched[name] ? (
+            <div className={getClass()}>{errors[name]}</div>
+          ) : null;
+        };
+
+        return (
+          <FormikForm>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>First Name</Form.Label>
+                  <FormikField
+                    className={getClass("firstName")}
+                    name="firstName"
+                  />
+                  {getErrorDiv("firstName")}
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Last Name</Form.Label>
+                  <FormikField
+                    className={getClass("lastName")}
+                    name="lastName"
+                  />
+                  {getErrorDiv("lastName")}
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Form.Group>
+              <Form.Label>Email</Form.Label>
+              <FormikField className={getClass("email")} name="email" />
+              {getErrorDiv("email")}
             </Form.Group>
-            <Form.Group
-              as={Col}
-              md="4"
-              controlId="validationFormik102"
-              className="position-relative"
-            >
-              <Form.Label>Last name</Form.Label>
-              <Form.Control
-                type="text"
-                name="lastName"
-                value={values.lastName}
-                onChange={handleChange}
-                isValid={touched.lastName && !errors.lastName}
+
+            <Form.Group>
+              <Form.Label>Password</Form.Label>
+              <FormikField
+                type="password"
+                className={getClass("password")}
+                name="password"
               />
-              <Form.Control.Feedback tooltip>Looks good!</Form.Control.Feedback>
+              {getErrorDiv("password")}
             </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group
-              as={Col}
-              md="6"
-              controlId="validationFormik103"
-              className="position-relative"
-            >
-              <Form.Label>City</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="City"
-                name="city"
-                value={values.city}
-                onChange={handleChange}
-                isInvalid={!!errors.city}
-              />
-              <Form.Control.Feedback type="invalid" tooltip>
-                {errors.city}
-              </Form.Control.Feedback>
+
+            <Form.Group controlId="terms" className="my-3">
+              <InputGroup hasValidation>
+                <FormikField
+                  id="terms"
+                  type="checkbox"
+                  name="terms"
+                  as={Form.Check.Input}
+                />
+                <label htmlFor="terms" className="ps-2">
+                  Согласен с условиями
+                </label>
+              </InputGroup>
+              {getErrorDiv("terms", true)}
             </Form.Group>
-            <Form.Group
-              as={Col}
-              md="3"
-              controlId="validationFormik104"
-              className="position-relative"
-            >
-              <Form.Label>State</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="State"
-                name="state"
-                value={values.state}
-                onChange={handleChange}
-                isInvalid={!!errors.state}
-              />
-              <Form.Control.Feedback type="invalid" tooltip>
-                {errors.state}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-          <Form.Group className="position-relative mb-3">
-            <Form.Label>File</Form.Label>
-            <Form.Control
-              type="file"
-              required
-              name="file"
-              onChange={handleChange}
-              isInvalid={!!errors.file}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-              {errors.file}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="position-relative mb-3">
-            <Form.Check
-              required
-              name="terms"
-              label="Agree to terms and conditions"
-              onChange={handleChange}
-              isInvalid={!!errors.terms}
-              feedback={errors.terms}
-              feedbackType="invalid"
-              id="validationFormik106"
-              feedbackTooltip
-            />
-          </Form.Group>
-          <Button type="submit">Submit form</Button>
-        </Form>
-      )}
+
+            {/* <div className="form-check p-0 my-3">
+              <label className="form-check-label">
+                <FormikField type="checkbox" name="terms" />
+                <span className="p-1">Согласен с условиями</span>
+              </label>
+              {getErrorDiv("terms")}
+            </div> */}
+
+            <Button type="submit" className="w-100">
+              Submit
+            </Button>
+          </FormikForm>
+        );
+      }}
     </Formik>
   );
-}
+};
 
 export default RegisterForm;
+
+-------------------
+-<< Создание Checkbox для Formik
+---------
+    <div className="form-check p-0 my-3">
+        <label className="form-check-label">
+            <FormikField type="checkbox" name="terms" />
+            <span className="p-1">
+                Согласен с условиями
+            </span>
+        </label>
+            {errors.terms && touched.terms 
+                ? <div>{errors.terms}</div>
+                : null
+            }
+    </div>
+
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------  
 
 ---------------------------------------------------------
 /=/=/ MirageJS
@@ -14774,21 +14784,53 @@ export default function () {
 ---------------------------------------------------------
 /=/=/=/ RB React Bootstrap
 -------------------
--<< Оформление формы с лейблом и полем ввода
+-<< Оформление Формы textField 
 ---------
-    <Form>
-       <Form.Group className="mb-2 ">
-        <label htmlFor={name}>{label}</label> 
-        // <Form.Label htmlFor={name}>{label}</Form.Label>
+const TextField = ({
+  label,
+  type,
+  name,
+  value,
+  onChange,
+  error,
+  as,
+  md,
+  className
+}) => {
+  const [showPass, setShowPass] = useState(false);
+  const [isBlur, setIsBlur] = useState(false);
+
+  const handleClick = () => {
+    setShowPass((prev) => !prev);
+  };
+
+  const handleChange = (e) => {
+    onChange(e);
+  };
+
+  const handleBlur = () => {
+    setIsBlur(true);
+  };
+
+  return (
+    <>
+      <Form.Group controlId={name} as={as} md={md} className={className}>
+        <Form.Label
+          // htmlFor={name}
+        >
+          {label}
+        </Form.Label>
+        {/* <label htmlFor={name}>{label}</label> */}
         <InputGroup hasValidation>
           <Form.Control
-            id={name}
+            // id={name}
             name={name}
             value={value}
             type={showPass ? "text" : type}
-            onChange={onChange}
-            isValid={!error}
-            isInvalid={!!error}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            isValid={!error && isBlur}
+            isInvalid={!!error && isBlur}
           />
           {type === "password" && (
             <Button variant="outline-secondary" onClick={handleClick}>
@@ -14798,7 +14840,29 @@ export default function () {
           <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
-    </Form>
+    </>
+  );
+};
+
+TextField.defaultProps = {
+  type: "text",
+  className: "mb-3"
+};
+
+TextField.propTypes = {
+  label: PropTypes.string,
+  type: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  error: PropTypes.string,
+  as: PropTypes.object,
+  md: PropTypes.string,
+  className: PropTypes.string
+};
+
+export default TextField;
+
 
  * Form.Group используется для обертывания лейбла и поля ввода вместе. 
  * InputGroup используется для создания группировки элементов ввода, таких как поля ввода текста, кнопки, выпадающие списки и т.д.
@@ -14814,30 +14878,39 @@ export default function () {
     * offset: 3 указывает на то, что элемент должен быть отцентрован относительно левого края сетки на 3 колонки.
 
     <Container>
-    <Row>
+      <Row>
         <Col md={{ span: 6, offset: 3 }}></Col>
-    </Row>
+      </Row>
     </Container>
 -------------------
 -<< Оформление Формы Checkbox
 ---------
+    const handleChange = ({ target }) => {
+        onChange({
+            target: {
+                name,
+                value: target.checked
+            }
+        });
+    };
+
     <Form.Group
         // className="position-relative" /=/ 1)
         controlId={`form-group-${name}-id`}
-        >
-        <Form.Check
-            label={label}
-            name={name}
-            checked={value}
-            onChange={handleChange}
-            isInvalid={!!error}
-            feedback={error}
-            feedbackType="invalid"
-            // feedbackTooltip /=/ 2)
-            className="m-0"
-            style={{ fontSize: "15px" }}
-        />
+    >     
+      <Form.Check
+        label={children}
+        name={name}
+        checked={value}
+        onChange={handleChange}
+        isInvalid={!!error}
+        feedback={error}
+        feedbackType="invalid"
+        // feedbackTooltip /=/ 2)
+        className={className}
+      />
     </Form.Group>
+
     /=/ 1) и 2) - если оба вкл будет плавающее окно ошибки
 
 -------------------
@@ -14870,6 +14943,30 @@ export default function () {
       </Row>
     </Container>
   )
+-------------------
+-<< Установить css только на указанный элемент 
+---------
+/=/ Только на указанный элемент 
+    form > div {
+        margin-bottom: 1rem;
+    }
+
+/=/ Распространится на потомков
+    form div {
+        margin-bottom: 1rem;
+    }
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------
+
 -------------------
 -<< 
 ---------
