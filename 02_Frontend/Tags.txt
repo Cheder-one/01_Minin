@@ -14368,28 +14368,20 @@ const RegisterForm = () => {
               {getErrorDiv("password")}
             </Form.Group>
 
-            <Form.Group controlId="terms" className="my-3">
+             <Form.Group controlId="terms">
               <InputGroup hasValidation>
-                <FormikField
-                  id="terms"
+                <Form.Check
                   type="checkbox"
+                  id="terms"
                   name="terms"
-                  as={Form.Check.Input}
+                  label="Согласен с условиями"
+                  as={FormikField}
+                  isInvalid={errors.terms && touched.terms}
+                  feedbackType="invalid"
+                  feedback={errors.terms}
                 />
-                <label htmlFor="terms" className="ps-2">
-                  Согласен с условиями
-                </label>
               </InputGroup>
-              {getErrorDiv("terms", true)}
             </Form.Group>
-
-            {/* <div className="form-check p-0 my-3">
-              <label className="form-check-label">
-                <FormikField type="checkbox" name="terms" />
-                <span className="p-1">Согласен с условиями</span>
-              </label>
-              {getErrorDiv("terms")}
-            </div> */}
 
             <Button type="submit" className="w-100">
               Submit
@@ -14404,20 +14396,22 @@ const RegisterForm = () => {
 export default RegisterForm;
 
 -------------------
--<< Создание Checkbox для Formik
+-<< !!!Создание Checkbox для Formik
 ---------
-    <div className="form-check p-0 my-3">
-        <label className="form-check-label">
-            <FormikField type="checkbox" name="terms" />
-            <span className="p-1">
-                Согласен с условиями
-            </span>
-        </label>
-            {errors.terms && touched.terms 
-                ? <div>{errors.terms}</div>
-                : null
-            }
-    </div>
+    <Form.Group controlId="terms">
+      <InputGroup hasValidation>
+        <Form.Check
+          type="checkbox"
+          id="terms"
+          name="terms"
+          label="Согласен с условиями"
+          as={FormikField}
+          isInvalid={errors.terms && touched.terms}
+          feedbackType="invalid"
+          feedback={errors.terms}
+        />
+      </InputGroup>
+    </Form.Group>
 
 -------------------
 -<< 
@@ -14912,6 +14906,68 @@ export default TextField;
     </Form.Group>
 
     /=/ 1) и 2) - если оба вкл будет плавающее окно ошибки
+-------------------
+/=/ Полная Форма Checkbox
+---------
+import PropTypes from "prop-types";
+import { Form } from "react-bootstrap";
+
+const CheckboxField = ({
+  as,
+  name,
+  value,
+  onChange,
+  error,
+  children,
+  className,
+  style
+}) => {
+  const handleChange = ({ target }) => {
+    onChange({
+      target: {
+        name,
+        value: target.checked
+      }
+    });
+  };
+
+  return (
+    <Form.Group controlId={`form-group-${name}-id`}>
+      <Form.Check
+        as={as}
+        label={<div style={{ ...style }}>{children}</div>}
+        name={name}
+        checked={value}
+        onChange={handleChange}
+        isInvalid={!!error}
+        feedback={error}
+        feedbackType="invalid"
+        className={className}
+      />
+    </Form.Group>
+  );
+};
+
+CheckboxField.defaultProps = {
+  style: { fontSize: "15px" }
+};
+
+CheckboxField.propTypes = {
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
+  className: PropTypes.string,
+  as: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  style: PropTypes.object
+};
+
+export default CheckboxField;
 
 -------------------
 -<< Оформление Формы Login/Register
