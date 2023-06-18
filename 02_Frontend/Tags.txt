@@ -15131,21 +15131,67 @@ export default CheckboxField;
 -------------------
 -<< OverlayTrigger - добавление всплывающей подсказки с полным текстом
 ---------
+const OverlayTooltip = ({ text }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const ref = useRef(null);
+
+  const handleMouseEnter = () => {
+    const { current } = ref;
+    if (current.offsetWidth < current.scrollWidth) {
+      setShowTooltip(true);
+    }
+  };
+  /=/ offsetWidth - это свойство элемента, которое возвращает его текущую ширину в пикселях
+  /=/ scrollWidth - это свойство элемента, которое возвращает полную ширину содержимого элемента, включая неотображаемую часть, которая обычно скрыта за границами элемента
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+  };
+
+  const tooltip = <Tooltip id="tooltip">{text}</Tooltip>;
+
+  return (
     <OverlayTrigger
-        placement="bottom"
-        overlay={<Tooltip id="tooltip">Full text goes here...</Tooltip>}
+      placement="bottom"
+      overlay={tooltip}
+      show={showTooltip} /=/ Отображать или нет подсказку
     >
-        <div
-          style={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis"
-          }}
-        >
-          Some long text goes here and it will be truncated if it exceeds 100px
-          width.
-        </div>
+      <div
+        style={{
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis"
+        }}
+        ref={ref}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {text}
+      </div>
     </OverlayTrigger>
+  );
+};
+
+OverlayTooltip.propTypes = {
+  text: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.node.isRequired
+  ]).isRequired
+};
+
+export default OverlayTooltip;
+---------
+/=/ !!! Важно указать истинные размеры контейнера p-0
+    <Container>
+      <Row>
+        <Col md="4" 
+          className="p-0 d-flex justify-content-center"
+        >
+          <OverlayTooltip text="Расход" />
+        </Col>
+      </Row>
+    </Container>
+
 -------------------
 -<< 
 ---------
