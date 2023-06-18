@@ -7866,9 +7866,20 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 -------------------
- >- 
+ >- 'text-overflow: ellipsis' - обрезать текст и добавить троеточие, если он не помещается в контейнере
 ---------
+Добавляет троеточие для текста, который не помещается в контейнере:
 
+.container {
+    width: 100px;
+     /=/ задали ширину контейнера
+    white-space: nowrap; 
+     /=/ предотвращает перенос строк
+    overflow: hidden; 
+     /=/ скрывает все, что выходит за границы элемента
+    text-overflow: ellipsis;
+     /=/ добавляет троеточие для текста, который не помещается в контейнере
+}
 -------------------
  >- 
 ---------
@@ -15118,9 +15129,24 @@ export default CheckboxField;
         margin-bottom: 1rem;
     }
 -------------------
--<< 
+-<< OverlayTrigger - добавление всплывающей подсказки с полным текстом
 ---------
-
+    <OverlayTrigger
+        placement="bottom"
+        overlay={<Tooltip id="tooltip">Full text goes here...</Tooltip>}
+    >
+        <div
+          className="container"
+          style={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+          }}
+        >
+          Some long text goes here and it will be truncated if it exceeds 100px
+          width.
+        </div>
+    </OverlayTrigger>
 -------------------
 -<< 
 ---------
