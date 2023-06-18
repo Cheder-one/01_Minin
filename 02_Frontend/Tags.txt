@@ -15136,7 +15136,6 @@ export default CheckboxField;
         overlay={<Tooltip id="tooltip">Full text goes here...</Tooltip>}
     >
         <div
-          className="container"
           style={{
             whiteSpace: "nowrap",
             overflow: "hidden",
