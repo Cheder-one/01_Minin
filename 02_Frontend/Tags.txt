@@ -7420,7 +7420,7 @@ Fix:
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
 ---------------------------------------------------------
-/=/=/ Теги Бутстрап (Bootstrap)
+/=/=/ Теги rb Bootstrap
 -------------------
  >- 'btn-sm' - сделать кнопку меньше 
     'btn-lg' - сделать кнопку больше
@@ -7810,14 +7810,60 @@ flex-grow-1 занимает все доступное свободное про
 -------------------
  >- 'border border-dark border-3' - создать рамку 
 -------------------
-
--------------------
- >- 
+ >- 'overflow-auto' - добавляет скроллбар, когда количество элементов в списке превышает максимальную высоту, установленную в стиле maxHeight
 ---------
+  const AccountCard = () => {
+    const cardList = _.times(10);
 
+    return (
+        <ListGroup 
+            className="list-group-flush overflow-auto" style={{ maxHeight: "150px" }}
+        >
+        {cardList.map((el) => (
+            <ListGroupItem 
+                key={el} 
+                className="d-flex justify-content-between align-items-center"
+            >
+            <span className="me-2">Sum</span>
+            <span className="me-2">Category</span>
+            <Button variant="danger">Delete</Button>
+            </ListGroupItem>
+        ))}
+        </ListGroup>
+    );
+  };
+
+  export default AccountCard;
 -------------------
- >- 
+ >- Настроить внешний вид скроллбара с помощью CSS
 ---------
+.list-group::-webkit-scrollbar {
+  width: 8px; /* Ширина скроллбара */
+}
+.list-group::-webkit-scrollbar-track {
+  background-color: #f5f5f5; /* Цвет фона скроллбара */
+}
+.list-group::-webkit-scrollbar-thumb {
+  background-color: #888; /* Цвет полосы прокрутки */
+  border-radius: 4px; /* Закругление углов полосы прокрутки */
+}
+.list-group::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Цвет полосы прокрутки при наведении */
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
 
 -------------------
  >- 
