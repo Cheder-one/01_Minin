@@ -7851,15 +7851,31 @@ flex-grow-1 занимает все доступное свободное про
   background-color: #555; /* Цвет полосы прокрутки при наведении */
 }
 
+/=/ Вертикальный скроллбар
 body::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 body::-webkit-scrollbar-track {
   background-color: #f5f5f5;
 }
 body::-webkit-scrollbar-thumb {
   background-color: #888;
-  border-radius: 4px;
+  /* border-radius: 4px; */
+}
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/=/ Горизонтальный скроллбар
+body::-webkit-scrollbar {
+  height: 6px;
+}
+body::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* border-radius: 4px; */
 }
 body::-webkit-scrollbar-thumb:hover {
   background-color: #555;
@@ -15131,7 +15147,7 @@ export default CheckboxField;
 -------------------
 -<< OverlayTrigger - добавление всплывающей подсказки с полным текстом
 ---------
-const OverlayTooltip = ({ text }) => {
+const OverlayTooltip = ({ text, children }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const ref = useRef(null);
 
@@ -15143,17 +15159,17 @@ const OverlayTooltip = ({ text }) => {
   };
   /=/ offsetWidth - это свойство элемента, которое возвращает его текущую ширину в пикселях
   /=/ scrollWidth - это свойство элемента, которое возвращает полную ширину содержимого элемента, включая неотображаемую часть, которая обычно скрыта за границами элемента
-
+  
   const handleMouseLeave = () => {
     setShowTooltip(false);
   };
 
-  const tooltip = <Tooltip id="tooltip">{text}</Tooltip>;
+  const tooltip = <Tooltip id="tooltip">{text || children}</Tooltip>;
 
   return (
-    <OverlayTrigger
-      placement="bottom"
-      overlay={tooltip}
+    <OverlayTrigger 
+      placement="bottom" 
+      overlay={tooltip} 
       show={showTooltip} /=/ Отображать или нет подсказку
     >
       <div
@@ -15166,7 +15182,7 @@ const OverlayTooltip = ({ text }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {text}
+        {text || children}
       </div>
     </OverlayTrigger>
   );
@@ -15176,10 +15192,27 @@ OverlayTooltip.propTypes = {
   text: PropTypes.oneOfType([
     PropTypes.string.isRequired,
     PropTypes.node.isRequired
-  ]).isRequired
+  ]),
+  children: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.node.isRequired
+  ])
 };
 
-export default OverlayTooltip;
+OverlayTooltip.propTypes = (props, componentName) => {
+  if (!props.text && !props.children) {
+    return new Error(
+      `One of 'text' or 'children' is required in '${componentName}'.`
+    );
+  }
+
+  if (props.text && props.children) {
+    return new Error(
+      `Only one of 'text' or 'children' is allowed in '${componentName}'.`
+    );
+  }
+};
+
 ---------
 /=/ !!! Важно указать истинные размеры контейнера p-0
     <Container>
@@ -15253,6 +15286,22 @@ export default OverlayTooltip;
         </>
     );
     };
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
 ---------------------------------------------------------
 
 ---------------------------------------------------------
