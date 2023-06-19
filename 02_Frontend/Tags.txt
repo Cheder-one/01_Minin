@@ -7887,8 +7887,6 @@ body::-webkit-scrollbar-thumb:hover {
 Добавляет троеточие для текста, который не помещается в контейнере:
 
 .container {
-    width: 100px;
-     /=/ задали ширину контейнера
     white-space: nowrap; 
      /=/ предотвращает перенос строк
     overflow: hidden; 
@@ -7897,9 +7895,10 @@ body::-webkit-scrollbar-thumb:hover {
      /=/ добавляет троеточие для текста, который не помещается в контейнере
 }
 -------------------
- >- 
----------
-
+ >- 'user-select-none' - запретить выделение текста для элемента
+-------------------
+ >- 'style={{ cursor: "pointer" }}' - устанавливает курсор при наведении на элемент
+-------------------
 -------------------
  >- 
 ---------
@@ -7907,7 +7906,7 @@ body::-webkit-scrollbar-thumb:hover {
 -------------------
  >- 
 ---------
-
+rb
 -------------------
 /=/=/ Добавление ветвления класса:
 ---------
@@ -15233,7 +15232,6 @@ OverlayTooltip.propTypes = (props, componentName) => {
         show={isOpen} 
         drop="down-centered" 
         onClick={handleOpen}
-        onSelect={handleSelect}
     >
         <Dropdown.Toggle>
             Default Dropdown
@@ -15242,6 +15240,41 @@ OverlayTooltip.propTypes = (props, componentName) => {
             <Dropdown.Item href="#">Item</Dropdown.Item>
         </Dropdown.Menu>
     </Dropdown>
+-------------------
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpen = () => {
+        setIsOpen((prev) => !prev);
+    };
+  
+    <div
+      className="user-select-none"
+      style={{
+        cursor: "pointer",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis"
+      }}
+      onClick={handleOpen}
+    >
+      <OverlayTooltip>Dropdown_sssssss</OverlayTooltip>
+    </div>
+    
+    <NavDropdown onClick={handleOpen} show={isOpen} drop="down-centered">
+      <NavDropdown.Item eventKey="1">Action</NavDropdown.Item>
+    </NavDropdown>
+
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------
+
+-------------------
+-<< 
+---------
 
 -------------------
 -<< 
