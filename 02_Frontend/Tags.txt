@@ -15226,8 +15226,22 @@ OverlayTooltip.propTypes = (props, componentName) => {
     </Container>
 
 -------------------
--<< 
+-<< Dropdown
 ---------
+    <Dropdown 
+        className="d-inline mx-2" 
+        show={isOpen} 
+        drop="down-centered" 
+        onClick={handleOpen}
+        onSelect={handleSelect}
+    >
+        <Dropdown.Toggle>
+            Default Dropdown
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+            <Dropdown.Item href="#">Item</Dropdown.Item>
+        </Dropdown.Menu>
+    </Dropdown>
 
 -------------------
 -<< 
