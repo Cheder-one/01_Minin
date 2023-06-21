@@ -90,6 +90,16 @@ _______________________________
     const logToInsert = `console.log(\${1:${text}});`;
     vscode.commands.executeCommand("editor.action.insertSnippet", { snippet: logToInsert });
 
+text
+  ? vscode.commands
+      .executeCommand("editor.action.insertLineAfter")
+      .then(() => {
+        const logToInsert = `console.log(\${1:${text}})`;
+        vscode.commands.executeCommand("editor.action.insertSnippet", {
+          snippet: logToInsert,
+        });
+      })
+  : vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString('console.log($1)'));
 _______________________________
 CSS
    h1       {color: red}
@@ -10564,6 +10574,29 @@ replace() - перенаправляет, но пользователь не с�
             </div>
         );
     }
+-------------------
+/=/ Содержит ли `ref` ссылка элемент - 
+    ref.current.contains(target) 
+---------
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  /=/ Мы удаляем слушатель, чтобы избежать утечек памяти. 
+  Когда вы добавляете слушатель событий на DOM-элемент, это может привести к утечкам памяти, если слушатель не будет удален при размонтировании компонента или при необходимости перестроения компонента.
+
+dropdownRef.current.contains(event.target) - это проверка, содержит ли ссылка dropdownRef.current элемент, на который было сделано нажатие (event.target).
 
 ---------------------------------------------------------
 /=/=/ Обработка значений множества полей
