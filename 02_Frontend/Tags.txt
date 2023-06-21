@@ -7911,6 +7911,18 @@ body::-webkit-scrollbar-thumb:hover {
 -------------------
  >- 'sticky-top bg-white' - зафиксировать вверху и сделать фон белым
 -------------------
+ >- 'text-underline-offset' - отступ подчеркивания
+---------
+    .navbar .nav-link.active {
+        font-weight: 500;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+    }
+-------------------
+ >- 
+---------
+
+-------------------
  >- 
 ---------
 
