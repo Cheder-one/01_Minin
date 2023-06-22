@@ -14947,10 +14947,19 @@ export function makeServer({ environment = "development" } = {}) {
         return schema.accounts.all();
       });
 
+      // this.get("/accounts/:id", (schema, request) => {
+      //   const id = request.params.id;
+      //   return schema.accounts.find(id);
+      // });
+
       this.get("/accounts/:id", (schema, request) => {
         const id = request.params.id;
-        return schema.accounts.find(id);
+        const accounts = schema.accounts.where({ userId: id });
+        return accounts.models;
       });
+      /=/ Здесь мы используем метод schema.accounts.where({ userId: id }), чтобы получить все объекты модели account, у которых свойство ключа `userId` равно значению `id`. Затем мы возвращаем массив моделей, которые удовлетворяют условию поиска.
+      
+      /=/ Обратите внимание, что возвращает этот обработчик запроса массив объектов модели account, а не один объект. Если вы хотите получить только один объект, вы можете использовать метод find, как я показал ранее.
 
       // Маршруты для категорий
       this.get("/categories", (schema) => {
