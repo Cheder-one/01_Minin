@@ -8078,7 +8078,76 @@ rb
 -<< 
 ---------
 
+---------------------------------------------------------
+/=/=/=/ JSON 
+-------------------
+Читает файлы `users.json` и `accounts.json` и выводит всех пользователей и их счета:
 
+[
+  {
+    "id": "user-id-1",
+    "name": "John",
+    "email": "john@example.com"
+  },
+  {
+    "id": "user-id-2",
+    "name": "Alex",
+    "email": "alex@example.com"
+  }
+]
+
+[
+  {
+    "id": "account-id-1",
+    "name": "Сбербанк",
+    "public": false,
+    "private": true,
+    "userId": "user-id-1",
+    "categoryIds": ["category-id-1"],
+    "balance": 90000,
+    "transactionIds": ["transaction-id-1", "transaction-id-2"]
+  },
+  {
+    "id": "account-id-2",
+    "name": "Альфа-банк",
+    "public": false,
+    "private": true,
+    "userId": "user-id-1",
+    "categoryIds": ["category-id-2"],
+    "balance": 80000,
+    "transactionIds": ["transaction-id-3", "transaction-id-4"]
+  },
+  {
+    "id": "account-id-3",
+    "name": "Тинькофф",
+    "public": true,
+    "private": false,
+    "userId": "user-id-2",
+    "categoryIds": ["category-id-3"],
+    "balance": 100,
+    "transactionIds": ["transaction-id-6"]
+  }
+]
+---------
+    const fs = require('fs');
+    /=/ fs - модуль Node.js для работы с файловой системой. Он предоставляет множество методов для чтения, записи и манипулирования файлами и папками на компьютере.
+
+    /=/ Чтение файла users.json
+    const usersData = fs.readFileSync('users.json');
+    const users = JSON.parse(usersData);
+
+    /=/ Чтение файла accounts.json
+    const accountsData = fs.readFileSync('accounts.json');
+    const accounts = JSON.parse(accountsData);
+
+    /=/ Вывод пользователей и их счетов
+    users.forEach(user => {
+        console.log(`User: ${user.name}`);
+        const userAccounts = accounts.filter(account => account.userId === user.id);
+        userAccounts.forEach(account => {
+            console.log(`  Account: ${account.name}, balance: ${account.balance}`);
+        });
+    });
 -------------------
 /=/=/ Генерация массива из числа
 ---------
