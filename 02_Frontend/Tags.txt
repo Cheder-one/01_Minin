@@ -15578,21 +15578,26 @@ OverlayTooltip.propTypes = (props, componentName) => {
         </>
     );
     };
----------------------------------------------------------
-/=/=/=/ React Widgets
--------------------
-    $ npm install react-widgets --save
-    $ yarn add react-widgets
--------------------
-/=/=/ DataPicker
----------
-    import DatePicker from "react-widgets/DatePicker";
 
-    <DatePicker
-        style={{ maxWidth: "11rem" }}
-        defaultValue={new Date()}
-        valueDisplayFormat={{ dateStyle: "medium" }}
-        valueEditFormat={{ dateStyle: "short" }}
+---------------------------------------------------------
+/=/=/ DataPicker
+-------------------
+    import ReactDatePicker, {
+        registerLocale,
+        setDefaultLocale
+    } from "react-datepicker";
+    import ru from "date-fns/locale/ru";
+    registerLocale("ru", ru);
+
+    const [startDate, setStartDate] = useState(new Date());
+
+    <ReactDatePicker
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        calendarStartDay={1}
+        locale="ru"
+        showTimeSelect
+        dateFormat="Pp"
     />
 ---------------------------------------------------------
 
