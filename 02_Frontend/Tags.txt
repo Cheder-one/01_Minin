@@ -15622,6 +15622,106 @@ OverlayTooltip.propTypes = (props, componentName) => {
         dateFormat="Pp"
     />
 ---------------------------------------------------------
+/=/=/=/ Sass
+-------------------
+$spacer: 5vh;
+$spacer-scale: 20;
+$step: 5;
+
+@for $i from 0 through $spacer-scale {
+  .vh-#{$i * $step} {
+    height: $i * $spacer;
+  }
+}
+@for $i from 0 through $spacer-scale {
+  .vw-#{$i * $step} {
+    height: $i * $spacer;
+  }
+}
+
+-------------------
+-<< $variable - переменная
+-------------------
+-<< @mixin - позволяет определить набор свойств CSS, которые можно повторно использовать в других частях кода. 
+---------
+@mixin border-radius($radius) {
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+.box {
+  @include border-radius(10px);
+}
+-------------------
+-<< @extend - позволяет наследовать свойства CSS из одного класса в другой. 
+---------
+.error {
+  border: 1px solid #f00;
+  background-color: #fcc;
+}
+
+.error-message {
+  @extend .error;
+  font-size: 14px;
+}
+
+-------------------
+-<< @function - позволяет определить функцию, которая возвращает значение переменной. 
+---------
+@function calculate-width($width, $padding) {
+  @return $width + ($padding * 2);
+}
+
+.container {
+  width: calculate-width(100px, 10px);
+}
+
+-------------------
+-<< @if и @else - позволяют использовать условия в Sass. 
+---------
+$width: 100px;
+
+.box {
+  @if $width > 300px {
+    font-size: 24px;
+  } @else {
+    font-size: 16px;
+  }
+}
+
+-------------------
+-<< @for - позволяет создавать циклы в Sass. 
+---------
+@for $i from 1 through 3 {
+  .box-#{$i} {
+    width: 100px * $i;
+  }
+}
+
+-------------------
+-<< @each - позволяет перебирать списки и карты в Sass. 
+---------
+$colors: (
+  "red": #f00,
+  "green": #0f0,
+  "blue": #00f
+);
+
+@each $name, $color in $colors {
+  .text-#{$name} {
+    color: $color;
+  }
+}
+
+-------------------
+-<< @import - позволяет импортировать другие файлы в текущий Sass-файл. 
+---------
+@import "reset";
+@import "variables";
+@import "mixins";
+
+// основной код
 
 ---------------------------------------------------------
 
