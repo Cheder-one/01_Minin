@@ -2943,16 +2943,26 @@ console.log(id in user); // true
    ];
 -------------------
 /=/=/ Object.assign() - копирование и объединение Объектов
--------------------
-   Object.assign(Объект-хранилище, перемещаемый объект)
+---------
+   Object.assign(Объект-хранилище, перемещаемые объекты)
 
--------
+---------
+    const obj1 = { a: 1, b: 2 };
+    const obj2 = { b: 3, c: 4 };
+    const obj3 = { c: 5, d: 6 };
+
+    const result = Object.assign({}, obj1, obj2, obj3);
+    console.log(result);
+    /=/ Output: { a: 1, b: 3, c: 5, d: 6 }
+
+Здесь мы передаем пустой объект {} в качестве первого аргумента, а затем передаем три объекта obj1, obj2 и obj3 в качестве аргументов для объединения. Результатом является новый объект, содержащий свойства всех трех объектов. Обратите внимание, что свойство b берется из obj2, так как оно переопределяет значение b из obj1.
+---------
    Object.assign(developerInfo, developerExtraInfo);
 
    console.log('developerInfo', developerInfo); 
     // developerInfo { a: 1, b: 2, c: 3 }
     
--------
+---------
    const developer2 = Object.assign({}, developerExtraInfo);
 
    console.log('developer2', developer2); 
@@ -8096,6 +8106,52 @@ rb
     _({ id: ALL, name: ALL }).value()
     JSON.stringify({ id: item.id, name: item.name })
 -------------------
+-<< _.merge({}, {}) - замена Object.assign()
+---------
+    var object = {
+        'a': [{ 'b': 2 }, { 'd': 4 }]
+    };
+    var other = {
+        'a': [{ 'c': 3 }, { 'e': 5 }]
+    };
+    
+    _.merge(object, other);
+/=/ => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
+-------------------
+-<<  _.chain() - создает цепочку методов. В конце обязательно .value()
+---------
+const transactions = [
+    {
+      id: 'transaction-id-1',
+      amount: 5000,
+      type: 'income',
+      account: 'account-id-1',
+      category: 'category-id-1',
+      date: '2022-03-01T10:00:00Z'
+    },
+    // ...
+]
+    const expenses = _.chain(transactions)
+        .filter({ type: "expense" })
+        .map(({ id, date }) => ({ id, date }))
+        .value();
+
+-------------------
+-<< .uniqBy() - замена new Set()
+---------
+    _.chain(transactions)
+        .filter({ type })
+        .map(({ id, date }) => ({ id, date }))
+        .uniqBy("date")
+        .value();
+    }
+-------------------
+-<<  _.isArray() - замена Array.isArray()
+-------------------
+-<< 
+---------
+
+-------------------
 -<< 
 ---------
 
@@ -8107,6 +8163,10 @@ rb
 -<< 
 ---------
 
+-------------------
+-<< 
+---------
+ld
 ---------------------------------------------------------
 /=/=/=/ JSON 
 -------------------
@@ -8846,8 +8906,18 @@ By using `prevState`, you ensure that your state updates correctly, regardless o
 So, in general, it's a good practice to always use `prevState` when updating state based on the previous state, to ensure that your state updates correctly and as expected.
 
 ---------------------------------------------------------
-/=/=/ Когда нужен prevState
+/=/=/ Когда нужен prevState. Особенности ...prev
 -------------------
+!!! Внимание !
+При передаче ...prev в setState() необходимо передавать его первым
+
+    setDropdown((prev) => ({
+      ...prev,
+      name: eventKeys.name,
+      id: eventKeys.id
+    }))
+-------------------
+
 prevState нужен тогда, когда вы обновляете состояние на основе предыдущего значения состояния. 
 Если идет полная перезапись значения, то prevState не нужен.
 
@@ -13059,7 +13129,8 @@ const MultiSelectField = ({
 =<< Выводы темы:
 
     * Чтобы вызвать ререндер достаточно обновления `props` и/или `state`
-    * Ссылочные типы данных будут считаться новыми, если у них изменится ссылка
+    * Ссылочные типы данных будут считаться новыми, если у них изменится ссылка 
+        (иначе ререндер может не произойти, тк ссылка осталась прежней)
     * Ссылочные типы данных в контексте оптимизации React-приложения можно разделить на 2 вида: 
         - Сериализуемые (Объект/Массив без функций) 
         - Несериализуемые (Функции или Экземпляры Классов)
