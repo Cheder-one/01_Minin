@@ -8148,9 +8148,13 @@ const transactions = [
 -------------------
 -<<  _.isArray() - замена Array.isArray()
 -------------------
--<< 
+-<< _.isEqual() - сравнить Objects
 ---------
-
+    var object = { 'a': 1 };
+    var other = { 'a': 1 };
+    
+    _.isEqual(object, other); /=/ => true
+    object === other; /=/ => false
 -------------------
 -<< 
 ---------
