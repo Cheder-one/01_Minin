@@ -8091,9 +8091,10 @@ rb
         console.log(key);
     });
 -------------------
--<< 
+-<< _().value() - замена JSON.stringify()
 ---------
-
+    _({ id: ALL, name: ALL }).value()
+    JSON.stringify({ id: item.id, name: item.name })
 -------------------
 -<< 
 ---------
