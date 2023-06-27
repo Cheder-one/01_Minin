@@ -8156,9 +8156,22 @@ const transactions = [
     _.isEqual(object, other); /=/ => true
     object === other; /=/ => false
 -------------------
--<< 
+-<< _.keys/values/toPairs() - Object.keys/values/entries
 ---------
-
+_.keys()
+    const obj = {a: 1, b: 2, c: 3};
+    const keys = _.keys(obj); 
+    /=/ ["a", "b", "c"]
+---------
+_.values()
+    const obj = {a: 1, b: 2, c: 3};
+    const values = _.values(obj); 
+    /=/ [1, 2, 3]
+---------
+_.toPairs()
+    const obj = {a: 1, b: 2, c: 3};
+    const entries = _.toPairs(obj);
+    /=/ [["a", 1], ["b", 2], ["c", 3]]
 -------------------
 -<< 
 ---------
