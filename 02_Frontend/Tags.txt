@@ -8091,9 +8091,19 @@ rb
         console.log(key);
     });
 -------------------
--<< 
+-<< toLocaleString() / new Date() - преобразовать дату (не lodash)
 ---------
+    const humanDate = new Date(date).toLocaleString().split(",");
 
+    console.log(humanDate);
+---------
+    const dateString = humanDate[0];
+    const [day, month, year] = dateString.split(".");
+    const date = new Date(`${month}-${day}-${year}`);
+
+    console.log(date);
+    /=/ Формат даты должен быть:
+    "месяц/день/год" или "день-месяц-год"
 -------------------
 -<< 
 ---------
