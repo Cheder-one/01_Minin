@@ -13331,13 +13331,14 @@ const UseRefExercise = () => {
 
         useEffect(() => {
             renderCount.current += 1;
-            // OR //
             // renderCount.current++;
-        }); /=/ При каждом ререндере Компонента +1
+        }); 
+        /=/ При каждом ререндере Компонента +1
 
         const handleChange = () => {
             setOtherState((prev) => !prev);
-        }; /=/ Вызываем изменение `state` для провоцирования ререндера Компонента
+        }; 
+        /=/ Вызываем изменение `state` для провоцирования ререндера Компонента
 
         return (
             <CardWrapper>
