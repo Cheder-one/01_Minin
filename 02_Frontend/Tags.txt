@@ -6123,7 +6123,7 @@ Cинтаксис:
 	}
 
 ---------
-// try..catch работает синхронно
+/=/=/ try..catch работает синхронно
 ---------
 Исключение, которое произойдёт в коде, запланированном «на будущее», например в setTimeout, try..catch не поймает:
 
@@ -6149,6 +6149,24 @@ Cинтаксис:
 
 ---------
 // throw - выбрасывает ошибку и переводит в блок .catch()
+
+-------------------
+/=/=/ try..catch с useEffect()
+---------
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resp = await axios.get(`/api/users/${userId}`);
+        setUser(resp.data.user);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
 
 ---------------------------------------------------------
 /=/=/=/ Promise.all() - метод для обработки нескольких Promise
@@ -6400,12 +6418,14 @@ Promise.race() - как и Promise.all() принимает в себя масс
 ---------
     const getTodosWithUserData = async () => {
         try {
-            const response = await fetch(USERS_URL) // Функция не пойдет дальше пока код не выполниться 
+            const response = await fetch(USERS_URL) 
+             /=/ Функция не пойдет дальше пока код не выполниться 
             if (!response.ok) {
                 throw new Error('Ошибка запроса пользователя')
             }
             const users = await response.json()
-            const firstUserId = users[0]?.id; // Это синхронный вызов, await не нужен
+            const firstUserId = users[0]?.id; 
+             /=/ Это синхронный вызов, await не нужен
             const todosResponse = await fetch(`${TODOS_URL}?userId=${firstUserId}`)
             if (!todosResponse.ok) {
                 throw new Error('Ошибка запроса задач')
