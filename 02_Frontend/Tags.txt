@@ -8186,7 +8186,10 @@ rb
     JSON.stringify({ id: item.id, name: item.name })
 ---------
     id={'"all-ids"'} - готовый формат stringify
+       "\"all-ids\""
 
+    Или любые кавычки двух разных типов 
+    `"${"all-ids"}-${type}"`
 -------------------
 -<< _.merge({}, {}) - замена Object.assign()
 ---------
