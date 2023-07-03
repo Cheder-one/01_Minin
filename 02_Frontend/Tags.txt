@@ -8184,6 +8184,9 @@ rb
 ---------
     _({ id: ALL, name: ALL }).value()
     JSON.stringify({ id: item.id, name: item.name })
+---------
+    id={'"all-ids"'} - готовый формат stringify
+
 -------------------
 -<< _.merge({}, {}) - замена Object.assign()
 ---------
