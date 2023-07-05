@@ -16054,6 +16054,52 @@ export default Dropdown;
 
 
 ---------------------------------------------------------
+/=/=/ Обновление `state` в React - асинхронная операция!
+-------------------
+Если объединить оба вызова setCardBodyItems в один, то это не будет работать, потому что обновление состояния в React - асинхронная операция.
+
+Когда вы вызываете setCardBodyItems несколько раз в одной функции, React может объединить эти обновления состояния для оптимизации производительности. В результате, только последнее обновление будет применено.
+---------
+     const [cardBodyItems, setCardBodyItems] = useState({
+        income: [],
+        expense: [],
+        account: []
+    });
+
+    ==/СРАБОТАЕТ/==
+    if (id.includes("account")) {
+        /=/ Выбран конкретный счет, фильтруем транзакции по счету
+        bodyItems = filter(transactions, { account: id });
+
+        /=/ Обновляем транзакции в карточке "Доходы"
+        setCardBodyItems((prev) => ({
+            ...prev,
+            income: filter(income.transacts, { account: id })
+        }));
+
+        /=/ Обновляем транзакции в карточке "Расходы"
+        setCardBodyItems((prev) => ({
+            ...prev,
+            expense: filter(expense.transacts, { account: id })
+        }));
+    }
+--------- 
+    ==/НЕ сработает/==
+    if (id.includes("account")) {
+        bodyItems = filter(transactions, { account: id });
+
+        setCardBodyItems((prev) => ({
+            ...prev,
+            income: filter(prev.income.transacts, { account: id }),
+            expense: filter(prev.expense.transacts, { account: id })
+        }));
+    }
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
 
 ---------------------------------------------------------
 
