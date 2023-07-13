@@ -8055,11 +8055,7 @@ body::-webkit-scrollbar-thumb:hover {
  >- 'style={{ height: "45vh" }}' - высоты видимой области страницы. 
  Устанавливает высоту элемента в зависимости от размера экрана пользователя.
 -------------------
-
--------------------
- >- 
----------
-
+ >- (tw)'select-none' - запретить выделение текста 
 -------------------
  >- 
 ---------
@@ -15837,11 +15833,16 @@ OverlayTooltip.propTypes = (props, componentName) => {
         />
         </>
     );
-    };
 
 ---------------------------------------------------------
 /=/=/ DataPicker
 -------------------
+
+    $ yarn add react-datepicker
+    
+    import "react-datepicker/dist/react-datepicker.css";
+---------
+
     import ReactDatePicker, {
         registerLocale,
         setDefaultLocale
@@ -15849,16 +15850,92 @@ OverlayTooltip.propTypes = (props, componentName) => {
     import ru from "date-fns/locale/ru";
     registerLocale("ru", ru);
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
 
     <ReactDatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        selected={selectedDate}
+        onChange={handleDateChange}
         calendarStartDay={1}
         locale="ru"
         showTimeSelect
-        dateFormat="Pp"
+        dateFormat="dd.MM.yyyy"
     />
+-------------------
+/=/ Создание Компонента DatePicker
+---------
+import PropTypes from "prop-types";
+import ReactDatePicker, { registerLocale } from "react-datepicker";
+import ru from "date-fns/locale/ru";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { MdOutlineDateRange } from "react-icons/md";
+import { toReadableDate } from "../../../utils";
+registerLocale("ru", ru);
+
+const CustomInput = forwardRef(({ value, onClick }, ref) => (
+  <div className="flex items-center cursor-pointer" onClick={onClick}>
+    <MdOutlineDateRange
+      size={20}
+      className="flex items-center justify-center mr-0.5"
+    />
+    <span className="select-none">{value}</span>
+  </div>
+));
+
+const DatePicker = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
+
+  console.log(toReadableDate(selectedDate).dateOnly);
+
+  const onInputClick = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const calendarRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = ({ target }) => {
+      if (!calendarRef?.current?.contains(target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  return (
+    <div className="inline-block" ref={calendarRef}>
+      <ReactDatePicker
+        selected={selectedDate}
+        customInput={<CustomInput />}
+        locale="ru"
+        calendarStartDay={1}
+        todayButton="Сегодня"
+        dateFormat="dd.MM.yyyy"
+        onChange={handleDateChange}
+        onInputClick={onInputClick}
+        open={isOpen}
+      />
+    </div>
+  );
+};
+
+CustomInput.displayName = "CustomInput";
+
+export default DatePicker;
+
 ---------------------------------------------------------
 /=/=/=/ Sass
 -------------------
@@ -15966,36 +16043,50 @@ $colors: (
 ---------------------------------------------------------
 /=/=/ Создание Dropdown
 -------------------
-import { useEffect, useRef, useState } from "react";
+const getIdAllItem = (type) => {
+  return {
+    id: "all-" + (type ? `${type}-ids` : "ids"),
+    type,
+    name: "Все"
+  };
+};
 
-const DROP_ARROW = (
-  <svg
-    className="w-3 h-3 ml-0.5"
-    fill="black"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M19 9l-7 7-7-7"
-    ></path>
-  </svg>
-);
-
-const Dropdown = ({ title, children }) => {
+const Dropdown = ({ items, type, onSelect, reset }) => {
+  const ALL_ITEM = getIdAllItem(type);
+  const isInitialRender = useRef(true);
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [selectedItem, setSelectedItem] = useState(ALL_ITEM);
 
-  const toggleDropdown = (event) => {
+  const handleClick = ({ target }) => {
+    const { id: eventKey } = target;
+    if (eventKey) {
+      setSelectedItem(JSON.parse(eventKey));
+    }
     setIsOpen((prev) => !prev);
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    // Вызов onSelect только после первого рендера
+    if (!isInitialRender.current) {
+      onSelect(selectedItem);
+    } else {
+      isInitialRender.current = false;
+    }
+  }, [selectedItem]);
+
+  useEffect(() => {
+    // Сброс title в dropdown на изначальное, при смене счета.
+    if (reset) {
+      setSelectedItem(ALL_ITEM);
+    }
+  }, [reset]);
+
+  const dropdownRef = useRef(null);
+
+  // Слушатель для закрытия dropDownList при клике вне него
+  useEffect(() => {
+    const handleClickOutside = ({ target }) => {
+      if (!dropdownRef?.current?.contains(target)) {
         setIsOpen(false);
       }
     };
@@ -16010,90 +16101,58 @@ const Dropdown = ({ title, children }) => {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
-        className="flex items-center justify-center w-full py-1 text-black"
-        onClick={toggleDropdown}
+        className="flex items-center justify-center w-full px-1 py-0.5 text-black"
+        onClick={handleClick}
       >
-        {title || children} {DROP_ARROW}
+        <OverlayTooltip text={selectedItem?.name || selectedItem} />
+        <RiArrowDropDownLine size="20px" />
       </button>
       {isOpen && (
         <div
           className="dropdown-menu show bg-white rounded-md shadow-lg cursor-pointer absolute left-1/2 transform -translate-x-1/2 z-10 w-44 py-1 mt-1"
-          onClick={toggleDropdown}
+          onClick={handleClick}
         >
           <a
-            id="all-ids"
-            className="block px-4 py-1 text-black hover:bg-gray-200 no-underline "
+            id={JSON.stringify(ALL_ITEM)}
+            className="block px-4 py-1.5 text-black hover:bg-gray-200 no-underline border-b border-gray-300"
           >
             Все
           </a>
-          <a
-            id="Option 2"
-            className="block px-4 py-1 mt-1 text-black hover:bg-gray-200 no-underline border-t border-gray-300"
-          >
-            Option 2
-          </a>
-          <a
-            id="Option 2"
-            className="block px-4 py-1 text-black hover:bg-gray-200 no-underline"
-          >
-            Option 2
-          </a>
-          <a
-            id="Option 2"
-            className="block px-4 py-1 text-black hover:bg-gray-200 no-underline"
-          >
-            Option 2
-          </a>
+          {items.map((item) => (
+            <a
+              id={JSON.stringify(item)}
+              key={item.id}
+              className="block px-4 py-1.5 text-black hover:bg-gray-200 no-underline"
+            >
+              {item.name}
+            </a>
+          ))}
         </div>
       )}
     </div>
   );
 };
 
-export default Dropdown;
-
 
 ---------------------------------------------------------
-/=/=/ Обновление `state` в React - асинхронная операция!
+/=/=/=/ TypeScript
+---------------------------------------------------------
+/=/ Пример типизирования функции
 -------------------
-Если объединить оба вызова setCardBodyItems в один, то это не будет работать, потому что обновление состояния в React - асинхронная операция.
+export const cropDate = (date: Date): string => {
+  const day: number = date.getDate();
+  const month: number = date.getMonth() + 1;
+  const year: number = date.getFullYear();
 
-Когда вы вызываете setCardBodyItems несколько раз в одной функции, React может объединить эти обновления состояния для оптимизации производительности. В результате, только последнее обновление будет применено.
+  return `${day}.${month}.${year}`;
+};
+
+Мы добавили тип Date для параметра date. Также мы указали типы переменных day, month и year как number, поскольку они представляют числовые значения. Возвращаемое значение функции указано как string, так как вы возвращаете строку в формате даты.
 ---------
-     const [cardBodyItems, setCardBodyItems] = useState({
-        income: [],
-        expense: [],
-        account: []
-    });
 
-    ==/СРАБОТАЕТ/==
-    if (id.includes("account")) {
-        /=/ Выбран конкретный счет, фильтруем транзакции по счету
-        bodyItems = filter(transactions, { account: id });
+---------------------------------------------------------
 
-        /=/ Обновляем транзакции в карточке "Доходы"
-        setCardBodyItems((prev) => ({
-            ...prev,
-            income: filter(income.transacts, { account: id })
-        }));
-
-        /=/ Обновляем транзакции в карточке "Расходы"
-        setCardBodyItems((prev) => ({
-            ...prev,
-            expense: filter(expense.transacts, { account: id })
-        }));
-    }
---------- 
-    ==/НЕ сработает/==
-    if (id.includes("account")) {
-        bodyItems = filter(transactions, { account: id });
-
-        setCardBodyItems((prev) => ({
-            ...prev,
-            income: filter(prev.income.transacts, { account: id }),
-            expense: filter(prev.expense.transacts, { account: id })
-        }));
-    }
+---------------------------------------------------------
 
 ---------------------------------------------------------
 
