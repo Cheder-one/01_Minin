@@ -16172,9 +16172,44 @@ export const cropDate = (date: Date): string => {
 };
 
 Мы добавили тип Date для параметра date. Также мы указали типы переменных day, month и year как number, поскольку они представляют числовые значения. Возвращаемое значение функции указано как string, так как вы возвращаете строку в формате даты.
----------
 
 ---------------------------------------------------------
+/=/=/ Вызов функции из Родительского компонента в дочернем  
+-------------------
+const ChildComponent = React.forwardRef((props, ref) => {
+  const myFunctionInChild = () => {
+    console.log('Функция в дочернем компоненте была вызвана');
+  };
+
+  React.useImperativeHandle(ref, () => ({
+    myFunctionInChild,
+  }));
+
+  return (
+    <div>
+      {/* Компонент содержимого */}
+    </div>
+  );
+});
+
+
+const ParentComponent = () => {
+  const childRef = React.useRef(null);
+
+  const callFunctionInChild = () => {
+    childRef.current.myFunctionInChild();
+  };
+
+  return (
+    <div>
+      {/* Дочерний компонент с привязкой рефа */}
+      <ChildComponent ref={childRef} />
+
+      {/* Кнопка для вызова функции в дочернем компоненте */}
+      <button onClick={callFunctionInChild}>Вызвать функцию в дочернем компоненте</button>
+    </div>
+  );
+};
 
 ---------------------------------------------------------
 
