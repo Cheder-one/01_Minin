@@ -16174,6 +16174,34 @@ export const cropDate = (date: Date): string => {
 Мы добавили тип Date для параметра date. Также мы указали типы переменных day, month и year как number, поскольку они представляют числовые значения. Возвращаемое значение функции указано как string, так как вы возвращаете строку в формате даты.
 
 ---------------------------------------------------------
+/=/ Пример типизирования функции 
+-------------------
+interface DataItem {
+  date: string;
+}
+
+interface UniqDateItem extends DataItem {
+  name: string;
+}
+
+const getUniqDates = (data: DataItem[]): UniqDateItem => {
+  return chain(data)
+    .uniqBy("date")
+    .map((uniq: DataItem) => ({
+      ...uniq,
+      name: toReadableDate(uniq.date).dateOnly
+    }))
+    .reverse()
+    .value();
+};
+
+/=/ DataItem[] обозначает, что это описывает массив элементов. Такая нотация указывает на то, что функция getUniqDates принимает аргумент data, который должен быть массивом
+---------
+/=/ extends
+  Ключевое слово extends используется для создания интерфейсов, которые расширяют другие интерфейсы.
+
+  В данном случае "interface UniqDateItem extends DataItem" говорит о том, что интерфейс UniqDateItem наследует свойства из интерфейса DataItem. Это означает, что все свойства, указанные в интерфейсе DataItem, такие как date, будут также доступны и в интерфейсе UniqDateItem.
+---------------------------------------------------------
 /=/=/ Вызов функции из Родительского компонента в дочернем  
 -------------------
 const ChildComponent = React.forwardRef((props, ref) => {
