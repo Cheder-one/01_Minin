@@ -8071,9 +8071,31 @@ body::-webkit-scrollbar-thumb:hover {
 -------------------
  >- (tw) 'w-fit' - установка ширины в соответствии с его содержимым.
 -------------------
- >- 
+ >- (tw) grid
 ---------
+    <div className="grid grid-cols-12 gap-1">
+        <div className="col-span-2 gap-1">
+            <div className="bg-blue-300 p-4">element</div>
+            <div className="bg-green-300 p-4">element</div>
+        </div>
+        <div className="col-span-10 gap-1 grid grid-cols-2">
+            <div className="bg-red-300 p-4">element</div>
+        <div className="bg-yellow-300 p-4">element</div>
+        </div>
+    </div>
+==/OR/==
+    <div className="grid grid-cols-12 gap-1">
+        <div className="col-span-2 gap-1">
+            <div className="bg-blue-300 p-4">element</div>
+            <div className="bg-green-300 p-4">element</div>
+        </div>
+        <div className="col-span-10 gap-1 flex">
+            <div className="bg-red-300 p-4 flex-1">element</div>
+            <div className="bg-yellow-300 p-4 flex-1">element</div>
+        </div>
+    </div>
 
+В этом коде мы используем классы col-span-2 и col-span-10 для определения ширины колонок. Мы также добавляем класс flex для контейнера, чтобы элементы красный и желтый выстроились в одной строке. Класс flex-1 применяется к каждому элементу красного и желтого, чтобы они занимали равные части доступного пространства внутри контейнера.
 -------------------
  >- 
 ---------
