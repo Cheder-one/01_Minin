@@ -14172,12 +14172,12 @@ const ParentComponent = () => {
 /=/=/ NanoId
 ---------
     import { nanoid } from 'nanoid'
-    model.id = nanoid() //=> "V1StGXR8_Z5jdHi6B-myT"
+    nanoid() //=> "V1StGXR8_Z5jdHi6B-myT"
     nanoid(10) //=> "IRFa-VaY2b"
     
     import { customAlphabet } from 'nanoid'
     const nanoid = customAlphabet('1234567890abcdef', 10)
-    model.id = nanoid(5) //=> "f01a2"
+    nanoid(5) //=> "f01a2"
 ---------------------------------------------------------
 /=/=/=/ React.Memo - мемоизирует Компонент
 -------------------
