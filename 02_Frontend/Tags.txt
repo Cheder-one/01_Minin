@@ -239,7 +239,7 @@ fruits.unshift("Lemon","Pineapple");
     let numStr = "-1000";
     let num = parseInt(numStr);
     let positiveNum = Math.abs(num);
-    
+
     console.log(positiveNum); /=/ 1000
 ---------------------------------------------------------
 /=/=/=/ Циклы
@@ -9724,6 +9724,38 @@ React-элемент
 Обязательное значение любого типа
     requiredAny: PropTypes.any.isRequired,
 };
+
+---------------------------------------------------------
+/=/=/ Передать в функцию аргументы от propTypes
+-------------------
+DropdownComponent.propTypes = {
+  /=/ Если isAdditionEnabled === true, то onElemAdding required
+  onElemAdding: (props, propName, componentName) =>
+    checkOnPropRequired(
+      props,
+      propName,
+      props.isAdditionEnabled,
+      componentName
+    )
+};
+---------
+->> Функция принимающая аргументы
+
+const checkOnElemAdding = (
+  props,
+  propName,
+  isExistedPropName,
+  componentName
+) => {
+  if (isExistedPropName && !props[propName]) {
+    return new Error(
+      `The prop ${propName} is required when isAdditionEnabled is set to true in ${componentName}.`
+    );
+  }
+};
+
+export default checkOnElemAdding;
+
 
 -------------------
 // isRequired
