@@ -8364,9 +8364,17 @@ _.toPairs()
     _.chunk(['a', 'b', 'c', 'd'], 3);
     // => [['a', 'b', 'c'], ['d']]
 -------------------
--<< 
+-<< _.remove - удаляет все элементы массива, которые соответствуют заданному условию. Мутирует исходный массив.
 ---------
+    const transactions = [
+        { id: 1, amount: 100 },
+        { id: 2, amount: 200 },
+        { id: 3, amount: 300 },
+    ];
 
+    const transactionIdToRemove = 2;
+
+    _.remove(transactions, { id: transactionIdToRemove });
 -------------------
 -<< 
 ---------
