@@ -15560,7 +15560,23 @@ export function makeServer({ environment = "development" } = {}) {
 ---------------------------------------------------------
 /=/=/=/ RB React Bootstrap
 -------------------
--<< Оформление Формы textField 
+/=/=/ Получить id из eventKey из Button при клике
+---------
+const MyButtonComponent = () => {
+  const handleClick = (event) => {
+    const buttonId = event.currentTarget.id;
+    console.log('Button ID:', buttonId);
+  };
+
+  return (
+    <Button id="my-button" onClick={handleClick}>
+      Click me
+    </Button>
+  );
+};
+
+-------------------
+/=/=/ Оформление Формы textField 
 ---------
 const TextField = ({
   label,
