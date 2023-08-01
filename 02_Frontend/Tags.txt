@@ -9943,7 +9943,8 @@ module.exports = {
     module.exports = {
         trailingComma: "none",
         tabWidth: 2,
-        semi: true
+        semi: true,
+        printWidth: 70 // перенос строк 
     };
 
 ---------
