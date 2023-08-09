@@ -16310,6 +16310,10 @@ const Dropdown = ({ items, type, onSelect, reset }) => {
 ---------------------------------------------------------
 /=/=/=/ TypeScript
 ---------------------------------------------------------
+    $ npm install -g typescript
+    $ yarn add typescript
+    
+-------------------
 /=/ Пример типизирования функции
 -------------------
 export const cropDate = (date: Date): string => {
