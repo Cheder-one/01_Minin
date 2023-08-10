@@ -8376,8 +8376,22 @@ _.toPairs()
 
     _.remove(transactions, { id: transactionIdToRemove });
 -------------------
--<< 
+-<< {compose, pipe}  
 ---------
+    half(square(double(x))) - Композиция функций
+---------
+const App = () => {
+    const x = 2;
+    const double = (num) => num * 2;
+    const square = (num) => num * num;
+    const half = (num) => num / 2;
+
+    // const mathCalculate = half(square(double(x)))
+    // const mathCalculate = compose(half, square, double);
+    const mathCalculate = pipe(double, square, half);
+
+    return <h1>{mathCalculate(x)}</h1>;
+};
 
 -------------------
 -<< 
@@ -15963,6 +15977,44 @@ OverlayTooltip.propTypes = (props, componentName) => {
 ---------
 
 ---------------------------------------------------------
+/=/=/ .useImperativeHandle() - вызов функции из Родительского компонента в дочернем  
+-------------------
+const ChildComponent = React.forwardRef((props, ref) => {
+  const myFunctionInChild = () => {
+    console.log('Функция в дочернем компоненте была вызвана');
+  };
+
+  React.useImperativeHandle(ref, () => ({
+    myFunctionInChild,
+  }));
+
+  return (
+    <div>
+      {/* Компонент содержимого */}
+    </div>
+  );
+});
+
+
+const ParentComponent = () => {
+  const childRef = React.useRef(null);
+
+  const callFunctionInChild = () => {
+    childRef.current.myFunctionInChild();
+  };
+
+  return (
+    <div>
+      {/* Дочерний компонент с привязкой рефа */}
+      <ChildComponent ref={childRef} />
+
+      {/* Кнопка для вызова функции в дочернем компоненте */}
+      <button onClick={callFunctionInChild}>Вызвать функцию в дочернем компоненте</button>
+    </div>
+  );
+};
+
+---------------------------------------------------------
 /=/=/ Создать Компонент StickyFooter
 -------------------
 |> StickyFooter
@@ -16312,7 +16364,40 @@ const Dropdown = ({ items, type, onSelect, reset }) => {
 ---------------------------------------------------------
     $ npm install -g typescript
     $ yarn add typescript
-    
+
+-------------------
+/=/=/ tsconfig.json
+---------
+{
+  "compilerOptions": {
+    "target": "ES6",
+    // Версия ECMAScript, к которой будет компилироваться код
+    "module": "ESNext",
+    // Формат модулей (ESNext для использования import/export)
+    "allowJs": true,
+    // "sourceMap": true,
+    // "noEmitOnError": true,
+    // Не создает файлы JS, если во время компиляции возникают ошибки.
+    "forceConsistentCasingInFileNames": true,
+    // Гарантирует, что при импорте будет указан правильный регистр имени файла.
+    "jsx": "react",
+    // Тип JSX, используемый в React
+    "strict": true,
+    // Включить строгие настройки TypeScript
+    "esModuleInterop": true,
+    // Разрешить импорт модулей в стиле ES6
+    "moduleResolution": "node",
+    // Отключение ошибок для импортов
+    "outDir": "./dist",
+    // Создает файлы JS в папке, а не рядом (иначе может заменять исходники)
+    "skipLibCheck": true
+    // Отключение проверок библиотек
+  },
+  "include": ["src/**/*"],
+  "exclude": ["**/*.spec.ts"]
+  // Папки, которые нужно включить в компиляцию
+}
+
 -------------------
 /=/ Пример типизирования функции
 -------------------
@@ -16358,7 +16443,7 @@ const getUniqDates = (data: DataItem[]): UniqDateItem => {
 ---------------------------------------------------------
 /=/=/ Разбор Типизации TS
 -------------------
- -< type Fn = () => void
+-< type Fn = () => void
 ---------
 type ClickOutsideAction = () => void означает, что ClickOutsideAction - это тип функции, которая не принимает аргументов и не возвращает никакого значения (void).
 
@@ -16381,75 +16466,243 @@ const useClickOutside = (
 
 )};
 -------------------
- -<  
+-< Type Guard.
+---------
+    function isBoolean(value: string | boolean): value is boolean {
+        return typeof value === 'boolean'
+    }
+
+    function logFlag(flag: string | boolean) {
+        if (isBoolean(flag)) {
+            console.log('Hey it is boolean')
+        } else {
+            console.log('Hey it is string')
+        }
+    }
+
+    logFlag(true)
+    logFlag("true")
+
+-------------------
+-< type vs interface
+---------
+    - type используется при записи в строку (number | string)
+    - interface для описания классов и обьектов 
+-------------------
+-< Union Type
+---------
+    type NumberOrString = number | string;
+
+    function printNumberOrString(value: NumberOrString) {
+        console.log(value);
+    }
+
+    printNumberOrString(42);  
+    printNumberOrString("hello");  
+
+-------------------
+-< Generic Type - позволяет работать с различными типами данных (коллекциями) без потери типовой безопасности
+---------
+    const arr: Array<number> = [1, 2, 3, 4]
+    const arr: Array<number | string | boolean> = [1, 2, "3", false]
+---------
+    function identity<T>(arg: T): T {
+        return arg;
+    }
+
+    let result = identity("hello"); // result имеет тип string
+
+В этом примере T - это параметр типа, который можно использовать как тип аргумента функции и как тип возвращаемого значения. Вызов identity("hello") возвращает значение типа string, потому что тип T был заменен TS на string.
+
+-------------------
+/=/=/ Более строгие Generic
+---------
+    function log<T extends string | number>(data: T): T {
+        console.log(data)
+        return data
+    }
+
+    const res1 = <string>log('a')
+    let res2 = log(42) as number
+    // let res3 = log(false) // error
+
+-------------------
+/=/ Обобщенная функция с ограничением типа
+---------
+    function multiply<T extends number>(
+        value: T,
+        multiplier: T
+    ): number {
+        return value * multiplier;
+    }
+
+    let result = multiply(5, 3); /=/ result имеет тип number
+
+В этом примере T extends number означает, что обобщение T ограничено типом number. Это позволяет использовать функцию multiply только с аргументами типа number и возвращать значение типа number.
+-------------------
+/=/ Пример Generic с Class-ми
+---------
+    class Collection<T extends number | string> {
+        constructor(private _items: T[]) {}
+
+        add(value: T): void {
+            this._items.push(value)
+        }
+
+        get items(): T[] {
+            return this._items
+        }
+    }
+
+    const res1 = new Collection<number>([1, 2, 3])
+    res1.add(4)
+
+    const res2 = new Collection<string>(['2'])
+    res2.add('4')
+-------------------
+-< R extends keyof T
+---------
+    const obj = {
+        a: 1,
+        b: 2,
+        c: 3,
+    };
+
+    const getValue = <T extends object, R extends keyof T>(obj: T, key: R) => {
+        return obj[key];
+    };
+
+    const valueC = getValue(obj, "c");
+
+R extends keyof T означает, что R может быть только одним из ключей, определенных в объекте типа T
+-------------------
+-< Record<K, V> - используется для создания объектов с определенными типами ключей и значений
+---------
+    Syntax:
+    type MyRecord = Record<KeyType, ValueType>;
+---------
+    type FruitPrices = Record<string, number>;
+
+    const fruitPrices: FruitPrices = {
+        apple: 0.5,
+        banana: 0.3,
+        orange: 0.8,
+    };
+
+    const applePrice: number = fruitPrices.apple; 
+    /=/ OK
+
+    const invalidFruitPrices: FruitPrices = {
+        apple: 0.5,
+        banana: 'cheap',
+    };
+    /=/ Ошибки компиляции, так как ключи с разными типами
+
+
+-------------------
+-< 
 ---------
 
 -------------------
- -<  
+-< 
 ---------
 
 -------------------
- -<  
+-< 
 ---------
 
 -------------------
- -<  
+-< 
 ---------
 
 -------------------
- -<  
+-< 
 ---------
 
 -------------------
- -<  
+-< 
 ---------
 
 -------------------
- -<  
+-< 
 ---------
 
 -------------------
- -<  
+-< 
 ---------
 
+-------------------
+-< 
+---------
 
 ---------------------------------------------------------
-/=/=/ Вызов функции из Родительского компонента в дочернем  
+/=/=/=/ Redux
 -------------------
-const ChildComponent = React.forwardRef((props, ref) => {
-  const myFunctionInChild = () => {
-    console.log('Функция в дочернем компоненте была вызвана');
-  };
+/=/ Пример создания PipeLine и Каррирования
+---------
+const App = () => {
+    const x = 2;
+    const double = (num) => num * 2;
+    const square = (num) => num * num;
+    const half = (num) => num / 2;
+    const divide = (num2) => {             
+            return function divide(num1) {
+            return num1 / num2;
+        };
+    }; /=/ Каррирование
 
-  React.useImperativeHandle(ref, () => ({
-    myFunctionInChild,
-  }));
+    // const mathCalculate = half(square(double(x)))
+    // const mathCalculate = compose(half, square, double);
+    
+    const mathCalculate = pipe(double, square, half, divide(3));
 
-  return (
-    <div>
-      {/* Компонент содержимого */}
-    </div>
-  );
-});
-
-
-const ParentComponent = () => {
-  const childRef = React.useRef(null);
-
-  const callFunctionInChild = () => {
-    childRef.current.myFunctionInChild();
-  };
-
-  return (
-    <div>
-      {/* Дочерний компонент с привязкой рефа */}
-      <ChildComponent ref={childRef} />
-
-      {/* Кнопка для вызова функции в дочернем компоненте */}
-      <button onClick={callFunctionInChild}>Вызвать функцию в дочернем компоненте</button>
-    </div>
-  );
+    return <h1>{mathCalculate(x)}</h1>;
 };
+-------------------
+/=/ Pure Functions - Чистые функции 
+---------
+Чистые функции имеют следующие свойства:
+
+    * Deterministic (Однозначность): Для одного и того же набора входных данных, чистая функция всегда возвращает одинаковый результат. Это означает, что функция не зависит от каких-либо скрытых состояний, исключая переданные аргументы.
+
+    * No Side Effects (Отсутствие побочных эффектов): Чистая функция не влияет на внешние переменные, файлы, базы данных или любой другой источник данных. Она не должна модифицировать состояние вне своей области действия.
+
+    * No Dependency on State (Нет зависимости от состояния): Чистая функция не зависит от состояния программы. Это означает, что результат функции зависит только от переданных ей аргументов.
+---------
+Пример чистой функции:
+
+    function add(a, b) {
+        return a + b;
+    }
+    /=/ Это чистая функция, так как она не имеет побочных эффектов и всегда возвращает одинаковый результат для одинаковых входных данных.
+---------
+Пример функции, которая не является чистой:
+
+    let total = 0;
+
+    function addToTotal(value) {
+        total += value;
+    }
+    /=/ Эта функция зависит от глобальной переменной и имеет побочный эффект, так как она изменяет состояние вне своей области действия.
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+---------------------------------------------------------
 
 ---------------------------------------------------------
 
