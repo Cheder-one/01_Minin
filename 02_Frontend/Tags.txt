@@ -6076,7 +6076,11 @@ Cинтаксис:
 	};
 	getAllTodoes()
 
+-------------------
+/=/=/ Замена `then` на `await try/catch`
 ---------
+->> then
+
 	fetch("https://api.github.com/users")
 		.then((response) => {
 			if (!response.ok) {
@@ -6108,6 +6112,26 @@ Cинтаксис:
 		}
 		document.body.append(table);
 	}
+---------
+->> try/catch
+
+    const url = `https://api.github.com/users`;
+
+    async function fetchData() {
+        try {
+            const response = await fetch(url);
+            const jsonData = await response.json();
+
+            outputTable(jsonData);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            const loader = document.getElementById("loader");
+            loader.style.display = "none";
+        }
+    }
+    fetchData()
+
 ---------------------------------------------------------
 /=/=/=/ "try..catch" - обработка ошибок 
 ---------------------------------------------------------
@@ -6226,23 +6250,23 @@ Promise.all() возвращает:
         return todoElem
     }
 
-// requests - Запросы
-// responses - Ответы
+/=/ requests - Запросы
+/=/ responses - Ответы
 
     const getTasksById = (ids) => {       
-        // requests - Массив Promise-ов, которые содержат необработанные запросы по выбранным id задач.
+        /=/ requests - Массив Promise-ов, которые содержат необработанные запросы по выбранным id задач.
         const requests = ids.map((id) => fetch(`${TASKS_URL}/${id}`))
 
-        // Обрабатываем массив с из 6-ти Promise с помощью Promise.all().
+        /=/ Обрабатываем массив с из 6-ти Promise с помощью Promise.all().
         Promise.all(requests)
-            // Обрабатываем Promise.all
+            /=/ Обрабатываем Promise.all
             .then((responses) => {
-                // Декодируем КАЖДЫЙ Promise и помещаем в новый массив.
-                // Тк можно считать что Promise.all - массив для промисов. А массив нужно перебрать, для применения к каждому el.
+                /=/ Декодируем КАЖДЫЙ Promise и помещаем в новый массив.
+                /=/ Тк можно считать что Promise.all - массив для промисов. А массив нужно перебрать, для применения к каждому el.
                 dataResults = responses.map((response) => response.json()) 
                 
-                // dataResults - массив декодированных Promise-ов, для работы с ним возвращаем массив в Promise.all().
-                 // Если не передать результат через "return", то следующий "then" не получит данных для обработки 
+                /=/ dataResults - массив декодированных Promise-ов, для работы с ним возвращаем массив в Promise.all().
+                 /=/ Если не передать результат через "return", то следующий "then" не получит данных для обработки 
                 return Promise.all(dataResults)	
             })
             .then((tasks) => {
