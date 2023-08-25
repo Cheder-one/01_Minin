@@ -8486,8 +8486,27 @@ const data = {
 
 const filteredObj = _.pick(data.Valute, ['AUD', 'AZN']);
 -------------------
--<< 
+-<< Отсортировать объект по возрастанию / убыванию
 ---------
+    const obj = {
+        a: 5,
+        b: 2,
+        c: 8
+    };
+
+    const sortedObj = Object.fromEntries(
+        Object.entries(obj).sort(([,a], [,b]) => b - a)
+    );
+---------
+     const sortedObj = fromPairs(
+        toPairs(obj).sort(([, a], [, b]) => b - a)
+    );
+---------
+    chain(sortedObj)  
+        .toPairs()
+        .sortBy(([, a]) => -a) /=/ Сортируем по убыванию
+        .fromPairs()
+        .value();
 
 -------------------
 -<< 
