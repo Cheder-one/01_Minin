@@ -8509,8 +8509,16 @@ const filteredObj = _.pick(data.Valute, ['AUD', 'AZN']);
         .value();
 
 -------------------
--<< 
+-<< _.sortBy() - Сортировка Массива Объектов по ключу
 ---------
+    const array = [
+        { name: 'Зарплата', value: 75000, color: '#10b981' },
+        { name: 'Аренда', value: 26800, color: '#06b6d4' }
+    ];
+
+    array.sort((a, b) => a.value - b.value);
+---------
+    sortBy(array,(a) => -a.value);
 
 -------------------
 -<< 
