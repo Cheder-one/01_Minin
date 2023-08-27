@@ -9891,6 +9891,13 @@ React-элемент
     requiredAny: PropTypes.any.isRequired,
 };
 
+-------------------
+/=/=/ Указать проверку на Date()
+---------
+Component.propTypes = {
+  pickedDate: PropTypes.instanceOf(Date) // Ожидаем объект типа Date
+};
+
 ---------------------------------------------------------
 /=/=/ Передать в функцию аргументы от propTypes
 -------------------
