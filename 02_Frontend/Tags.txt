@@ -7155,10 +7155,11 @@ thisArg
 /=/=/=/ Webpack
 ---------------------------------------------------------
 1) Инициализируем проект
-    $ npm init -y
+    $ npm init      /=/ подробное создание package.json
+    $ npm init -y  /=/ быстрое создание package.json
 
 2) Установить Webpack
-    $ npm install webpack webpack-cli --save-dev
+    $ npm i -D webpack webpack-cli
 
 3) Создаем webpack.config.js
 
@@ -7166,21 +7167,23 @@ thisArg
 
     module.exports = {
         mode: 'development', 
-        entry: path.resolve(__dirname, 'src', 'index.js'),
+        entry: './src/index.js',
+     // entry: path.resolve(__dirname, 'src', 'index.js'),
         output: {
             filename: 'main.js',
             path: path.resolve(__dirname, 'dist'),
             clean: true,
         },
     };
-// ./src/index.js (можно исп-ть и обычный способ пути)
-// __dirname - корневая папка
-// mode: 'development' - означает в разработке
-// clean: true - папка сборки проекта будет очищаться при пересборке
+
+    /=/ ./src/index.js (можно исп-ть и обычный способ пути)
+    /=/ __dirname - корневая папка
+    /=/ mode: 'development' - означает в разработке
+    /=/ clean: true - папка сборки проекта будет очищаться при пересборке
 
 ---------
 4) Устанавливаем HtmlWebpackPlugin
-    $ npm install --save-dev html-webpack-plugin
+    $ npm i -D html-webpack-plugin
 
 Добавляем в начало webpack.config.js
 
@@ -7195,26 +7198,26 @@ thisArg
 
 ---------
 5) Устанавливаем babel-loader
-    $ npm install -D babel-loader @babel/core @babel/preset-env webpack
+    $ npm i -D babel-loader @babel/core @babel/preset-env webpack
 
 Добавляем 
     module: {
         rules: [
-        {
-            test: /\.m?js$/,
-            exclude: /node_modules/,
-            use: {
-            loader: 'babel-loader',
-            options: {
-                presets: [
-                ['@babel/preset-env', { targets: "defaults" }]
-                ],
-                plugins: ['@babel/plugin-proposal-class-properties']
+            {
+                test: /\.(?:js|mjs|cjs)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            ['@babel/preset-env', { targets: "defaults" }]
+                        ],
+                        plugins: ['@babel/plugin-proposal-class-properties']
+                    }   
+                }
             }
-            }
-        }
         ]
-    },
+    }
 
 ---------
 6) Устанавливаем css-loader 
