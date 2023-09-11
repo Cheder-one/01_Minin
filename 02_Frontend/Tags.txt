@@ -7189,12 +7189,20 @@ thisArg
 
     const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-И в module.exports = {}
+И в module.exports = {
+    ...,
     plugins: [
         new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'index.html'),
+            template: path.resolve(__dirname, 'index.html'),
         })
     ]
+    ==/OR/==
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'путь_к_вашему_index.html',
+        }),
+    ],
+}
 
 ---------
 5) Устанавливаем babel-loader
@@ -7239,7 +7247,7 @@ Guides --> Asset Management --> Loading Images
 Добавляем в rules
     {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: 'asset/resource', 
     },
 
 Импортируем картинку в index.js
