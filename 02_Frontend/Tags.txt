@@ -7519,7 +7519,7 @@ localStorage не уходит на сервер, в отличие от cookie
     git config pull.rebase true   # rebase
     git config pull.ff only       # fast-forward only
 ------------------- 
-!/=/=/ Отправка изменений
+/=/=/ Отправка изменений
     $ git status - отображение статуса изменения файлов
    *$ git add . / $ git add [name1 name2 ...] - разрешает файлы для обработки их commit (промежуточная область - stage) 
    *$ git commit -m 'comment' - запись
